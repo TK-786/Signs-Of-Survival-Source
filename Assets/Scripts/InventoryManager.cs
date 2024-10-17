@@ -22,4 +22,8 @@ public class InventoryManager : MonoBehaviour
             menuOpen = !menuOpen;
         }
     }
+
+    public voiid addItem(string name, int quantity, Sprite icon){
+
+    }
 }
