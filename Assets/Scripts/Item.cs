@@ -6,7 +6,7 @@ public class Item : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private string name;
+    private string itemName;
 
     [SerializeField]
     private int quantity;
@@ -17,13 +17,13 @@ public class Item : MonoBehaviour
     private InventoryManager inventoryManager;
     void Start()
     {
-        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<inventoryManager>();
+        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
     }
 
     // Update is called once per frame
-    private void OnCollisionEnter(Collision3D collision){
-        if (collision.gameObject.tag == "player"){
-            inventoryManager.addItem(name, quantity, icon);
+    private void OnCollisionEnter(Collision collision){
+        if (collision.gameObject.tag == "Player"){
+            inventoryManager.addItem(itemName, quantity, icon);
             Destroy(gameObject);
         }
     }

@@ -6,6 +6,7 @@ public class InventoryManager : MonoBehaviour
 {
     public GameObject Menu;
     private bool menuOpen;
+    public ItemSlot[] itemSlot;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,13 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public voiid addItem(string name, int quantity, Sprite icon){
-
+    public void addItem(string name, int quantity, Sprite icon){
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if(!itemSlot[i].isFull){
+                itemSlot[i].addItem(name, quantity, icon);
+                return;
+            }
+        }
     }
 }
