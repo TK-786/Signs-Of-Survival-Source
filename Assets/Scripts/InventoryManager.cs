@@ -19,8 +19,14 @@ public class InventoryManager : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Inventory")){
-            Menu.SetActive(!menuOpen);
+            Menu.SetActive(!menuOpen);  
             menuOpen = !menuOpen;
+            Cursor.visible = menuOpen;
+            if (menuOpen){
+                Cursor.lockState = CursorLockMode.None;
+            } else{
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
     }
 
