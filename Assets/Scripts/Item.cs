@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,15 +15,20 @@ public class Item : MonoBehaviour
     [SerializeField]
     private Sprite icon;
 
+    [TextArea]
+    [SerializeField]
+    private String itemDescription;
+
     private InventoryManager inventoryManager;
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
     }
 
-    // Update is called once per frame
-    private void OnCollisionEnter(Collision collision){
-        if (collision.gameObject.tag == "Player"){
+
+    private void OnTriggerEnter(Collider other){
+        if (other.gameObject.CompareTag("Player"))
+        {
             inventoryManager.addItem(itemName, quantity, icon);
             Destroy(gameObject);
         }
@@ -33,3 +39,4 @@ public class Item : MonoBehaviour
         this.icon = x;
     }
 }
+
