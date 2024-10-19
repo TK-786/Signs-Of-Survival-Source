@@ -27,4 +27,9 @@ public class Item : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void setItemData(string name, int quant, Sprite x){
+        this.itemName = name;
+        this.quantity = quant;
+        this.icon = x;
+    }
 }
