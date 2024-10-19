@@ -21,6 +21,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public GameObject selectedSlot;
     public bool itemSelected;
 
+    private InventoryManager inventoryManager;
+    void Start()
+    {
+        inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+    }
+
     public void addItem(string itemName, int quantity, Sprite icon){
         this.itemName = itemName;
         this.quantity = quantity;
@@ -44,6 +50,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnLeftClick(){
+        for (int i = 0; i < inventoryManager.itemSlot.Length; i++)
+        {
+            inventoryManager.itemSlot[i].selectedSlot.SetActive(false);
+        }
+
         Debug.Log("Left Click detected!");
         selectedSlot.SetActive(true);
         itemSelected = true;
