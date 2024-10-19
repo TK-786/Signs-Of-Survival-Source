@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.EventSystems;
 
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
     public string itemName;
     public int quantity;
@@ -17,6 +18,9 @@ public class ItemSlot : MonoBehaviour
     [SerializeField]
     private Image itemIcon;
 
+    public GameObject selectedSlot;
+    public bool itemSelected;
+
     public void addItem(string itemName, int quantity, Sprite icon){
         this.itemName = itemName;
         this.quantity = quantity;
@@ -27,5 +31,23 @@ public class ItemSlot : MonoBehaviour
         itemIcon.sprite = icon;
         itemIcon.gameObject.SetActive(true); 
         isFull = true;
-    }    
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Left){
+            OnLeftClick();
+        }
+        if(eventData.button == PointerEventData.InputButton.Right){
+            OnRightClick();
+        }
+    }
+
+    public void OnLeftClick(){
+        Debug.Log("Left Click detected!");
+        selectedSlot.SetActive(true);
+        itemSelected = true;
+    }
+
+    public void OnRightClick(){}
 }
