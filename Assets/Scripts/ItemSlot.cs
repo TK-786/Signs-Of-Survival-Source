@@ -85,12 +85,14 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         
         GameObject.Destroy(tempSphere);
         
-        Vector3 playerPosition = GameObject.FindWithTag("Player").transform.position;
-        Vector3 dropPosition = playerPosition + new Vector3(0, 0, 1f);  
-        itemToDrop.transform.position = dropPosition;
-
+        GameObject player = GameObject.FindWithTag("Player");
+        Vector3 playerPosition = player.transform.position;
+        Vector3 forwardDirection = player.transform.forward;
         
+        Vector3 dropPosition = playerPosition + forwardDirection * 1f;
+        itemToDrop.transform.position = dropPosition;
         itemToDrop.transform.localScale = new Vector3(1f, 1f, 1f);  
+        
         ResetItemSlot();
         if (itemSelected){
             selectedSlot.SetActive(false);
