@@ -29,7 +29,7 @@ public class Item : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.CompareTag("Player"))
         {
-            inventoryManager.addItem(itemName, quantity, icon);
+            inventoryManager.addItem(itemName, quantity, icon, itemDescription);
             Destroy(gameObject);
         }
     }
