@@ -379,7 +379,11 @@ MonoBehaviour:
   quantity: 0
   icon: {fileID: 0}
   isFull: 0
+  itemDescription: 
   quantityText: {fileID: 3691320198566815790}
   itemIcon: {fileID: 4007820174555863185}
   selectedSlot: {fileID: 1988717473644626937}
   itemSelected: 0
+  itemNameText: {fileID: 0}
+  itemDescriptionText: {fileID: 0}
+  itemDescImage: {fileID: 0}
