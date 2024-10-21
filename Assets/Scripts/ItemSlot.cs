@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler
 {
@@ -12,6 +13,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public Sprite icon;
     public bool isFull;
     public string itemDescription;
+    public Item item;
     
     [SerializeField]
     private TMP_Text quantityText;
@@ -22,6 +24,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public GameObject selectedSlot;
     public bool itemSelected;
 
+    // item desciption components
     public TMP_Text itemNameText;
     public TMP_Text itemDescriptionText;
     public Image itemDescImage;
@@ -32,11 +35,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
     }
 
-    public void addItem(string itemName, int quantity, Sprite icon, string itemDescription){
+    public void AddItem(string itemName, int quantity, Sprite icon, string itemDescription, Item item){
         this.itemName = itemName;
         this.quantity = quantity;
         this.icon = icon;
         this.itemDescription = itemDescription;
+        this.item = item;
 
         quantityText.text = quantity.ToString();
         quantityText.enabled = true;
@@ -56,10 +60,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnLeftClick(){
-        for (int i = 0; i < inventoryManager.itemSlot.Length; i++)
+        for (int i = 0; i < inventoryManager.itemSlots.Length; i++)
         {
-            inventoryManager.itemSlot[i].selectedSlot.SetActive(false);
-            inventoryManager.itemSlot[i].itemSelected = false;
+            inventoryManager.itemSlots[i].selectedSlot.SetActive(false);
+            inventoryManager.itemSlots[i].itemSelected = false;
         }
 
         Debug.Log("Left Click detected!");
@@ -71,46 +75,22 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnRightClick(){
-        if (quantity < 1){return;}
-        GameObject itemToDrop = new GameObject(itemName);
-        
-        Item newItem = itemToDrop.AddComponent<Item>();
-        newItem.setItemData(itemName, quantity, icon);
-        
-        Rigidbody rb = itemToDrop.AddComponent<Rigidbody>();
-        rb.isKinematic = true;
-        SphereCollider collider = itemToDrop.AddComponent<SphereCollider>();
-        collider.isTrigger = true;
-        collider.radius = 0.5f;  
-
-        GameObject skin = new GameObject("skin");
-        skin.transform.parent = itemToDrop.transform;
-
-        MeshFilter mf = skin.AddComponent<MeshFilter>();
-        MeshRenderer mr = skin.AddComponent<MeshRenderer>();
-        GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        tempSphere.transform.position = new Vector3(0, -1000, 0);  
-    
-        mf.mesh = tempSphere.GetComponent<MeshFilter>().sharedMesh;
-        
-        GameObject.Destroy(tempSphere);
-        
-        GameObject player = GameObject.FindWithTag("Player");
-        Vector3 playerPosition = player.transform.position;
-        Vector3 forwardDirection = player.transform.forward;
-        
-        Vector3 dropPosition = playerPosition + forwardDirection * 1f;
-        itemToDrop.transform.position = dropPosition;
-        itemToDrop.transform.localScale = new Vector3(1f, 1f, 1f);  
-        
-        ResetItemSlot();
-        if (itemSelected){
-            selectedSlot.SetActive(false);
-            itemSelected = false;
+        if (quantity < 1)
+        {
+            Debug.Log("No items available to equip.");
+            return; 
         }
+        Debug.Log("Right Click detected! Equipping item: " + itemName);
 
-        
+        inventoryManager.EquipItem(this);
+
+        quantity--; 
+        if (quantity <= 0)
+        {
+            ResetItemSlot(); // Reset the slot if no items are left
+        }
     }
+
     private void ResetItemSlot() {
         // Reset the slot properties
         itemName = "";
@@ -123,5 +103,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         quantityText.enabled = false;
         itemIcon.sprite = null;
         itemIcon.gameObject.SetActive(false);
+        itemNameText.text = "";
+        itemDescriptionText.text = "";
+        itemDescImage.sprite = null;
     }
 }

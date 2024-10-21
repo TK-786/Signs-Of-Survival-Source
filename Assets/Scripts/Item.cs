@@ -17,26 +17,33 @@ public class Item : MonoBehaviour
 
     [TextArea]
     [SerializeField]
-    private String itemDescription;
+    private string itemDescription;
 
     private InventoryManager inventoryManager;
+    public Item item;
+
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
     }
-
-
-    private void OnTriggerEnter(Collider other){
-        if (other.gameObject.CompareTag("Player"))
-        {
-            inventoryManager.addItem(itemName, quantity, icon, itemDescription);
-            Destroy(gameObject);
-        }
+   
+    public void AddToInventory(){
+        inventoryManager.AddItem(itemName, quantity, icon, itemDescription, this);
+        gameObject.SetActive(false);
     }
-    public void setItemData(string name, int quant, Sprite x){
+
+    public void SetItemData(string name, int quant, Sprite x, string description, Item item){
         this.itemName = name;
         this.quantity = quant;
         this.icon = x;
+        this.itemDescription = description;
+        this.item = item;
     }
-}
 
+    // Read-only properties
+    public string ItemName => itemName;           
+    public int Quantity => quantity;               
+    public Sprite Icon => icon;                    
+    public string ItemDescription => itemDescription; 
+    public Item ItemObj => item;    
+}
