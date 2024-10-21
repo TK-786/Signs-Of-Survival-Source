@@ -76,6 +76,7 @@ public class PickUpScript : MonoBehaviour
                 if (item != null) 
                 {
                     item.AddToInventory(); 
+                    ClearHeldObject(); 
                 }
             }
         }
@@ -121,5 +122,11 @@ public class PickUpScript : MonoBehaviour
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
         heldObj = null;
+    }
+    void ClearHeldObject()
+    {
+        heldObj = null;
+        heldObjRb = null;
+        interactionCanvas.SetActive(false);  // Hide interaction UI
     }
 }
