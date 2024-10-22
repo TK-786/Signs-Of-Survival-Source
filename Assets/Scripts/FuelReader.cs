@@ -5,7 +5,7 @@ public class FuelReader : MonoBehaviour
 {
     public float checkRange = 3f;
     public LayerMask detectionLayers;
-    public int count = 0;
+    //public int count = 0;
     private ArrayList detectedObjects = new ArrayList();
 
     void Update()
@@ -23,7 +23,7 @@ public class FuelReader : MonoBehaviour
 
                 if (!detectedObjects.Contains(hit.transform))
                 {
-                    count++;
+                    //count++;
                     GameManager.IncrementFuel();
                 }
             }
@@ -34,7 +34,7 @@ public class FuelReader : MonoBehaviour
             if (!currentDetectedObjects.Contains(previouslyDetected))
             {
 
-                count--;
+                //count--;
                 GameManager.DecrementFuel();
 
             }
