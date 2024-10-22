@@ -94,18 +94,22 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     private void ResetItemSlot() {
         // Reset the slot properties
-        itemName = "";
-        quantity = 0;
-        icon = null;
-        isFull = false;
+        itemName = "";                      
+        quantity = 0;                       
+        icon = null;                        
+        isFull = false;                     
+        itemDescription = "";               
+        item = null;                        
 
         // Hide the quantity text and item icon
-        quantityText.text = "";
-        quantityText.enabled = false;
-        itemIcon.sprite = null;
-        itemIcon.gameObject.SetActive(false);
-        itemNameText.text = "";
-        itemDescriptionText.text = "";
-        itemDescImage.sprite = null;
+        quantityText.text = "";             
+        quantityText.enabled = false;       
+        itemIcon.sprite = null;             
+        itemIcon.gameObject.SetActive(false); 
+
+        itemNameText.text = "";             
+        itemDescriptionText.text = "";       
+        itemDescImage.sprite = null;         
+
     }
 }
