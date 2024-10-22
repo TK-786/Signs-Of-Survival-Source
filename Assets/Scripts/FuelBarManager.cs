@@ -21,6 +21,5 @@ public class FuelBarManager : MonoBehaviour
     {
         fuelBar.fillAmount = (GameManager.getFuel() * (float) 0.33);
         if (GameManager.getFuel() == 3) { fuelBar.fillAmount = 1; }
-        Debug.Log(GameManager.getFuel());
     }
 }
