@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8115900579724088132}
   - component: {fileID: 7031604221940976854}
   m_Layer: 6
-  m_Name: knob
+  m_Name: fuel
   m_TagString: canPickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -179,11 +179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7de1dd84afa6d446b99f4b52d8eb0db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Knob
+  itemName: Fuel
   quantity: 1
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  itemDescription: This is naveed's knob
-  itemPrefab: {fileID: 5108415260001054452}
+  itemDescription: Fuel for the ship
+  item: {fileID: 0}
 --- !u!114 &7031604221940976854
 MonoBehaviour:
   m_ObjectHideFlags: 0
