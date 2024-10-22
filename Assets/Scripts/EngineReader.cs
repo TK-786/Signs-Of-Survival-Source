@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EngineReader : MonoBehaviour
 {
-    public float checkRange = 3f;
+    public float checkRange = 2f;
     public LayerMask detectionLayers;
     private bool isObjectDetected = false;
 

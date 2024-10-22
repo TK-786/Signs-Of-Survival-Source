@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Teleportation : MonoBehaviour
+public class TeleportationToShip : MonoBehaviour
 {
     public Transform teleportDestination;
     public GameObject player;

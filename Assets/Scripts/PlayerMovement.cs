@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private bool isMovementAllowed = true;
 
+    public float cameraDistance = 0.5f;
+    public float cameraMinDistance = 0.1f;
+    public LayerMask collisionLayer;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
             HandleMovement();
             HandleCameraRotation();
             HandleCrouching();
+            AdjustCameraPosition();
         }
     }
 
@@ -101,10 +106,51 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePosition(Vector3 newPosition)
     {
-        controller.enabled = false; 
+        controller.enabled = false;
+
+        RaycastHit hit;
+        if (Physics.Raycast(newPosition + Vector3.up, Vector3.down, out hit, Mathf.Infinity))
+        {
+            newPosition.y = hit.point.y + controller.height / 2f;
+        }
+        else
+        {
+            newPosition.y += controller.height / 2f;
+        }
+
         transform.position = newPosition;
+
+        Transform playerModel = transform.Find("Player Model");
+        if (playerModel != null)
+        {
+            playerModel.localPosition = Vector3.zero;
+        }
+
         controller.enabled = true;
 
-        playerCamera.transform.position = newPosition + playerCamera.transform.localPosition;
+        playerVelocity.y = 0;
+
+        Vector3 cameraOffset = transform.forward * 0.82f;
+        playerCamera.transform.position = newPosition + cameraOffset + playerCamera.transform.localPosition;
     }
+
+    private void AdjustCameraPosition()
+    {
+        //float cameraHeight = controller.height * 0.8f;
+        //Vector3 targetPosition = transform.position + Vector3.up * cameraHeight + transform.forward * 0.2f;
+
+        //RaycastHit hit;
+        //if (Physics.Raycast(targetPosition, -playerCamera.transform.forward, out hit, cameraDistance, collisionLayer))
+        //{
+        //    float hitDistance = Mathf.Clamp(hit.distance, cameraMinDistance, cameraDistance);
+        //    playerCamera.transform.position = targetPosition - playerCamera.transform.forward * hitDistance;
+        //}
+        //else
+        //{
+        //    playerCamera.transform.position = targetPosition - playerCamera.transform.forward * cameraDistance;
+        //}
+    }
+
+
+
 }
