@@ -58,8 +58,7 @@ public class InventoryManager : MonoBehaviour
         {
             Item equippedItem = itemSlot.item;
             equippedItem.gameObject.SetActive(true);
-
-            equippedItem.GetComponent<Item>().SetItemData(itemSlot.itemName, itemSlot.quantity, itemSlot.icon, itemSlot.itemDescription, itemSlot.item);
+            Debug.Log("Equipping item: " + equippedItem.name + ", Layer set to holdLayer");
             pickUpScript.PickUpObject(equippedItem.gameObject);
         }
     }

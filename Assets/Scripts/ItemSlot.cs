@@ -83,28 +83,33 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         Debug.Log("Right Click detected! Equipping item: " + itemName);
 
         inventoryManager.EquipItem(this);
+        ResetItemSlot();
 
-        quantity--; 
-        if (quantity <= 0)
-        {
-            ResetItemSlot(); // Reset the slot if no items are left
-        }
+        // quantity--; 
+        // if (quantity <= 0)
+        // {
+        //     ResetItemSlot(); // Reset the slot if no items are left
+        // }
     }
 
     private void ResetItemSlot() {
         // Reset the slot properties
-        itemName = "";
-        quantity = 0;
-        icon = null;
-        isFull = false;
+        itemName = "";                      
+        quantity = 0;                       
+        icon = null;                        
+        isFull = false;                     
+        itemDescription = "";               
+        item = null;                        
 
         // Hide the quantity text and item icon
-        quantityText.text = "";
-        quantityText.enabled = false;
-        itemIcon.sprite = null;
-        itemIcon.gameObject.SetActive(false);
-        itemNameText.text = "";
-        itemDescriptionText.text = "";
-        itemDescImage.sprite = null;
+        quantityText.text = "";             
+        quantityText.enabled = false;       
+        itemIcon.sprite = null;             
+        itemIcon.gameObject.SetActive(false); 
+
+        itemNameText.text = "";             
+        itemDescriptionText.text = "";       
+        itemDescImage.sprite = null;         
+
     }
 }
