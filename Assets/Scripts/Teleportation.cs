@@ -3,22 +3,35 @@ using UnityEngine;
 public class Teleportation : MonoBehaviour
 {
     public Transform teleportDestination;
+    public GameObject player;
+    public Camera mainCamera;
 
-    private void OnTriggerEnter(Collider other)
+    private PlayerController playerController;
+
+    private void Start()
     {
-        Debug.Log("Trigger entered by: " + other.name);
-        if (other.CompareTag("Player"))
+        playerController = player.GetComponent<PlayerController>();
+        if (playerController == null)
         {
-
-            Debug.Log("Player has entered the teleport zone.");
-            TeleportPlayer(other.transform);
+            playerController = player.GetComponentInChildren<PlayerController>();
         }
     }
 
-    private void TeleportPlayer(Transform player)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Teleporting player to: " + teleportDestination.position);
-        player.position = teleportDestination.position;
+        if (other.CompareTag("Player"))
+        {
+            Teleport(); 
+        }
     }
 
+    public void Teleport()
+    {
+        if (playerController != null)
+        {
+            playerController.UpdatePosition(teleportDestination.position);
+
+            mainCamera.transform.position = teleportDestination.position;
+        }
+    }
 }

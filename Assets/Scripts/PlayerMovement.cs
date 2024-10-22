@@ -98,4 +98,13 @@ public class PlayerController : MonoBehaviour
             sprintSpeed = 12f;
         }
     }
+
+    public void UpdatePosition(Vector3 newPosition)
+    {
+        controller.enabled = false; 
+        transform.position = newPosition;
+        controller.enabled = true;
+
+        playerCamera.transform.position = newPosition + playerCamera.transform.localPosition;
+    }
 }
