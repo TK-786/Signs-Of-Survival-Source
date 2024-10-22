@@ -83,12 +83,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         Debug.Log("Right Click detected! Equipping item: " + itemName);
 
         inventoryManager.EquipItem(this);
+        ResetItemSlot();
 
-        quantity--; 
-        if (quantity <= 0)
-        {
-            ResetItemSlot(); // Reset the slot if no items are left
-        }
+        // quantity--; 
+        // if (quantity <= 0)
+        // {
+        //     ResetItemSlot(); // Reset the slot if no items are left
+        // }
     }
 
     private void ResetItemSlot() {

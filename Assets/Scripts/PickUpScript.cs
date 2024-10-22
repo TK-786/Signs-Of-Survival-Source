@@ -97,11 +97,8 @@ public class PickUpScript : MonoBehaviour
             heldObjRb = pickUpObj.GetComponent<Rigidbody>(); 
             heldObjRb.isKinematic = true;
             heldObjRb.transform.parent = holdPos.transform; 
-            defaultLayer = heldObj.layer;
             heldObj.layer = holdLayer; 
-
-            
-
+            SetLayerRecursive(heldObj, holdLayer);
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
     }
@@ -111,6 +108,8 @@ public class PickUpScript : MonoBehaviour
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;
         heldObjRb.isKinematic = false;
+        Debug.Log("Dropping object: " + heldObj.name + ", Layer set to: " + defaultLayer);
+        SetLayerRecursive(heldObj, defaultLayer);
         heldObj.transform.parent = null; //unparent object
         heldObj = null; //undefine game object
     }
@@ -127,6 +126,7 @@ public class PickUpScript : MonoBehaviour
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;
         heldObjRb.isKinematic = false;
+        SetLayerRecursive(heldObj, defaultLayer); 
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
         heldObj = null;
@@ -151,6 +151,15 @@ public class PickUpScript : MonoBehaviour
             //change object position to camera position 
             heldObj.transform.position = transform.position + new Vector3(0f, -0.5f, 0f); //offset slightly downward to stop object dropping above player 
             //if your player is small, change the -0.5f to a smaller number (in magnitude) ie: -0.1f
+        }
+    }
+
+    private void SetLayerRecursive(GameObject obj, int layer)
+    {
+        obj.layer = layer; // Set the layer of the object itself
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursive(child.gameObject, layer); // Recursively set layer for all children
         }
     }
 
