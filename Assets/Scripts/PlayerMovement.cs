@@ -21,14 +21,20 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private bool isMovementAllowed = true;
 
+    public float cameraDistance = 0.5f;
+    public float cameraMinDistance = 0.1f;
+    public LayerMask collisionLayer;
+
     void Start()
     {
+        // Initializes the character controller and configures the cursor settings
         controller = GetComponent<CharacterController>();
         ConfigureCursor();
     }
 
     void Update()
     {
+        // Handles player movement, camera rotation, and crouching if movement is allowed
         if (isMovementAllowed)
         {
             HandleMovement();
@@ -39,12 +45,14 @@ public class PlayerController : MonoBehaviour
 
     private void ConfigureCursor()
     {
+        // Locks the cursor to the center of the screen and makes it invisible
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void HandleMovement()
     {
+        // Handles player movement, including walking, sprinting, and jumping
         Vector3 forwardMovement = transform.TransformDirection(Vector3.forward);
         Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right);
 
@@ -75,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCameraRotation()
     {
+        // Manages the rotation of the player's camera based on mouse input
         cameraVerticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
         cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -verticalLookLimit, verticalLookLimit);
         playerCamera.transform.localRotation = Quaternion.Euler(cameraVerticalRotation, 0, 0);
@@ -85,6 +94,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCrouching()
     {
+        // Adjusts the player's height and movement speed for crouching
         if (Input.GetKey(KeyCode.LeftControl))
         {
             controller.height = crouchHeight;
@@ -97,5 +107,38 @@ public class PlayerController : MonoBehaviour
             walkSpeed = 6f;
             sprintSpeed = 12f;
         }
+    }
+
+    public void UpdatePosition(Vector3 newPosition)
+    {
+        // Updates the player's position, adjusting for collisions and terrain height
+        controller.enabled = false;
+
+        RaycastHit hit;
+        if (Physics.Raycast(newPosition + Vector3.up, Vector3.down, out hit, Mathf.Infinity))
+        {
+            newPosition.y = hit.point.y + controller.height / 2f;
+        }
+        else
+        {
+            newPosition.y += controller.height / 2f;
+        }
+
+        transform.position = newPosition;
+
+        // Resets player model position if it exists
+        Transform playerModel = transform.Find("Player Model");
+        if (playerModel != null)
+        {
+            playerModel.localPosition = Vector3.zero;
+        }
+
+        controller.enabled = true;
+
+        playerVelocity.y = 0;
+
+        // Adjusts the camera position based on the new player position
+        Vector3 cameraOffset = transform.forward * 0.82f;
+        playerCamera.transform.position = newPosition + cameraOffset + playerCamera.transform.localPosition;
     }
 }
