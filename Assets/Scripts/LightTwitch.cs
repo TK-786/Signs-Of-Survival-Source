@@ -15,7 +15,7 @@ public class LightTwitch : MonoBehaviour
     public float nextFlkrTime;
     // Start is called before the first frame update
     void Start()
-    {
+    {//this if statement asssigns the spotlight from GameObject if its already not manually assigned.
         if (spotlight == null)
         {
             spotlight = GetComponent<Light>();
@@ -28,11 +28,12 @@ public class LightTwitch : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { //this decreases the next flicker time as time goes on.
         nextFlkrTime -= Time.deltaTime;
 
         if (nextFlkrTime < 0)
         {
+            //changes light brightness
             spotlight.intensity = Random.Range(minBrightness, maxBrightness);
             setRndmFlkrTime();
         }
@@ -41,6 +42,7 @@ public class LightTwitch : MonoBehaviour
 
     void setRndmFlkrTime()
     {
+        //this sets flicker times using range function.
         nextFlkrTime = Random.Range(maxFlkrTime, minFlkrTime);
     }
 }
