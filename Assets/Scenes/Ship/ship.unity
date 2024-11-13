@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17065378, g: 0.16550459, b: 0.16013075, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028432, g: 0.22571458, b: 0.306923, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1352,6 +1352,14 @@ PrefabInstance:
     - target: {fileID: 2171338224581442605, guid: 8b76904a32754dd4dbbd5d9b13f56ca5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3255989304981572996, guid: 8b76904a32754dd4dbbd5d9b13f56ca5, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 3255989304981572996, guid: 8b76904a32754dd4dbbd5d9b13f56ca5, type: 3}
+    - target: {fileID: 3255989304981572996, guid: 8b76904a32754dd4dbbd5d9b13f56ca5, type: 3}
+      propertyPath: stackLimit
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4197797843102899607, guid: 8b76904a32754dd4dbbd5d9b13f56ca5, type: 3}
       propertyPath: m_Name
@@ -5382,6 +5390,18 @@ PrefabInstance:
       propertyPath: item
       value: 
       objectReference: {fileID: 900935360}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: itemName
+      value: Fuel 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: quantity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: stackLimit
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5756,7 +5776,15 @@ PrefabInstance:
       objectReference: {fileID: 939798333}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: itemName
-      value: Fuel
+      value: Fuel 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: quantity
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: stackLimit
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7163,7 +7191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4908893021079187697, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 262.8711
+      value: 259.927
       objectReference: {fileID: 0}
     - target: {fileID: 4908893021079187697, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7213,6 +7241,18 @@ PrefabInstance:
       propertyPath: item
       value: 
       objectReference: {fileID: 1142936045}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: itemName
+      value: Fuel 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: quantity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: stackLimit
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13257,6 +13297,18 @@ PrefabInstance:
       propertyPath: item
       value: 
       objectReference: {fileID: 1347728239}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: itemName
+      value: Fuel 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: quantity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
+      propertyPath: stackLimit
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

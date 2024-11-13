@@ -11,7 +11,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public string itemName;
     public int quantity;
     public Sprite icon;
-    public bool isFull;
+    public bool hasItem;
     public string itemDescription;
     public Item item;
     
@@ -36,17 +36,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void AddItem(string itemName, int quantity, Sprite icon, string itemDescription, Item item){
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.icon = icon;
-        this.itemDescription = itemDescription;
-        this.item = item;
+        if (!hasItem)
+        {
+            this.itemName = itemName;
+            this.icon = icon;
+            this.itemDescription = itemDescription;
+            this.item = item;
+            hasItem = true;
+        }
 
-        quantityText.text = quantity.ToString();
+        this.quantity += quantity;
+
+        quantityText.text = this.quantity.ToString();
         quantityText.enabled = true;
         itemIcon.sprite = icon;
         itemIcon.gameObject.SetActive(true); 
-        isFull = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -97,7 +101,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         itemName = "";                      
         quantity = 0;                       
         icon = null;                        
-        isFull = false;                     
+        hasItem = false;                     
         itemDescription = "";               
         item = null;                        
 
