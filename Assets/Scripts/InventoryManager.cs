@@ -32,19 +32,52 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddItem(string name, int quantity, Sprite icon, string itemDescription, Item item){
+    public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item){
+        Debug.Log($"Attempting to add {quantity} of {name} to inventory.");
+        int remainingQuantity = quantity;
+
+        // stacking in existing slots with the same item type
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            if(!itemSlots[i].isFull){
-                itemSlots[i].AddItem(name, quantity, icon, itemDescription, item);
-                return;
+            if (itemSlots[i].hasItem && itemSlots[i].itemName == name && itemSlots[i].quantity < stackLimit)
+            {
+                int stackableAmount = Mathf.Min(stackLimit - itemSlots[i].quantity, remainingQuantity);
+                itemSlots[i].AddItem(name, stackableAmount, icon, itemDescription, item);
+                remainingQuantity -= stackableAmount;
+
+                Debug.Log($"Stacked {stackableAmount} of {name} in slot {i}. Remaining quantity: {remainingQuantity}");
+
+                if (remainingQuantity <= 0) return;
             }
+        }
+
+        // try adding to empty slots if theres left over
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (!itemSlots[i].hasItem)
+            {
+                int addedAmount = Mathf.Min(stackLimit, remainingQuantity);
+                itemSlots[i].AddItem(name, addedAmount, icon, itemDescription, item);
+                remainingQuantity -= addedAmount;
+
+                Debug.Log($"Added {addedAmount} of {name} to empty slot {i}. Remaining quantity: {remainingQuantity}");
+
+                if (remainingQuantity <= 0) return;
+            }
+        }
+
+        // place remaining items in player's hands if inventory is full
+        if (remainingQuantity > 0)
+        {
+            Debug.LogWarning($"Inventory full. Placing remaining {remainingQuantity} of {name} in player's hands.");
+            item.SetItemData(name, remainingQuantity, icon, itemDescription, item);
+            pickUpScript.PickUpObject(item.gameObject);
         }
     }
 
     public void EquipItem(ItemSlot itemSlot)
     {
-        if (itemSlot == null || !itemSlot.isFull)
+        if (itemSlot == null || !itemSlot.hasItem)
         {
             Debug.LogError("ItemSlot is null or not full.");
             return; 
@@ -54,7 +87,7 @@ public class InventoryManager : MonoBehaviour
             Debug.LogError("Item is null, cannot equip item.");
             return;
         }
-        if (itemSlot.isFull)
+        if (itemSlot.hasItem)
         {
             Item equippedItem = itemSlot.item;
             equippedItem.gameObject.SetActive(true);

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField]
     private string itemName;
 
@@ -19,6 +18,9 @@ public class Item : MonoBehaviour
     [SerializeField]
     private string itemDescription;
 
+    [SerializeField]
+    private int stackLimit;
+
     private InventoryManager inventoryManager;
     public Item item;
 
@@ -28,7 +30,7 @@ public class Item : MonoBehaviour
     }
    
     public void AddToInventory(){
-        inventoryManager.AddItem(itemName, quantity, icon, itemDescription, this);
+        inventoryManager.AddItem(itemName, quantity, icon, itemDescription, stackLimit, this);
         gameObject.SetActive(false);
     }
 
