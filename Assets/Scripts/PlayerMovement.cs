@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float cameraMinDistance = 0.1f;
     public LayerMask collisionLayer;
 
+    public AudioSource footstepAudioSource;
+
     void Start()
     {
         // Initializes the character controller and configures the cursor settings
@@ -40,6 +42,22 @@ public class PlayerController : MonoBehaviour
             HandleMovement();
             HandleCameraRotation();
             HandleCrouching();
+            MovingSound();
+        }
+    }
+
+    private void MovingSound() 
+    {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            if (!footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Play();
+            }
+        }
+        else
+        {
+            footstepAudioSource.Stop();
         }
     }
 
