@@ -8,11 +8,11 @@ public class BulletDestruction : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, destroyTime); // Automatically destroy the bullet after a set time
+        Destroy(gameObject, destroyTime); 
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject); // Destroy the bullet upon collision with any object
+        Destroy(gameObject); 
     }
 }

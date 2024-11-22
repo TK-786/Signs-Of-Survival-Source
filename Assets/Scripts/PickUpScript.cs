@@ -53,7 +53,7 @@ public class PickUpScript : MonoBehaviour
             interactionCanvas.SetActive(true);
             interactionText.text = "Press F to store in inventory";
 
-            if (Input.GetKeyDown(KeyCode.Mouse1)) // Right click to throw
+            if (Input.GetKeyDown(KeyCode.Mouse1)) 
             {
                 StopClipping();
                 ThrowObject();
