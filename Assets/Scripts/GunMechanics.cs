@@ -20,7 +20,7 @@ public class GunMechanics : MonoBehaviour
 
     void Update()
     {
-        if (item != null && item.isHeld && Input.GetMouseButton(1) && Time.time >= nextFireTime)
+        if (item != null && item.isHeld && Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
             Shoot();
         }
