@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GunMechanics : MonoBehaviour
 {
@@ -10,10 +11,16 @@ public class GunMechanics : MonoBehaviour
     public float fireRate = 0.5f;
 
     private float nextFireTime = 0f;
+    private Item item;
+
+    void Start()
+    {
+        item = GetComponent<Item>();
+    }
 
     void Update()
     {
-        if (Input.GetMouseButton(1) && Time.time >= nextFireTime)
+        if (item != null && item.isHeld && Input.GetMouseButton(1) && Time.time >= nextFireTime)
         {
             Shoot();
         }
