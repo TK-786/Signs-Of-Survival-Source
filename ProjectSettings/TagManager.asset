@@ -6,6 +6,7 @@ TagManager:
   tags:
   - canPickUp
   - engine
+  - Bullet
   layers:
   - Default
   - TransparentFX
