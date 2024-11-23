@@ -7,6 +7,7 @@ public class PickUpScript : MonoBehaviour
 {
     public GameObject player;
     public Transform holdPos;
+    public Transform rightHandPos;
 
     public float throwForce = 500f;
     public float pickUpRange = 5f;
@@ -14,6 +15,7 @@ public class PickUpScript : MonoBehaviour
     private Rigidbody heldObjRb;
     private int defaultLayer;
     private int holdLayer;
+    private bool isEquipped = false;
 
     public GameObject interactionCanvas;
     public TMP_Text interactionText;
@@ -52,6 +54,11 @@ public class PickUpScript : MonoBehaviour
             MoveObject();
             interactionCanvas.SetActive(true);
             interactionText.text = "Press F to store in inventory";
+
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isEquipped)
+            {
+                EquipObject();
+            }
 
             if (Input.GetKeyDown(KeyCode.Mouse1)) 
             {
@@ -97,14 +104,6 @@ public class PickUpScript : MonoBehaviour
             heldObj.transform.localRotation = Quaternion.identity;
             heldObj.layer = holdLayer;
            
-
-            Item item = heldObj.GetComponent<Item>();
-            if (item != null)
-            {
-                item.isHeld = true; 
-            }
-
-
             SetLayerRecursive(heldObj, holdLayer);
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
@@ -125,6 +124,7 @@ public class PickUpScript : MonoBehaviour
         }
 
         heldObj = null;
+        isEquipped = false;
     }
 
     void MoveObject()
@@ -148,6 +148,28 @@ public class PickUpScript : MonoBehaviour
         }
 
         heldObj = null;
+        isEquipped = false;
+    }
+
+    void EquipObject()
+    {
+        if (heldObj != null)    
+        {
+            heldObj.transform.parent.position = rightHandPos.position;
+            
+            heldObj.transform.localPosition = Vector3.zero;
+            heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
+            heldObj.layer = defaultLayer;
+            
+            Item item = heldObj.GetComponent<Item>();
+            if (item != null)
+            {
+                item.isHeld = true; 
+            }
+
+            isEquipped = true;
+            Debug.Log("Equipped the object to the right hand.");
+        }
     }
 
     void ClearHeldObject()
@@ -155,6 +177,7 @@ public class PickUpScript : MonoBehaviour
         heldObj = null;
         heldObjRb = null;
         interactionCanvas.SetActive(false);
+        isEquipped = false;
     }
 
     void StopClipping()
