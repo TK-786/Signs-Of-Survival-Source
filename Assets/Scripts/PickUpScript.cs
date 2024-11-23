@@ -129,7 +129,8 @@ public class PickUpScript : MonoBehaviour
 
     void MoveObject()
     {
-        heldObj.transform.position = holdPos.transform.position;
+        if (!isEquipped)
+            {heldObj.transform.position = holdPos.transform.position;}
     }
 
     void ThrowObject()
@@ -155,11 +156,10 @@ public class PickUpScript : MonoBehaviour
     {
         if (heldObj != null)    
         {
-            heldObj.transform.parent.position = rightHandPos.position;
-            
-            heldObj.transform.localPosition = Vector3.zero;
-            heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
-            heldObj.layer = defaultLayer;
+            heldObj.transform.SetParent(rightHandPos); 
+            heldObj.transform.localPosition = Vector3.zero; 
+            heldObj.transform.localRotation = Quaternion.identity;
+            heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0); 
             
             Item item = heldObj.GetComponent<Item>();
             if (item != null)
