@@ -25,10 +25,14 @@ public class PlayerController : MonoBehaviour
     public float cameraMinDistance = 0.1f;
     public LayerMask collisionLayer;
 
+    public AudioSource footstepAudioSource;
+
+    public PlayerStats playerStats; // Reference to PlayerStats component
+
     void Start()
     {
-        // Initializes the character controller and configures the cursor settings
         controller = GetComponent<CharacterController>();
+        playerStats = GetComponent<PlayerStats>(); // Get PlayerStats component
         ConfigureCursor();
     }
 
@@ -40,6 +44,28 @@ public class PlayerController : MonoBehaviour
             HandleMovement();
             HandleCameraRotation();
             HandleCrouching();
+            MovingSound();
+        }
+    }
+
+    // Example of taking damage (you can trigger this method on certain events)
+    public void SimulateDamage(float damage)
+    {
+        playerStats.TakeDamage(damage);
+    }
+
+    private void MovingSound() 
+    {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            if (!footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Play();
+            }
+        }
+        else
+        {
+            footstepAudioSource.Stop();
         }
     }
 

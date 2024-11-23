@@ -23,7 +23,7 @@ public class Item : MonoBehaviour
 
     private InventoryManager inventoryManager;
     public Item item;
-
+    public Boolean isHeld;
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
