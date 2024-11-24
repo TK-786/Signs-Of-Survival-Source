@@ -11,29 +11,30 @@ public class Dialogue : MonoBehaviour{
     private float timer;
     void Start(){
         text.text = string.Empty;
+        typing = false;
     }
 
     void Update(){
         if (!typing){
             timer += Time.deltaTime;
-            if (timer >= 4f){
+            if (timer >= 3f){
                 timer = 0f;
                 NextLine();
             }
         }
     }
 
-    void InitDialogue(string[] dialogue){
+    public void InitDialogue(string[] dialogue){
         lines = dialogue;
         index = 0;
-        StartCoroutine(TypeLine());
         typing = true;
+        StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine(){
         foreach(char c in lines[index].ToCharArray()){
             text.text += c;
-            yield return new WaitForSeconds(0.1f );
+            yield return new WaitForSeconds(0.05f );
         }
         typing = false;
     }
