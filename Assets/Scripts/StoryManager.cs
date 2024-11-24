@@ -67,6 +67,16 @@ public class StoryManager : MonoBehaviour
                 break;
             case 5:
                 break;
+            case 6:
+                dialogue.Add("There's a gun on the floor here...");
+                dialogue.Add("what could you possibly need a gun for on a deserted planet?");
+                dialogueManager.InitDialogue(dialogue.ToArray());
+                break;
+            case 7:
+                dialogue.Add("What's that noise...");
+                dialogue.Add("Let me find that engine and get out of here ASAP");
+                dialogueManager.InitDialogue(dialogue.ToArray());
+                break;
             default:
                 Debug.Log("Story event not handled: " + eventID);
                 break;

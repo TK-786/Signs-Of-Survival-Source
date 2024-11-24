@@ -33,7 +33,7 @@ public class TeleportationToShip : MonoBehaviour
         if (playerController != null)
         {
             playerController.UpdatePosition(teleportDestination.position);
-            mainCamera.transform.position = teleportDestination.position;
+            //mainCamera.transform.position = teleportDestination.position;
         }
     }
 }
