@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public class BlindMonsterAI : MonoBehaviour
 {
-    public float hearingRadius = 20f;
-    public float defaultSoundRadius = 50f; // Radius for the default sound to play
+    public float hearingRadius = 19.5f;
+    public float defaultSoundRadius = 50f;
     public NavMeshAgent navMeshAgent;
     public float damageAmount = 20f;
     public float knockbackForce = 70f;
