@@ -52,7 +52,7 @@ public class BlindMonsterAI : MonoBehaviour
     {
         HandleDefaultSound();
 
-        if (IsPlayerMakingNoise())
+        if (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y + navMeshAgent.velocity.z != 0)
         {
             if (!isChasing && !hasPlayedSpotSound)
             {
@@ -76,24 +76,15 @@ public class BlindMonsterAI : MonoBehaviour
             {
                 PlayChaseSound();
             }
-
-            ChasePlayer();
+            if (IsPlayerMakingNoise())
+            {
+                ChasePlayer();
+            }
         }
         else
         {
-            if (isChasing)
-            {
-                if (audioSource.isPlaying && audioSource.clip == chaseSound)
-                {
-                    audioSource.Stop();
-                }
-            }
-            if (Vector3.Distance(transform.position, lastPosition) > 0.01f)
-            {
-                Debug.Log("no longer moving");
-                isChasing = false;
-                hasPlayedSpotSound = false;
-            }
+            isChasing = false;
+            HandleDefaultSound();
         }
     }
 
