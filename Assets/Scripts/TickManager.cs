@@ -31,6 +31,9 @@ public class TickManager : MonoBehaviour
     private void Awake(){
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+        RenderSettings.skybox.SetTexture("_Texture1", skyBoxNight);
+        RenderSettings.skybox.SetTexture("_Texture2", skyBoxNight); // Ensure seamless transition
+        RenderSettings.skybox.SetFloat("_Blend", 0);
     }
 
     private void Update()
