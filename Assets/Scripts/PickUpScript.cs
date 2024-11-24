@@ -60,7 +60,7 @@ public class PickUpScript : MonoBehaviour
                 EquipObject();
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1)) 
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 StopClipping();
                 ThrowObject();
@@ -103,7 +103,13 @@ public class PickUpScript : MonoBehaviour
             heldObj.transform.localPosition = Vector3.zero;
             heldObj.transform.localRotation = Quaternion.identity;
             heldObj.layer = holdLayer;
-           
+
+            MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
+            if (meshCollider != null)
+            {
+                meshCollider.isTrigger = true;
+            }
+
             SetLayerRecursive(heldObj, holdLayer);
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
@@ -117,10 +123,16 @@ public class PickUpScript : MonoBehaviour
         SetLayerRecursive(heldObj, defaultLayer);
         heldObj.transform.parent = null;
 
+        MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
+        if (meshCollider != null)
+        {
+            meshCollider.isTrigger = true;
+        }
+
         Item item = heldObj.GetComponent<Item>();
         if (item != null)
         {
-            item.isHeld = false; 
+            item.isHeld = false;
         }
 
         heldObj = null;
@@ -142,10 +154,16 @@ public class PickUpScript : MonoBehaviour
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
 
+        MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
+        if (meshCollider != null)
+        {
+            meshCollider.isTrigger = false;
+        }
+
         Item item = heldObj.GetComponent<Item>();
         if (item != null)
         {
-            item.isHeld = false; 
+            item.isHeld = false;
         }
 
         heldObj = null;
@@ -154,7 +172,7 @@ public class PickUpScript : MonoBehaviour
 
     void EquipObject()
     {
-        if (heldObj != null)    
+        if (heldObj != null)
         {
             heldObj.transform.SetParent(rightHandPos); 
             heldObj.transform.localPosition = Vector3.zero; 
@@ -164,7 +182,7 @@ public class PickUpScript : MonoBehaviour
             Item item = heldObj.GetComponent<Item>();
             if (item != null)
             {
-                item.isHeld = true; 
+                item.isHeld = true;
             }
 
             isEquipped = true;
