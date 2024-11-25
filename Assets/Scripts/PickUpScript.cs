@@ -223,4 +223,5 @@ public class PickUpScript : MonoBehaviour
             SetLayerRecursive(child.gameObject, layer);
         }
     }
+    public GameObject getHeldObj => heldObj;
 }
