@@ -31,5 +31,9 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player has died!");
     }
+    public float getHealth(){
+        Debug.Log("current player health: " + currentHealth);
+        return currentHealth;
+    }
     //hhh
 }

@@ -36,9 +36,11 @@ public class BlindMonsterAI : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 initialPosition;
 
-
+    private PromptUser promptManager;
+    public Transform teleportDestination;
     private void Start()
     {
+        promptManager = GameObject.Find("PromptBox").GetComponentInChildren<PromptUser>();
         playerController = player.GetComponent<PlayerController>();
         navMeshAgent.speed = 10f;
         lastPosition = transform.position;
@@ -168,7 +170,10 @@ public class BlindMonsterAI : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.TakeDamage(damageAmount);
-            
+            if (playerStats.getHealth() <= 0){
+                promptManager.InitPrompt("YOU DIED \n the monster that killed you is the blind monster. crouch to stop making noise to prevent it from detecting you");
+                playerController.UpdatePosition(teleportDestination.position);
+            }
         }
 
         Vector3 knockbackDirection = (player.transform.position - transform.position).normalized;
