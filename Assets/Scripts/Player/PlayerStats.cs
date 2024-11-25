@@ -35,5 +35,11 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("current player health: " + currentHealth);
         return currentHealth;
     }
+    public void Heal()
+    {
+        currentHealth = maxHealth;
+        Debug.Log("player is reset to full health");
+        healthBar.SetHealth(currentHealth);
+    }
     //hhh
 }

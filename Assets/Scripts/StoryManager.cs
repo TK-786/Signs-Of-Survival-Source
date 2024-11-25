@@ -12,14 +12,16 @@ public class StoryManager : MonoBehaviour
     private FuelReader fuelReader;
     private GameObject player;
     private GameManager gameManager;
-    private StoryManager storyManager;
     private PromptUser promptManager;
+    private GameObject trigger9;
+    private GameObject trigger8;
 
     void Start()
     {
         storyEvent = 0;
-        storyManager = GameObject.Find("StoryManager").GetComponent<StoryManager>();
         player = GameObject.Find("Player");
+        trigger9 = GameObject.Find("eventTrigger9");
+        trigger8 = GameObject.Find("eventTrigger8");
         promptManager = GameObject.Find("PromptBox").GetComponentInChildren<PromptUser>();
         dialogueManager = GameObject.Find("DialogueBox").GetComponentInChildren<Dialogue>();
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
@@ -28,7 +30,8 @@ public class StoryManager : MonoBehaviour
         foreach(Item item in QuestItems){
             item.gameObject.SetActive(false);
         }
-        QuestItems[2].gameObject.SetActive(true);
+        trigger9.gameObject.SetActive(false);
+        QuestItems[1].gameObject.SetActive(true);
     }
 
     // Called by triggers in the game to update the story progression
@@ -83,20 +86,26 @@ public class StoryManager : MonoBehaviour
                 dialogueManager.InitDialogue(dialogue.ToArray());
                 break;
             case 7:
+                trigger8.SetActive(true);
                 dialogue.Add("What's that noise...");
                 dialogue.Add("Let me find that engine and get out of here ASAP");
                 dialogueManager.InitDialogue(dialogue.ToArray());
                 break;
             case 8:
-                if(inventoryManager.ContainsItem(QuestItems[2].ItemName) || ((pickUpScript.getHeldObj != null)&&(player.GetComponentInChildren<Item>()))){
+                trigger9.gameObject.SetActive(true);
+                break;
+            case 9:
+                trigger9.gameObject.SetActive(false);
+                if(inventoryManager.ContainsItem(QuestItems[1].gameObject.GetComponent<Item>().ItemName) || ((pickUpScript.getHeldObj != null)&&(player.GetComponentInChildren<Item>().ItemName.Equals("Engine")))){
                     dialogue.Add("whew... I made it out alive with the engine");
                     dialogue.Add("Let me put that in my ship and get off this planet!!!");
                 } else {
                     dialogue.Add("I need to go back for that engine");
+                    storyEvent = 7;
                 }
                 dialogueManager.InitDialogue(dialogue.ToArray());
                 break;
-            case 9:
+            case 10:
                 if(GameManager.getFuel() == 3f && GameManager.getRepair() == 100){
                     promptManager.InitPrompt("YOU SURVIVED!!!");
                 }
@@ -105,6 +114,7 @@ public class StoryManager : MonoBehaviour
                 Debug.Log("Story event not handled: " + eventID);
                 break;
         }
+        Debug.Log("current story event: " + storyEvent);
     }
 
     private void giveItem(Item item){

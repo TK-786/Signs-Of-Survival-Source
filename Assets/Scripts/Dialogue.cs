@@ -25,6 +25,11 @@ public class Dialogue : MonoBehaviour{
     }
 
     public void InitDialogue(string[] dialogue){
+        if (typing){
+            StopAllCoroutines();
+            typing = false;
+            text.text = string.Empty;
+        }
         lines = dialogue;
         index = 0;
         typing = true;

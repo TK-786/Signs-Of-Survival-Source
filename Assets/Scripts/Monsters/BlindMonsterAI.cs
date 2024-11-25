@@ -171,6 +171,8 @@ public class BlindMonsterAI : MonoBehaviour
         {
             playerStats.TakeDamage(damageAmount);
             if (playerStats.getHealth() <= 0){
+                playerStats.Heal();
+                ResetMonster();
                 promptManager.InitPrompt("YOU DIED \n the monster that killed you is the blind monster. crouch to stop making noise to prevent it from detecting you");
                 playerController.UpdatePosition(teleportDestination.position);
             }
