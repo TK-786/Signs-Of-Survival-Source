@@ -15,6 +15,9 @@ public class StoryManager : MonoBehaviour
     private StoryManager storyManager;
     private PromptUser promptManager;
 
+    public AudioSource audioSource;
+    public AudioClip event7Sound;
+
     void Start()
     {
         storyEvent = 0;
@@ -88,20 +91,6 @@ public class StoryManager : MonoBehaviour
                 dialogueManager.InitDialogue(dialogue.ToArray());
 
                 StartCoroutine(PlaySoundWithDelay(1f));
-                break;
-            case 8:
-                if(inventoryManager.ContainsItem(QuestItems[2].ItemName) || ((pickUpScript.getHeldObj != null)&&(player.GetComponentInChildren<Item>()))){
-                    dialogue.Add("whew... I made it out alive with the engine");
-                    dialogue.Add("Let me put that in my ship and get off this planet!!!");
-                } else {
-                    dialogue.Add("I need to go back for that engine");
-                }
-                dialogueManager.InitDialogue(dialogue.ToArray());
-                break;
-            case 9:
-                if(GameManager.getFuel() == 3f && GameManager.getRepair() == 100){
-                    promptManager.InitPrompt("YOU SURVIVED!!!");
-                }
                 break;
             case 8:
                 if(inventoryManager.ContainsItem(QuestItems[2].ItemName) || ((pickUpScript.getHeldObj != null)&&(player.GetComponentInChildren<Item>()))){
