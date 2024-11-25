@@ -141,6 +141,7 @@ public class BlindMonsterAI : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.TakeDamage(damageAmount);
+            
         }
 
         Vector3 knockbackDirection = (player.transform.position - transform.position).normalized;
