@@ -16,6 +16,9 @@ public class StoryManager : MonoBehaviour
     private GameObject trigger9;
     private GameObject trigger8;
 
+    public AudioSource audioSource;
+    public AudioClip event7Sound;
+
     void Start()
     {
         storyEvent = 0;
@@ -90,6 +93,8 @@ public class StoryManager : MonoBehaviour
                 dialogue.Add("What's that noise...");
                 dialogue.Add("Let me find that engine and get out of here ASAP");
                 dialogueManager.InitDialogue(dialogue.ToArray());
+
+                StartCoroutine(PlaySoundWithDelay(1f));
                 break;
             case 8:
                 trigger9.gameObject.SetActive(true);
@@ -122,5 +127,18 @@ public class StoryManager : MonoBehaviour
         pickUpScript.PickUpObject(item.gameObject);
     }
 
-    
+    private IEnumerator PlaySoundWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the specified delay
+        if (audioSource != null && event7Sound != null)
+        {
+            audioSource.PlayOneShot(event7Sound); // Play the MP3 sound
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource or AudioClip is missing!");
+        }
+    }
+
+
 }
