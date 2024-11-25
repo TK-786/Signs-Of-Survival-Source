@@ -48,7 +48,7 @@ public class TickManager : MonoBehaviour
             OnTick?.Invoke();
             currentTick++;
             Minutes += 1;
-            Debug.Log("Tick happened, current hours: " + Hours + " current minutes: " + Minutes);
+            //Debug.Log("Tick happened, current hours: " + Hours + " current minutes: " + Minutes);
         }
         
     }

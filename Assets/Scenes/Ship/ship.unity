@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.120062955, g: 0.14956933, b: 0.2023023, a: 1}
+  m_IndirectSpecularColor: {r: 0.019067988, g: 0.022444023, b: 0.028755244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6970,7 +6970,7 @@ Transform:
   m_GameObject: {fileID: 233072654}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22, y: 1.09, z: -158.63}
+  m_LocalPosition: {x: -22, y: 1.09, z: 27.8}
   m_LocalScale: {x: 0.76578075, y: 0.76578075, z: 0.76578075}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31697,7 +31697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1025260774}
   - component: {fileID: 1025260776}
-  - component: {fileID: 1025260775}
+  - component: {fileID: 1025260778}
   - component: {fileID: 1025260777}
   m_Layer: 0
   m_Name: doorHitbox
@@ -31721,21 +31721,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2060934025}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1025260775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025260773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3594da895e9bb2d418916bc3ebf00bd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportDestination: {fileID: 244952800}
-  player: {fileID: 233072654}
-  mainCamera: {fileID: 1798078166}
 --- !u!65 &1025260776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31770,6 +31755,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StoryEvent: 7
+--- !u!114 &1025260778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025260773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f29fb05e920b4c4c84283154b94c1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportDestination: {fileID: 244952800}
+  player: {fileID: 233072654}
+  mainCamera: {fileID: 1798078166}
 --- !u!1 &1028625394
 GameObject:
   m_ObjectHideFlags: 0
@@ -37441,7 +37441,7 @@ GameObject:
   - component: {fileID: 1123530804}
   - component: {fileID: 1123530803}
   - component: {fileID: 1123530802}
-  - component: {fileID: 1123530801}
+  - component: {fileID: 1123530806}
   m_Layer: 0
   m_Name: TriggerCollider
   m_TagString: Untagged
@@ -37449,21 +37449,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
   m_IsActive: 1
---- !u!114 &1123530801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123530800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3594da895e9bb2d418916bc3ebf00bd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleportDestination: {fileID: 151067384}
-  player: {fileID: 233072654}
-  mainCamera: {fileID: 1798078166}
 --- !u!65 &1123530802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37550,6 +37535,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 383759012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1123530806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123530800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f29fb05e920b4c4c84283154b94c1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportDestination: {fileID: 151067384}
+  player: {fileID: 233072654}
+  mainCamera: {fileID: 1798078166}
 --- !u!1 &1126133866
 GameObject:
   m_ObjectHideFlags: 0
@@ -75435,7 +75435,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2020819744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3594da895e9bb2d418916bc3ebf00bd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f29fb05e920b4c4c84283154b94c1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teleportDestination: {fileID: 828341120}
@@ -75556,7 +75556,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2027831471}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13e9092d2aeaa914a8df870178338a69, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f29fb05e920b4c4c84283154b94c1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teleportDestination: {fileID: 930810308}

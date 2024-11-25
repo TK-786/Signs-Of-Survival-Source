@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeleportationFromShip : MonoBehaviour
+public class PlayerTeleport : MonoBehaviour
 {
     public Transform teleportDestination; // Destination point for teleportation
     public GameObject player; // Player game object
