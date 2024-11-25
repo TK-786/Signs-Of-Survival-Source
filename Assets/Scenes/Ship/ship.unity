@@ -30207,11 +30207,11 @@ PrefabInstance:
       objectReference: {fileID: 900935360}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: itemName
-      value: Fuel 1
+      value: Fuel 2
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: quantity
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: stackLimit
@@ -30621,11 +30621,11 @@ PrefabInstance:
       objectReference: {fileID: 939798333}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: itemName
-      value: Fuel 2
+      value: Fuel 3
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: quantity
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: stackLimit
@@ -36786,7 +36786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: quantity
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8115900579724088132, guid: 479775d0bec68d94185ff0b260b0010e, type: 3}
       propertyPath: stackLimit
@@ -71142,8 +71142,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
