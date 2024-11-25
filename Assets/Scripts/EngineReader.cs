@@ -5,6 +5,10 @@ public class EngineReader : MonoBehaviour
     public float checkRange = 2f;
     public LayerMask detectionLayers;
     private bool isObjectDetected = false;
+    private StoryManager storyManager;
+    void Start(){
+        storyManager = GameObject.Find("StoryManager").GetComponent<StoryManager>();
+    }
 
     void Update()
     {
@@ -25,6 +29,7 @@ public class EngineReader : MonoBehaviour
             {
                 isObjectDetected = true;
                 GameManager.RepairedShip();
+                storyManager.AdvanceStoryEvent(10);
             }
         }
         else

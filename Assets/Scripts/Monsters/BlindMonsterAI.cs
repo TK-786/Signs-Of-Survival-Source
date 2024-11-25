@@ -4,8 +4,8 @@ using UnityEngine.AI;
 
 public class BlindMonsterAI : MonoBehaviour
 {
-    public float hearingRadius = 20f;
-    public float defaultSoundRadius = 50f; // Radius for the default sound to play
+    public float hearingRadius = 19.5f;
+    public float defaultSoundRadius = 50f;
     public NavMeshAgent navMeshAgent;
     public float damageAmount = 20f;
     public float knockbackForce = 70f;
@@ -34,13 +34,17 @@ public class BlindMonsterAI : MonoBehaviour
     private bool isSpotSoundPlaying = false;
 
     private Vector3 lastPosition;
+    private Vector3 initialPosition;
 
-
+    private PromptUser promptManager;
+    public Transform teleportDestination;
     private void Start()
     {
+        promptManager = GameObject.Find("PromptBox").GetComponentInChildren<PromptUser>();
         playerController = player.GetComponent<PlayerController>();
         navMeshAgent.speed = 10f;
         lastPosition = transform.position;
+        initialPosition = transform.position;
 
         if (mainCamera != null)
         {
@@ -52,7 +56,15 @@ public class BlindMonsterAI : MonoBehaviour
     {
         HandleDefaultSound();
 
-        if (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y + navMeshAgent.velocity.z != 0)
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distance >= defaultSoundRadius)
+        {
+            ResetMonster();
+            audioSource.Stop();
+        }
+
+        if (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y  != 0)
         {
             if (!isChasing && !hasPlayedSpotSound)
             {
@@ -86,6 +98,23 @@ public class BlindMonsterAI : MonoBehaviour
             isChasing = false;
             HandleDefaultSound();
         }
+    }
+
+    private void ResetMonster()
+    {
+        // Reset position
+        transform.position = initialPosition;
+
+        // Reset velocity or state if applicable
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero; // Stop any movement
+        }
+
+        // Optional: Reset animation or AI state
+        // e.g., animator.SetBool("isChasing", false);
+        // monsterAI.ChangeState(MonsterState.Idle);
     }
 
     private bool IsPlayerMakingNoise()
@@ -141,6 +170,12 @@ public class BlindMonsterAI : MonoBehaviour
         if (playerStats != null)
         {
             playerStats.TakeDamage(damageAmount);
+            if (playerStats.getHealth() <= 0){
+                playerStats.Heal();
+                ResetMonster();
+                promptManager.InitPrompt("YOU DIED \n the monster that killed you is the blind monster. crouch to stop making noise to prevent it from detecting you");
+                playerController.UpdatePosition(teleportDestination.position);
+            }
         }
 
         Vector3 knockbackDirection = (player.transform.position - transform.position).normalized;
@@ -205,20 +240,6 @@ public class BlindMonsterAI : MonoBehaviour
                     audioSource.loop = true;
                     audioSource.Play();
                 }
-            }
-            else
-            {
-                if (audioSource.clip == defaultSound)
-                {
-                    audioSource.Stop();
-                }
-            }
-        }
-        else
-        {
-            if (audioSource.clip == defaultSound && audioSource.isPlaying)
-            {
-                audioSource.Stop();
             }
         }
     }
