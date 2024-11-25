@@ -33,7 +33,20 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item){
+        if (item == null)
+        {
+            Debug.LogError("Cannot add item: item is null.");
+            return;
+        }
+        
         Debug.Log($"Attempting to add {quantity} of {name} to inventory.");
+
+        if (!CanAddItem(name, quantity, stackLimit))
+        {
+            Debug.LogWarning($"Not enough space to add {quantity} of {name} to inventory.");
+            return;
+        }
+        
         int remainingQuantity = quantity;
 
         // stacking in existing slots with the same item type
@@ -94,5 +107,48 @@ public class InventoryManager : MonoBehaviour
             Debug.Log("Equipping item: " + equippedItem.name + ", Layer set to holdLayer");
             pickUpScript.PickUpObject(equippedItem.gameObject);
         }
+    }
+
+    public bool ContainsItem(string itemName)
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot.hasItem && slot.itemName == itemName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool CanAddItem(string itemName, int quantity, int stackLimit)
+    {
+        int remainingQuantity = quantity;
+
+        // Check existing stacks for available space
+        foreach (var slot in itemSlots)
+        {
+            if (slot.hasItem && slot.itemName == itemName && slot.quantity < stackLimit)
+            {
+                int availableSpace = stackLimit - slot.quantity;
+                remainingQuantity -= availableSpace;
+
+                if (remainingQuantity <= 0)
+                    return true; 
+            }
+        }
+
+        foreach (var slot in itemSlots)
+        {
+            if (!slot.hasItem)
+            {
+                remainingQuantity -= stackLimit;
+
+                if (remainingQuantity <= 0)
+                    return true;
+            }
+        }
+
+        return false;
     }
 }
