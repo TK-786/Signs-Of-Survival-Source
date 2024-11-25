@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.120062955, g: 0.14956933, b: 0.2023023, a: 1}
+  m_IndirectSpecularColor: {r: 0.019067945, g: 0.022443987, b: 0.028755195, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -23134,7 +23134,7 @@ GameObject:
   - component: {fileID: 449564339}
   - component: {fileID: 449564338}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PromptText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30871,7 +30871,7 @@ GameObject:
   - component: {fileID: 837657328}
   - component: {fileID: 837657327}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: DialogueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31588,7 +31588,6 @@ GameObject:
   - component: {fileID: 917659897}
   - component: {fileID: 917659900}
   - component: {fileID: 917659899}
-  - component: {fileID: 917659898}
   - component: {fileID: 917659901}
   m_Layer: 5
   m_Name: userPrompt
@@ -31617,20 +31616,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -162}
   m_SizeDelta: {x: 0, y: -950}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &917659898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 917659896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0169b7f3969a61b4d97adb949f2716cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: {fileID: 449564338}
-  lines: []
 --- !u!114 &917659899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76961,7 +76946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -85, y: -20}
+  m_AnchoredPosition: {x: -398.2, y: -66.8}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2101982816
