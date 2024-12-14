@@ -13,7 +13,7 @@ public class mainMenu : MonoBehaviour
     public GameObject difficultyMenu;
     public Slider volumeSlider;
     public Slider brightnessSlider;
-    public TMP_Dropdown difficultySetting;
+    //public TMP_Dropdown difficultySetting;
     public Image brightnessOverlay;
     public GameObject gameTitle;
 
@@ -26,26 +26,29 @@ public class mainMenu : MonoBehaviour
 
     private void Start()
     {
-        
+        MainMenu.SetActive(true);
+        settingsMenu.SetActive(false);
+        playGameMenu.SetActive(false);
+        difficultyMenu.SetActive(false);
+        gameTitle.SetActive(true);
+
         volumeSlider.value = AudioListener.volume;
         volumeSlider.onValueChanged.AddListener(ChangeVolume);
 
         brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 2f);
         brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
 
-        difficultySetting.value = PlayerPrefs.GetInt("Difficulty", 1);
-        difficultySetting.onValueChanged.AddListener(ChangeDifficultyFunc);
+        //difficultySetting.value = PlayerPrefs.GetInt("Difficulty", 1);
+        //difficultySetting.onValueChanged.AddListener(ChangeDifficultyFunc);
     }
-    //this function adds the menu to the stack by calling push function
-    public void OpenMenu(GameObject newMenu)
-    {
-        if (menuStackHistory.Count > 0)  // If there's a menu to go back to, push the current one onto the stack
-        {
-            menuStackHistory.Push(GameObject.FindGameObjectWithTag("currMenu"));
-        }
 
-        //this hides the curr menu and shows the new one when popped.
-        newMenu.SetActive(true);
+    private GameObject GetCurrentMenu()
+    {
+        if (MainMenu.activeSelf) return MainMenu;
+        if (settingsMenu.activeSelf) return settingsMenu;
+        if (playGameMenu.activeSelf) return playGameMenu;
+        if (difficultyMenu.activeSelf) return difficultyMenu;
+        return null;
     }
     public void PlayGame()
     {
@@ -85,13 +88,7 @@ public class mainMenu : MonoBehaviour
         menuStackHistory.Push(MainMenu);
 
     }
-    public void CloseSettings()
-    {
-        MainMenu.SetActive(true);
-        settingsMenu.SetActive(false);
-        gameTitle.SetActive(true);
 
-    }
     public void ChangeVolume(float v)
     {
         AudioListener.volume = v;
@@ -107,18 +104,37 @@ public class mainMenu : MonoBehaviour
 
 
     }
-    public void ChangeDifficultyFunc(int d)
-    {
-        PlayerPrefs.SetInt("Difficulty", d);
-        PlayerPrefs.Save();
-    }
+    //public void ChangeDifficultyFunc(int d)
+    //{
+    //    PlayerPrefs.SetInt("Difficulty", d);
+    //    PlayerPrefs.Save();
+    //}
 
     public void BackButton()
     {
+
         if (menuStackHistory.Count > 0)
         {
+   
             GameObject lastMenu = menuStackHistory.Pop();
+
+            GetCurrentMenu().SetActive(false);
             lastMenu.SetActive(true);
+            
+            if (lastMenu == MainMenu)
+            {
+                gameTitle.SetActive(true);
+            }
+            else
+            {
+                gameTitle.SetActive(false);
+            }
+            
+        }
+        else
+        {
+            MainMenu.SetActive(true);
+            gameTitle.SetActive(true);
         }
     }
 }
