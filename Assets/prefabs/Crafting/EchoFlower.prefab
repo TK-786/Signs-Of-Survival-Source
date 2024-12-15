@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4237064878232101961}
   - component: {fileID: 2599209403117828811}
   - component: {fileID: 220247122205255955}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: EchoFlower
   m_TagString: canPickUp
   m_Icon: {fileID: 0}

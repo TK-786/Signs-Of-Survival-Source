@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8471442348609225242}
   - component: {fileID: 7178887977967543197}
   - component: {fileID: 5777365955498362551}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FlareBlossom
   m_TagString: canPickUp
   m_Icon: {fileID: 0}
