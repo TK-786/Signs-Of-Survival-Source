@@ -30,9 +30,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public Image itemDescImage;
 
     private InventoryManager inventoryManager;
+
+    public ItemSlot[] craftSlots;
+
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
+        craftSlots = inventoryManager.GetCraftingSlots();
     }
 
     public void AddItem(string itemName, int quantity, Sprite icon, string itemDescription, Item item){
@@ -55,7 +59,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Left){
+        if (eventData.button == PointerEventData.InputButton.Left){
             OnLeftClick();
         }
         if(eventData.button == PointerEventData.InputButton.Right){
@@ -71,11 +75,37 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
 
         Debug.Log("Left Click detected!");
-        selectedSlot.SetActive(true);
-        itemSelected = true;
-        itemNameText.text = itemName;
-        itemDescriptionText.text = itemDescription;
-        itemDescImage.sprite = icon;
+        if (inventoryManager.GetMode() == false)
+        {
+            selectedSlot.SetActive(true);
+            itemSelected = true;
+            itemNameText.text = itemName;
+            itemDescriptionText.text = itemDescription;
+            itemDescImage.sprite = icon;
+        }
+
+        if (inventoryManager.GetMode() && hasItem)
+        {
+            if (System.Array.Exists(craftSlots, slot => slot == this))
+            {
+                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.stackLimit, item);
+                ResetItemSlot();
+            }
+            else
+            {
+                foreach (ItemSlot slot in craftSlots)
+                {
+                    if (!slot.hasItem)
+                    {
+                        slot.AddItem(itemName, quantity, icon, itemDescription, item);
+                        ResetItemSlot();
+                        inventoryManager.craftingManager.CheckAndCraftItem();
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 
     public void OnRightClick(){
@@ -96,7 +126,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         // }
     }
 
-    private void ResetItemSlot() {
+    public void ResetItemSlot() {
         // Reset the slot properties
         itemName = "";                      
         quantity = 0;                       

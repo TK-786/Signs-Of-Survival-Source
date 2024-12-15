@@ -7,7 +7,7 @@ public class PlayerStats : MonoBehaviour
 
     public HealthBar healthBar; 
 
-    private void Start()
+    void Start()
     {
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);

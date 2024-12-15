@@ -6,24 +6,25 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    private string itemName;
+    public string itemName;
 
     [SerializeField]
-    private int quantity;
+    public int quantity;
 
     [SerializeField]
-    private Sprite icon;
+    public Sprite icon;
 
     [TextArea]
     [SerializeField]
-    private string itemDescription;
+    public string itemDescription;
 
     [SerializeField]
-    private int stackLimit;
+    public int stackLimit;
 
-    private InventoryManager inventoryManager;
+    public InventoryManager inventoryManager;
     public Item item;
     public Boolean isHeld;
+
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();

@@ -7,7 +7,17 @@ public class InventoryManager : MonoBehaviour
     public GameObject Menu;
     private bool menuOpen;
     public ItemSlot[] itemSlots;
+    public ItemSlot[] craftingSlots;
     private PickUpScript pickUpScript;
+
+    public GameObject DescriptionPanel;
+    public GameObject CraftingPanel;
+
+    public CraftingManager craftingManager;
+
+    public float raycastDistance = 5f;
+
+    public bool craftmode = false;
 
     // Start is called before the first frame update
     void Start()
@@ -15,30 +25,78 @@ public class InventoryManager : MonoBehaviour
         menuOpen = false;
         Menu.SetActive(false);
         pickUpScript = Camera.main.GetComponent<PickUpScript>();
+
+        craftingManager = CraftingPanel.GetComponent<CraftingManager>();
+            
+        DescriptionPanel.SetActive(true);
+        CraftingPanel.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Inventory")){
-            Menu.SetActive(!menuOpen);  
+        // Raycasting to detect crafting table
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, raycastDistance))
+            {
+                if (hit.collider.gameObject.name == "CraftingStation")
+                {
+                    craftmode = true;
+                    ToggleCraftingMode();
+                    Menu.SetActive(!menuOpen);
+                    menuOpen = !menuOpen;
+                    Cursor.visible = menuOpen;
+                    Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
+                }
+            }
+        }
+        // Inventory toggle
+        if (Input.GetButtonDown("Inventory"))
+        {
+            craftmode = false;
+            ToggleCraftingMode();
+            Menu.SetActive(!menuOpen);
             menuOpen = !menuOpen;
             Cursor.visible = menuOpen;
-            if (menuOpen){
-                Cursor.lockState = CursorLockMode.None;
-            } else{
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 
-    public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item){
+    public bool GetMode() {
+        return craftmode;
+    }
+
+    public ItemSlot[] GetCraftingSlots()
+    {
+        return craftingSlots;
+    }
+
+    void ToggleCraftingMode()
+    {
+        if (craftmode == true)
+        {
+            DescriptionPanel.SetActive(false);
+            CraftingPanel.SetActive(true);
+            Debug.Log("Entered Crafting Mode.");
+        }
+        else
+        {
+            CraftingPanel.SetActive(false);
+            DescriptionPanel.SetActive(true);
+            Debug.Log("Exited Crafting Mode.");
+        }
+    }
+
+    public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item)
+    {
         if (item == null)
         {
             Debug.LogError("Cannot add item: item is null.");
             return;
         }
-        
+
         Debug.Log($"Attempting to add {quantity} of {name} to inventory.");
 
         if (!CanAddItem(name, quantity, stackLimit))
@@ -46,7 +104,7 @@ public class InventoryManager : MonoBehaviour
             Debug.LogWarning($"Not enough space to add {quantity} of {name} to inventory.");
             return;
         }
-        
+
         int remainingQuantity = quantity;
 
         // stacking in existing slots with the same item type
@@ -93,7 +151,7 @@ public class InventoryManager : MonoBehaviour
         if (itemSlot == null || !itemSlot.hasItem)
         {
             Debug.LogError("ItemSlot is null or not full.");
-            return; 
+            return;
         }
         if (itemSlot.item == null)
         {
@@ -134,7 +192,7 @@ public class InventoryManager : MonoBehaviour
                 remainingQuantity -= availableSpace;
 
                 if (remainingQuantity <= 0)
-                    return true; 
+                    return true;
             }
         }
 
