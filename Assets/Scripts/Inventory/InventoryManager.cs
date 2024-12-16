@@ -8,6 +8,7 @@ public class InventoryManager : MonoBehaviour
     private bool menuOpen;
     public ItemSlot[] itemSlots;
     public ItemSlot[] craftingSlots;
+    public ItemSlot craftingSlot;
     private PickUpScript pickUpScript;
 
     public GameObject DescriptionPanel;
@@ -52,7 +53,6 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        // Inventory toggle
         if (Input.GetButtonDown("Inventory"))
         {
             craftmode = false;
@@ -86,6 +86,21 @@ public class InventoryManager : MonoBehaviour
             CraftingPanel.SetActive(false);
             DescriptionPanel.SetActive(true);
             Debug.Log("Exited Crafting Mode.");
+
+            foreach (ItemSlot slot in craftingSlots)
+            {
+                if (slot.hasItem)
+                {
+                    AddItem(slot.name, slot.quantity, slot.icon, slot.itemDescription, slot.item.stackLimit, slot.item);
+                    slot.ResetItemSlot();
+                }
+            }
+            craftingManager.PreviewCraftItem();
+            if (craftingSlot.hasItem)
+            {
+                AddItem(craftingSlot.name, craftingSlot.quantity, craftingSlot.icon, craftingSlot.itemDescription, craftingSlot.item.stackLimit, craftingSlot.item);
+                craftingSlot.ResetItemSlot();
+            }
         }
     }
 
