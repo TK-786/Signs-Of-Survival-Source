@@ -7,7 +7,7 @@ public class GunMechanics : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float bulletSpeed = 20f;
+    public float bulletSpeed = 100000000f;
     public float fireRate = 0.5f;
 
     private float nextFireTime = 0f;
@@ -34,7 +34,7 @@ public class GunMechanics : MonoBehaviour
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = firePoint.forward * bulletSpeed;
 
-        Destroy(bullet, 5f);
+        Destroy(bullet, 10f);
         Debug.Log("Shot fired!");
     }
 }

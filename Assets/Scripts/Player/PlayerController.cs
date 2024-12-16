@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -166,5 +167,30 @@ public class PlayerController : MonoBehaviour
         // Adjusts the camera position based on the new player position
         Vector3 cameraOffset = transform.forward * 0.82f;
         playerCamera.transform.position = newPosition + cameraOffset + playerCamera.transform.localPosition;
+    }
+    public IEnumerator ApplyFlashEffect(float duration)
+    {
+        
+        GameObject flashScreen = new GameObject("FlashScreen");
+        Canvas canvas = flashScreen.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        CanvasGroup canvasGroup = flashScreen.AddComponent<CanvasGroup>();
+
+        Image flashImage = flashScreen.AddComponent<Image>();
+        flashImage.color = Color.white;
+
+        canvasGroup.alpha = 1f; 
+
+        
+        yield return new WaitForSeconds(duration);
+
+        
+        while (canvasGroup.alpha > 0)
+        {
+            canvasGroup.alpha -= Time.deltaTime / duration;
+            yield return null;
+        }
+
+        Destroy(flashScreen); 
     }
 }

@@ -62,9 +62,23 @@ public class PickUpScript : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                StopClipping();
-                ThrowObject();
+                if (heldObj != null)
+                {
+                    Flashbang flashbang = heldObj.GetComponent<Flashbang>();
+                    if (flashbang != null)
+                    {
+                        flashbang.Throw(); 
+                        heldObj = null;    
+                        isEquipped = false;
+                    }
+                    else
+                    {
+                        StopClipping();
+                        ThrowObject(); 
+                    }
+                }
             }
+
 
             if (Input.GetKeyDown(KeyCode.F))
             {
