@@ -37,7 +37,6 @@ public class CraftingManager : MonoBehaviour
     {
         recipes = new CraftingRecipe[3];
 
-        // Recipe 1: Healing Potion
         CraftingRecipe healingPotion = new CraftingRecipe();
         healingPotion.requiredItems[0] = crimsonBloom;
         healingPotion.requiredItems[1] = crystal;
@@ -45,7 +44,6 @@ public class CraftingManager : MonoBehaviour
         healingPotion.resultPrefab = healingPotionPrefab;
         recipes[0] = healingPotion;
 
-        // Recipe 2: Adrenaline Potion
         CraftingRecipe adrenalinePotion = new CraftingRecipe();
         adrenalinePotion.requiredItems[0] = flareBlossom;
         adrenalinePotion.requiredItems[1] = crystal;
@@ -53,7 +51,6 @@ public class CraftingManager : MonoBehaviour
         adrenalinePotion.resultPrefab = adrenalinePotionPrefab;
         recipes[1] = adrenalinePotion;
 
-        // Recipe 3: Stealth Potion
         CraftingRecipe stealthPotion = new CraftingRecipe();
         stealthPotion.requiredItems[0] = echoFlower;
         stealthPotion.requiredItems[1] = crystal;
@@ -62,83 +59,46 @@ public class CraftingManager : MonoBehaviour
         recipes[2] = stealthPotion;
     }
 
-    public void CheckAndCraftItem()
+    public void PreviewCraftItem()
     {
         foreach (CraftingRecipe recipe in recipes)
         {
             if (RecipeMatches(recipe))
             {
-                // Instantiate the result prefab
                 GameObject newItemObject = Instantiate(recipe.resultPrefab);
-                if (!newItemObject)
-                {
-                    Debug.LogError("Failed to instantiate the item prefab!");
-                    return;
-                }
 
-                // Get the Item component
                 Item craftedItem = newItemObject.GetComponent<Item>();
-                if (craftedItem == null)
-                {
-                    Debug.LogError("No 'Item' component found on the prefab.");
-                    Destroy(newItemObject);
-                    return;
-                }
 
-                // Add the item to the craftedItem slot
                 craftedItemSlot.AddItem(
                     craftedItem.itemName,
-                    craftedItem.quantity,     // or 1 if you prefer
+                    craftedItem.quantity,
                     craftedItem.icon,
                     craftedItem.itemDescription,
                     craftedItem
                 );
-
-                // Clear the crafting slots
-                foreach (var slot in craftingSlots)
-                {
-                    slot.ResetItemSlot();
-                }
-
-                Debug.Log($"Crafted: {craftedItem.itemName}");
-
-                // If you don't need the prefab in the scene, destroy or deactivate it
-                Destroy(newItemObject);
-                // newItemObject.SetActive(false);
-
                 return;
             }
         }
-
-        Debug.Log("No matching recipe found.");
+        craftedItemSlot.ResetItemSlot();
     }
-
 
     private bool RecipeMatches(CraftingRecipe recipe)
     {
-        Debug.Log("Comparing recipe requirements...");
+        if (craftingSlots.Any(slot => slot.item == null)) {  return false; }
 
-        for (int i = 0; i < craftingSlots.Length; i++)
-        {
-            if (craftingSlots[i].item == null)
-            {
-                Debug.Log($"Crafting slot {i} is empty. Expected: {recipe.requiredItems[i]?.itemName}");
-                return false;
-            }
+        string[] craftSlotNames = craftingSlots
+                                  .Select(s => s.item.itemName)
+                                  .OrderBy(n => n)
+                                  .ToArray();
 
-            // Compare item names rather than references
-            if (craftingSlots[i].item.itemName != recipe.requiredItems[i].itemName)
-            {
-                Debug.Log($"Mismatch in crafting slot {i}. Found: {craftingSlots[i].item.itemName}, Expected: {recipe.requiredItems[i].itemName}");
-                return false;
-            }
+        string[] recipeNames = recipe.requiredItems
+                                     .Select(r => r.itemName)
+                                     .OrderBy(n => n)
+                                     .ToArray();
 
-            Debug.Log($"Crafting slot {i} matches: {craftingSlots[i].item.itemName}");
-        }
-
-        Debug.Log("All crafting slots match the recipe.");
-        return true;
+        return craftSlotNames.SequenceEqual(recipeNames);
     }
+
 
 
 }
