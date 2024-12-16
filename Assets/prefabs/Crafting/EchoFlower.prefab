@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64,6 +64,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EchoFlower
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 210d61a40ae804f43a74c4474a99b337, type: 3}
+      propertyPath: m_TagString
+      value: canPickUp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99,7 +107,7 @@ MonoBehaviour:
   quantity: 1
   icon: {fileID: 21300000, guid: 02ab7d3f1db14324e8be7cd6bd720f52, type: 3}
   itemDescription: Used in Stealth to absorb sound
-  stackLimit: 64
+  stackLimit: 1
   inventoryManager: {fileID: 0}
   item: {fileID: 0}
   isHeld: 0

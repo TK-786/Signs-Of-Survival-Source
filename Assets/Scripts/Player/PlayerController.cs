@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         playerStats = GetComponent<PlayerStats>(); // Get PlayerStats component
         ConfigureCursor();
+
     }
 
     void Update()
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         playerStats.TakeDamage(damage);
     }
+
 
     private void MovingSound()
     {

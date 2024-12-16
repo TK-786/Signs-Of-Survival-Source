@@ -23,10 +23,14 @@ public class CraftingManager : MonoBehaviour
     public Item flask;
     public Item flareBlossom;
     public Item echoFlower;
+    public Item healingPotion1;
+    public Item adrenalinePotion1;
+    public Item stealthPotion1;
 
     public GameObject healingPotionPrefab;
     public GameObject adrenalinePotionPrefab;
     public GameObject stealthPotionPrefab;
+    public GameObject UltimatePotionPrefab;
 
     private void Start()
     {
@@ -35,7 +39,7 @@ public class CraftingManager : MonoBehaviour
 
     public void createRecipes()
     {
-        recipes = new CraftingRecipe[3];
+        recipes = new CraftingRecipe[4];
 
         CraftingRecipe healingPotion = new CraftingRecipe();
         healingPotion.requiredItems[0] = crimsonBloom;
@@ -57,6 +61,13 @@ public class CraftingManager : MonoBehaviour
         stealthPotion.requiredItems[2] = flask;
         stealthPotion.resultPrefab = stealthPotionPrefab;
         recipes[2] = stealthPotion;
+
+        CraftingRecipe UltimatePotion = new CraftingRecipe();
+        UltimatePotion.requiredItems[0] = healingPotion1;
+        UltimatePotion.requiredItems[1] = adrenalinePotion1;
+        UltimatePotion.requiredItems[2] = stealthPotion1;
+        UltimatePotion.resultPrefab = UltimatePotionPrefab;
+        recipes[3] = UltimatePotion;
     }
 
     public void PreviewCraftItem()
