@@ -33,6 +33,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
     public ItemSlot[] craftSlots;
 
+    ItemSlot craftedItemSlot; 
+
     void Start()
     {
         inventoryManager = GameObject.Find("InventoryCanvas").GetComponent<InventoryManager>();
@@ -75,7 +77,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         }
 
         Debug.Log("Left Click detected!");
-        if (inventoryManager.GetMode() == false)
+        if (!inventoryManager.GetMode())
         {
             selectedSlot.SetActive(true);
             itemSelected = true;
@@ -91,6 +93,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.stackLimit, item);
                 ResetItemSlot();
             }
+            else if(this == inventoryManager.craftingManager.craftedItemSlot)
+            {
+                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.stackLimit, item);
+                ResetItemSlot();
+                foreach (ItemSlot slot in craftSlots)
+                {
+                    slot.ResetItemSlot();
+                }
+            }
             else
             {
                 foreach (ItemSlot slot in craftSlots)
@@ -99,11 +110,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                     {
                         slot.AddItem(itemName, quantity, icon, itemDescription, item);
                         ResetItemSlot();
-                        inventoryManager.craftingManager.CheckAndCraftItem();
                         break;
                     }
                 }
             }
+            inventoryManager.craftingManager.PreviewCraftItem();
         }
 
     }
