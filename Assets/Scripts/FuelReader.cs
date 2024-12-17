@@ -6,6 +6,10 @@ public class FuelReader : MonoBehaviour
     public float checkRange = 3f; // Range for detecting fuel objects
     public LayerMask detectionLayers; // Layers to check during raycasting
     private ArrayList detectedObjects = new ArrayList(); // List of currently detected fuel objects
+    private StoryManager storyManager;
+    void Start(){
+        storyManager = GameObject.Find("StoryManager").GetComponent<StoryManager>();
+    }
 
     void Update()
     {
@@ -42,5 +46,11 @@ public class FuelReader : MonoBehaviour
 
         // Update the list of detected objects
         detectedObjects = currentDetectedObjects;
+        if ((getFuelAmount() > 2)&&(storyManager.storyEvent < 4)){
+            storyManager.AdvanceStoryEvent(4);
+        }
+    }
+    public int getFuelAmount(){
+        return detectedObjects.Count;
     }
 }

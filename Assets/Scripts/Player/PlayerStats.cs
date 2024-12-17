@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        Debug.Log("player demage takedn");
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -30,4 +31,15 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player has died!");
     }
+    public float getHealth(){
+        Debug.Log("current player health: " + currentHealth);
+        return currentHealth;
+    }
+    public void Heal()
+    {
+        currentHealth = maxHealth;
+        Debug.Log("player is reset to full health");
+        healthBar.SetHealth(currentHealth);
+    }
+    //hhh
 }

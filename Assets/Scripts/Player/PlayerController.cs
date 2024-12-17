@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public float cameraDistance = 0.5f;
     public float cameraMinDistance = 0.1f;
     public LayerMask collisionLayer;
+    public Transform camaraLocation;
 
     public AudioSource footstepAudioSource;
 
@@ -55,9 +56,9 @@ public class PlayerController : MonoBehaviour
         playerStats.TakeDamage(damage);
     }
 
-    private void MovingSound() 
+    private void MovingSound()
     {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        if (controller.height == standingHeight && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
         {
             if (!footstepAudioSource.isPlaying)
             {
@@ -165,8 +166,8 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y = 0;
 
         // Adjusts the camera position based on the new player position
-        Vector3 cameraOffset = transform.forward * 0.82f;
-        playerCamera.transform.position = newPosition + cameraOffset + playerCamera.transform.localPosition;
+        Vector3 cameraOffset = transform.forward;
+        playerCamera.transform.position = newPosition + camaraLocation.position;
     }
     public IEnumerator ApplyFlashEffect(float duration)
     {
