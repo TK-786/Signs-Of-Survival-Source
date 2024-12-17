@@ -129,6 +129,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
         inventoryManager.EquipItem(this);
         ResetItemSlot();
+        inventoryManager.craftingManager.PreviewCraftItem();
 
         // quantity--; 
         // if (quantity <= 0)

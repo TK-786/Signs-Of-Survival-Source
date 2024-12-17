@@ -174,4 +174,4 @@ MonoBehaviour:
   stackLimit: 1
   inventoryManager: {fileID: 0}
   item: {fileID: 0}
-  isHeld: 1
+  isHeld: 0
