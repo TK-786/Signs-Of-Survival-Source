@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -70,12 +71,21 @@ public class PickUpScript : MonoBehaviour
                         flashbang.Throw(); 
                         heldObj = null;    
                         isEquipped = false;
+                        return;
                     }
-                    else
+                    Grenade grenade = heldObj.GetComponent<Grenade>();
+
+                    if (grenade != null)
                     {
-                        StopClipping();
-                        ThrowObject(); 
+                        grenade.Throw();
+                        heldObj = null;
+                        isEquipped = false;
+                        return; 
                     }
+                    
+                     StopClipping();
+                     ThrowObject(); 
+                    
                 }
             }
 
@@ -112,46 +122,48 @@ public class PickUpScript : MonoBehaviour
         {
             heldObj = pickUpObj;
             heldObjRb = pickUpObj.GetComponent<Rigidbody>();
-            heldObjRb.isKinematic = true;
+            heldObjRb.isKinematic = true; 
             heldObj.transform.parent = holdPos.transform;
             heldObj.transform.localPosition = Vector3.zero;
             heldObj.transform.localRotation = Quaternion.identity;
-            heldObj.layer = holdLayer;
 
-            MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
-            if (meshCollider != null)
+           
+            Collider[] allObjects = GameObject.FindGameObjectsWithTag("canPickUp")
+                .Select(o => o.GetComponent<Collider>())
+                .Where(c => c != null && c != heldObj.GetComponent<Collider>())
+                .ToArray();
+
+            foreach (Collider col in allObjects)
             {
-                meshCollider.isTrigger = true;
+                Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), col, true);
             }
 
-            SetLayerRecursive(heldObj, holdLayer);
-            Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
+            Debug.Log("Picked up " + heldObj.name);
         }
     }
+
 
     void DropObject()
     {
-        Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
-        heldObj.layer = defaultLayer;
+        // Re-enable physics
         heldObjRb.isKinematic = false;
-        SetLayerRecursive(heldObj, defaultLayer);
+
+        // Re-enable collisions with other pickable objects
+        Collider[] allObjects = GameObject.FindGameObjectsWithTag("canPickUp")
+            .Select(o => o.GetComponent<Collider>())
+            .Where(c => c != null && c != heldObj.GetComponent<Collider>())
+            .ToArray();
+
+        foreach (Collider col in allObjects)
+        {
+            Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), col, false);
+        }
+
         heldObj.transform.parent = null;
-
-        MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
-        if (meshCollider != null)
-        {
-            meshCollider.isTrigger = true;
-        }
-
-        Item item = heldObj.GetComponent<Item>();
-        if (item != null)
-        {
-            item.isHeld = false;
-        }
-
         heldObj = null;
         isEquipped = false;
     }
+
 
     void MoveObject()
     {
