@@ -200,7 +200,7 @@ public class PickUpScript : MonoBehaviour
             {heldObj.transform.position = holdPos.transform.position;}
     }
 
-    void ThrowObject()
+    public void ThrowObject()
     {
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;

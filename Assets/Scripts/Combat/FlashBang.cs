@@ -2,28 +2,25 @@ using System.Collections;
 using UnityEngine;
 
 public class Flashbang : MonoBehaviour
-{
-    public float throwForce = 500f;     
+{    
     public float flashRadius = 10f;      
-    public float flashDuration = 3f;     
-    private Rigidbody rb;
+    public float flashDuration = 3f;
+    private PickUpScript pickUpScrip;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        pickUpScrip = Camera.main.GetComponent<PickUpScript>();
     }
 
     public void Throw()
     {
-        rb.isKinematic = false; 
-        rb.AddForce(Camera.main.transform.forward * throwForce); 
+        pickUpScrip.ThrowObject();
         StartCoroutine(TriggerFlash());
     }
 
     private IEnumerator TriggerFlash()
     {
         yield return new WaitForSeconds(2f); 
-
         
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, flashRadius);
 

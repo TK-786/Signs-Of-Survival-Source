@@ -2,24 +2,22 @@ using System.Collections;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
-{
-    public float throwForce = 10f;      
+{     
     public float explosionDelay = 3f;   
     public float explosionRadius = 5f;  
     public float explosionForce = 700f; 
-    public GameObject explosionEffect;  
+    public GameObject explosionEffect;
 
-    private Rigidbody rb;
+    private PickUpScript pickUpScrip;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        pickUpScrip = Camera.main.GetComponent<PickUpScript>();
     }
 
     public void Throw()
     {
-        rb.isKinematic = false; 
-        rb.AddForce(Camera.main.transform.forward * throwForce, ForceMode.VelocityChange);
+        pickUpScrip.ThrowObject();
         StartCoroutine(ExplodeAfterDelay());
     }
 

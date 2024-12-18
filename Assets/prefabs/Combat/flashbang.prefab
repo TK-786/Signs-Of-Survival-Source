@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +77,9 @@ PrefabInstance:
       addedObject: {fileID: 2520096358952179773}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8440178086478081683}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 779016013439172252}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 99b052f3f0388304181f0e5700f1552e, type: 3}
       insertIndex: -1
@@ -99,9 +102,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9139527befa6643b5c2f868dfd9c8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 500
   flashRadius: 10
   flashDuration: 3
+--- !u!114 &8440178086478081683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721910113945047185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7de1dd84afa6d446b99f4b52d8eb0db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Flash Bang
+  quantity: 1
+  icon: {fileID: 0}
+  itemDescription: BANG
+  stackLimit: 1
+  inventoryManager: {fileID: 0}
+  item: {fileID: 0}
+  isHeld: 0
 --- !u!64 &779016013439172252
 MeshCollider:
   m_ObjectHideFlags: 0
