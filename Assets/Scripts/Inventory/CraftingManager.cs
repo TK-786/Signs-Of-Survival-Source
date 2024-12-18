@@ -81,10 +81,10 @@ public class CraftingManager : MonoBehaviour
                 Item craftedItem = newItemObject.GetComponent<Item>();
 
                 craftedItemSlot.AddItem(
-                    craftedItem.itemName,
-                    craftedItem.quantity,
-                    craftedItem.icon,
-                    craftedItem.itemDescription,
+                    craftedItem.ItemName,
+                    craftedItem.Quantity,
+                    craftedItem.Icon,
+                    craftedItem.ItemDescription,
                     craftedItem
                 );
                 return;
@@ -98,12 +98,12 @@ public class CraftingManager : MonoBehaviour
         if (craftingSlots.Any(slot => slot.item == null)) {  return false; }
 
         string[] craftSlotNames = craftingSlots
-                                  .Select(s => s.item.itemName)
+                                  .Select(s => s.item.ItemName)
                                   .OrderBy(n => n)
                                   .ToArray();
 
         string[] recipeNames = recipe.requiredItems
-                                     .Select(r => r.itemName)
+                                     .Select(r => r.ItemName)
                                      .OrderBy(n => n)
                                      .ToArray();
 

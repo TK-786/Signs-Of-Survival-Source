@@ -90,12 +90,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
         {
             if (System.Array.Exists(craftSlots, slot => slot == this))
             {
-                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.stackLimit, item);
+                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.StackLimit, item);
                 ResetItemSlot();
             }
             else if(this == inventoryManager.craftingManager.craftedItemSlot)
             {
-                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.stackLimit, item);
+                inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.StackLimit, item);
                 ResetItemSlot();
                 foreach (ItemSlot slot in craftSlots)
                 {

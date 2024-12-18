@@ -6,20 +6,20 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    public string itemName;
+    private string itemName;
 
     [SerializeField]
-    public int quantity;
+    private int quantity;
 
     [SerializeField]
-    public Sprite icon;
+    private Sprite icon;
 
     [TextArea]
     [SerializeField]
-    public string itemDescription;
+    private string itemDescription;
 
     [SerializeField]
-    public int stackLimit;
+    private int stackLimit;
 
     public InventoryManager inventoryManager;
     public Item item;
@@ -49,4 +49,5 @@ public class Item : MonoBehaviour
     public Sprite Icon => icon;                    
     public string ItemDescription => itemDescription; 
     public Item ItemObj => item;    
+    public int StackLimit => stackLimit;
 }

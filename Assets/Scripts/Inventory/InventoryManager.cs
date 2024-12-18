@@ -91,14 +91,14 @@ public class InventoryManager : MonoBehaviour
             {
                 if (slot.hasItem)
                 {
-                    AddItem(slot.name, slot.quantity, slot.icon, slot.itemDescription, slot.item.stackLimit, slot.item);
+                    AddItem(slot.itemName, slot.quantity, slot.icon, slot.itemDescription, slot.item.StackLimit, slot.item);
                     slot.ResetItemSlot();
                 }
             }
             craftingManager.PreviewCraftItem();
             if (craftingSlot.hasItem)
             {
-                AddItem(craftingSlot.name, craftingSlot.quantity, craftingSlot.icon, craftingSlot.itemDescription, craftingSlot.item.stackLimit, craftingSlot.item);
+                AddItem(craftingSlot.itemName, craftingSlot.quantity, craftingSlot.icon, craftingSlot.itemDescription, craftingSlot.item.StackLimit, craftingSlot.item);
                 craftingSlot.ResetItemSlot();
             }
         }
