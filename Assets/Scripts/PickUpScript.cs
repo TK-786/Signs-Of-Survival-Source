@@ -233,7 +233,6 @@ public class PickUpScript : MonoBehaviour
             heldObj.transform.SetParent(rightHandPos);
             heldObj.transform.localPosition = Vector3.zero;
             heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
-            heldObj.layer = defaultLayer;
 
             MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
             if (meshCollider != null)

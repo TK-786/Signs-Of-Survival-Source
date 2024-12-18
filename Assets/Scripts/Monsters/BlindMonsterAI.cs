@@ -64,7 +64,7 @@ public class BlindMonsterAI : MonoBehaviour
             audioSource.Stop();
         }
 
-        if (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y  != 0)
+        if (playerController.stealth == false &&  (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y  != 0))
         {
             if (!isChasing && !hasPlayedSpotSound)
             {
