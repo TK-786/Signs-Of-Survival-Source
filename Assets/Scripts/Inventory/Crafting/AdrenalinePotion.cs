@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdranalinePotion : MonoBehaviour
+public class AdrenalinePotion : MonoBehaviour
 {
     private PlayerController playerController;
     private Item item;
