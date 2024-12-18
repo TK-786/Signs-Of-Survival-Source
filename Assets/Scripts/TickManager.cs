@@ -7,8 +7,10 @@ public class TickManager : MonoBehaviour
 {
     [SerializeField] private float tickFrequency = 1f;
     private static int currentTick = 0;
+    public static int CurrentTick => currentTick;
     private float lastTickTime = 0;
     [SerializeField] private static float currentTime;
+    public static float CurrentTime => currentTime;
     public static Action OnTick;
 
     [SerializeField] private Cubemap skyBoxNight;
