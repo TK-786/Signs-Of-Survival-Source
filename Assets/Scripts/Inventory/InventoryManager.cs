@@ -14,7 +14,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject DescriptionPanel;
     public GameObject CraftingPanel;
 
-    public CraftingManager craftingManager;
+    private CraftingManager craftingManager;
+    public CraftingManager CraftingManager => craftingManager;
 
     public float raycastDistance = 5f;
 

@@ -93,7 +93,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                 inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.StackLimit, item);
                 ResetItemSlot();
             }
-            else if(this == inventoryManager.craftingManager.craftedItemSlot)
+            else if(this == inventoryManager.CraftingManager.craftedItemSlot)
             {
                 inventoryManager.AddItem(itemName, quantity, icon, itemDescription, item.StackLimit, item);
                 ResetItemSlot();
@@ -114,7 +114,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
                     }
                 }
             }
-            inventoryManager.craftingManager.PreviewCraftItem();
+            inventoryManager.CraftingManager.PreviewCraftItem();
         }
 
     }
@@ -129,7 +129,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
 
         inventoryManager.EquipItem(this);
         ResetItemSlot();
-        inventoryManager.craftingManager.PreviewCraftItem();
+        inventoryManager.CraftingManager.PreviewCraftItem();
 
         // quantity--; 
         // if (quantity <= 0)
