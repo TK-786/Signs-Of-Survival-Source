@@ -55,7 +55,7 @@ public class TickManager : MonoBehaviour
 
     private void OnMinutesChange(int value)
     {
-        if (value >= 60) {
+        if (value >= 5) {
             Hours += 1;
             minutes = 0;
         }

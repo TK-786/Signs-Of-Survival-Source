@@ -133,6 +133,18 @@ public class PickUpScript : MonoBehaviour
             meshCollider.isTrigger = false;
         }
 
+        RaycastHit hit;
+        if (Physics.Raycast(heldObj.transform.position, Vector3.down, out hit, 1f))
+        {
+            // Place the item slightly above the floor
+            heldObj.transform.position = hit.point + Vector3.up * 0.4f;
+        }
+        else
+        {
+            // If no floor detected, slightly raise the item to prevent clipping
+            heldObj.transform.position += Vector3.up * 0.2f;
+        }
+
         Item item = heldObj.GetComponent<Item>();
         if (item != null)
         {
