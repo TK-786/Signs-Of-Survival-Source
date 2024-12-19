@@ -11,9 +11,7 @@ public class mainMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject playGameMenu;
     public GameObject difficultyMenu;
-    //public Slider volumeSlider;
-    //public Slider brightnessSlider;
-    //public Image brightnessOverlay;
+
     public GameObject gameTitle;
 
     //this creates a stack with menu history so when I call back function, I dont
@@ -31,14 +29,6 @@ public class mainMenu : MonoBehaviour
         difficultyMenu.SetActive(false);
         gameTitle.SetActive(true);
 
-        //volumeSlider.value = AudioListener.volume;
-        //volumeSlider.onValueChanged.AddListener(ChangeVolume);
-
-        //brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 2f);
-        //brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
-
-        //difficultySetting.value = PlayerPrefs.GetInt("Difficulty", 1);
-        //difficultySetting.onValueChanged.AddListener(ChangeDifficultyFunc);
     }
 
     private GameObject GetCurrentMenu()
@@ -88,26 +78,7 @@ public class mainMenu : MonoBehaviour
 
     }
 
-    //public void ChangeVolume(float v)
-    //{
-    //    AudioListener.volume = v;
-    //}
 
-    //public void ChangeBrightnessFunc(float b)
-    //{
-    //    PlayerPrefs.SetFloat("Brightness", b);
-    //    PlayerPrefs.Save();
-    //    Color color = brightnessOverlay.color;
-    //    color.a = 1 - b;
-    //    brightnessOverlay.color = color;
-
-
-    //}
-    //public void ChangeDifficultyFunc(int d)
-    //{
-    //    PlayerPrefs.SetInt("Difficulty", d);
-    //    PlayerPrefs.Save();
-    //}
 
     public void BackButton()
     {

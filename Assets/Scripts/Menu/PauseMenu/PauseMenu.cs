@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject settingsMenu;
     //private int savedGameInd;
     private bool gamePaused = false;
-    private Stack<GameObject> menuStackHistory = new Stack<GameObject>();
+    private Stack<GameObject> PauseMenuStackHistory = new Stack<GameObject>();
 
     void Start()
     {
@@ -28,6 +28,8 @@ public class PauseMenu : MonoBehaviour
         gamePaused = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        PauseMenuStackHistory.Clear();
+        PauseMenuStackHistory.Push(pauseMenu);
 
     }
     public void ResumeGame()
@@ -44,7 +46,11 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("pressing esc");
+        if (pauseMenu.activeSelf || settingsMenu.activeSelf)
+        {
+            return; 
+        }
+      
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("gamePaused: " + gamePaused);
@@ -62,23 +68,43 @@ public class PauseMenu : MonoBehaviour
     }
     public void OpenSettingsMenu()
     {
-        settingsMenu.SetActive(true);
-        pauseMenu.SetActive(false);
-        menuStackHistory.Push(pauseMenu);
+        if (GetCurrentPauseMenu() != null)
+            PauseMenuStackHistory.Push(GetCurrentPauseMenu());
+        {
+
+            settingsMenu.SetActive(true);
+            pauseMenu.SetActive(false);
 
 
+
+        }
+    }
+    private GameObject GetCurrentPauseMenu()
+    {
+        if (pauseMenu.activeSelf) return pauseMenu;
+        if (settingsMenu.activeSelf) return settingsMenu;
+        return null;
     }
 
     public void BackButton()
     {
 
-        if (menuStackHistory.Count > 0)
+        if (PauseMenuStackHistory.Count > 0)
         {
+            GameObject currMenu = GetCurrentPauseMenu();
+            if (currMenu != null)
+            {
+                currMenu.SetActive(false);
+            }
 
-            GameObject lastMenu = menuStackHistory.Pop();
+            GameObject lastMenu = PauseMenuStackHistory.Pop();
+            //GetCurrentPauseMenu().SetActive(false);
             lastMenu.SetActive(true);
-            settingsMenu.SetActive(false);
 
         }
-    } 
+        else
+        {
+            ResumeGame();
+        }
+    }
 }
