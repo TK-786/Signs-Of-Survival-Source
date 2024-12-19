@@ -48,12 +48,14 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.Log("gamePaused: " + gamePaused);
-            if (!gamePaused)
+            if (gamePaused)
+            {
+                ResumeGame();
+            }
+            else
             {
                 PauseGame();
             }
-         
-         
 
 
         }
