@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Signs-Of-Survival-Source.sln"
+    "dotnet.defaultSolution": "Signs_of_Survival.sln"
 }
