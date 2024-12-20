@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -26,6 +27,14 @@ public class PlayerController : MonoBehaviour
     public LayerMask collisionLayer;
     public Transform camaraLocation;
 
+    public PlayerInput playerInput; // Reference to PlayerControls component
+
+    private InputAction moveAction; // Movement action
+    private InputAction jumpAction; // Jump action
+    private InputAction sprintAction; // Sprint action
+    private InputAction lookAction; // Look (camera rotation) action
+    private InputAction crouchAction; // Crouch action
+
     public AudioSource footstepAudioSource;
 
     public PlayerStats playerStats; // Reference to PlayerStats component
@@ -35,6 +44,14 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         playerStats = GetComponent<PlayerStats>(); // Get PlayerStats component
         ConfigureCursor();
+
+        playerInput = GetComponent<PlayerInput>();
+        // Initialize input actions
+        moveAction = playerInput.actions["Move"];
+        jumpAction = playerInput.actions["Jump"];
+        sprintAction = playerInput.actions["Sprint"];
+        lookAction = playerInput.actions["Look"];
+        crouchAction = playerInput.actions["Crouch"];
     }
 
     void Update()
@@ -57,7 +74,8 @@ public class PlayerController : MonoBehaviour
 
     private void MovingSound()
     {
-        if (controller.height == standingHeight && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        if (controller.height == standingHeight && moveInput != Vector2.zero)
         {
             if (!footstepAudioSource.isPlaying)
             {
@@ -79,24 +97,22 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Handles player movement, including walking, sprinting, and jumping
-        Vector3 forwardMovement = transform.TransformDirection(Vector3.forward);
-        Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right);
+        Vector2 input = moveAction.ReadValue<Vector2>();
+        Vector3 forwardMovement = transform.TransformDirection(Vector3.forward) * input.y;
+        Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right) * input.x;
 
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        bool isSprinting = sprintAction.ReadValue<float>() > 0; // Detect sprint action
         float currentMovementSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
-        float movementForward = Input.GetAxis("Vertical") * currentMovementSpeed;
-        float movementSideways = Input.GetAxis("Horizontal") * currentMovementSpeed;
-
-        Vector3 movement = forwardMovement * movementForward + sidewaysMovement * movementSideways;
+        Vector3 movement = (forwardMovement + sidewaysMovement) * currentMovementSpeed;
 
         if (controller.isGrounded)
         {
             playerVelocity.y = 0;
-            if (Input.GetButton("Jump"))
+
+            if (jumpAction.triggered) // Detect jump action
             {
-                playerVelocity.y = jumpHeight;
+                playerVelocity.y = Mathf.Sqrt(jumpHeight * 2f * gravityForce);
             }
         }
         else
@@ -110,19 +126,24 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCameraRotation()
     {
-        // Manages the rotation of the player's camera based on mouse input
-        cameraVerticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -verticalLookLimit, verticalLookLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(cameraVerticalRotation, 0, 0);
+        // Get look input (mouse or joystick)
+        Vector2 lookInput = lookAction.ReadValue<Vector2>();
 
-        float cameraHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
-        transform.Rotate(0, cameraHorizontalRotation, 0);
+        // Vertical rotation (mouse Y / joystick Y-axis)
+        cameraVerticalRotation -= lookInput.y * mouseSensitivity;
+        cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -verticalLookLimit, verticalLookLimit);
+
+        // Horizontal rotation (mouse X / joystick X-axis)
+        transform.Rotate(Vector3.up * lookInput.x * mouseSensitivity);
+
+        // Apply vertical rotation to the camera
+        playerCamera.transform.localRotation = Quaternion.Euler(cameraVerticalRotation, 0, 0);
     }
 
     private void HandleCrouching()
     {
-        // Adjusts the player's height and movement speed for crouching
-        if (Input.GetKey(KeyCode.LeftControl))
+        // Detect crouch input and toggle crouch state
+        if (crouchAction.ReadValue<float>() > 0)
         {
             controller.height = crouchHeight;
             walkSpeed = crouchMovementSpeed;
