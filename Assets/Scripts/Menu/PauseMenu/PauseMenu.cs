@@ -29,7 +29,14 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Pause method triggered.");
         if (gamePaused)
         {
-            ResumeGame();
+            if (GetCurrentPauseMenu() != pauseMenu)
+            {
+                return;
+            }
+            else
+            {
+                ResumeGame();
+            }
         }
         else
         {
@@ -70,7 +77,6 @@ public class PauseMenu : MonoBehaviour
             Debug.LogError("pauseMenu is not assigned!");
             return;
         }
-
         pauseMenu.SetActive(false); // Hide the pause menu
         Time.timeScale = 1f;        // Resume all game logic
         gamePaused = false;
