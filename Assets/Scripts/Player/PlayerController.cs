@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public bool stealth = false;
     public bool isPaused = false;
 
+    public Animator animator;
 
     void Start()
     {
@@ -72,6 +73,8 @@ public class PlayerController : MonoBehaviour
             HandleCameraRotation();
             HandleCrouching();
             MovingSound();
+
+            HandleAnimations();
         }
     }
 
@@ -118,7 +121,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HandleAnimations()
+    {
+        Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        bool isMoving = moveInput != Vector2.zero;
 
+        animator.SetBool("IsMoving", isMoving);
+    }
 
     private void ConfigureCursor()
     {
