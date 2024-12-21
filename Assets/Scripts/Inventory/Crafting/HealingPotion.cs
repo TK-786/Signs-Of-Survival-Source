@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HealingPotion : MonoBehaviour
 {
     private PlayerController playerController;
     private Item item;
+
+    private InputAction useAction;
 
     void Start()
     {
@@ -17,9 +20,9 @@ public class HealingPotion : MonoBehaviour
 
     }
 
-    void Update()
+    public void OnUse(InputAction.CallbackContext context)
     {
-        if (item != null && item.isHeld && Input.GetMouseButtonDown(0))
+        if (item != null && item.isHeld)
         {
             playerController.playerStats.Heal();
 

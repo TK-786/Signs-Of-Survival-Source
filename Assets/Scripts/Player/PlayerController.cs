@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -26,24 +27,45 @@ public class PlayerController : MonoBehaviour
     public LayerMask collisionLayer;
     public Transform camaraLocation;
 
+    public PlayerInput playerInput;
+
+    private InputAction moveAction;
+    private InputAction jumpAction;
+    private InputAction sprintAction;
+    private InputAction lookAction;
+    private InputAction crouchAction;
+
     public AudioSource footstepAudioSource;
 
     public GameObject player;
 
     public PlayerStats playerStats;
     public bool stealth = false;
+    public bool isPaused = false;
+
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        playerStats = player.GetComponent<PlayerStats>(); // Get PlayerStats component
+        playerStats = player.GetComponent<PlayerStats>();
         ConfigureCursor();
 
+        playerInput = GetComponent<PlayerInput>();
+
+        moveAction = playerInput.actions["Move"];
+        jumpAction = playerInput.actions["Jump"];
+        sprintAction = playerInput.actions["Sprint"];
+        lookAction = playerInput.actions["Look"];
+        crouchAction = playerInput.actions["Crouch"];
     }
 
     void Update()
     {
-        // Handles player movement, camera rotation, and crouching if movement is allowed
+        if (isPaused)
+        {
+            return;
+        }
+
         if (isMovementAllowed)
         {
             HandleMovement();
@@ -63,18 +85,40 @@ public class PlayerController : MonoBehaviour
 
     private void MovingSound()
     {
-        if (controller.height == standingHeight && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
+        Vector2 input = moveAction.ReadValue<Vector2>();
+        bool isSprinting = sprintAction.ReadValue<float>() > 0;
+
+        if (controller.height == crouchHeight)
+        {
+            footstepAudioSource.Stop();
+            return;
+        }
+
+        if (isSprinting && input != Vector2.zero)
         {
             if (!footstepAudioSource.isPlaying)
             {
+                footstepAudioSource.pitch = 1.2f;
                 footstepAudioSource.Play();
             }
         }
+
+        else if (controller.height == standingHeight && input != Vector2.zero)
+        {
+            if (!footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.pitch = 1f;
+                footstepAudioSource.Play();
+            }
+        }
+
         else
         {
             footstepAudioSource.Stop();
         }
     }
+
+
 
     private void ConfigureCursor()
     {
@@ -85,24 +129,21 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        // Handles player movement, including walking, sprinting, and jumping
-        Vector3 forwardMovement = transform.TransformDirection(Vector3.forward);
-        Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right);
+        Vector2 input = moveAction.ReadValue<Vector2>();
+        Vector3 forwardMovement = transform.TransformDirection(Vector3.forward) * input.y;
+        Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right) * input.x;
 
-        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        bool isSprinting = sprintAction.ReadValue<float>() > 0; // Detect sprint action
         float currentMovementSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
-        float movementForward = Input.GetAxis("Vertical") * currentMovementSpeed;
-        float movementSideways = Input.GetAxis("Horizontal") * currentMovementSpeed;
-
-        Vector3 movement = forwardMovement * movementForward + sidewaysMovement * movementSideways;
+        Vector3 movement = (forwardMovement + sidewaysMovement) * currentMovementSpeed;
 
         if (controller.isGrounded)
         {
             playerVelocity.y = 0;
-            if (Input.GetButton("Jump"))
+            if (jumpAction.triggered)
             {
-                playerVelocity.y = jumpHeight;
+                playerVelocity.y = Mathf.Sqrt(jumpHeight * 2f * gravityForce);
             }
         }
         else
@@ -116,19 +157,21 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCameraRotation()
     {
-        // Manages the rotation of the player's camera based on mouse input
-        cameraVerticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -verticalLookLimit, verticalLookLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(cameraVerticalRotation, 0, 0);
+        Vector2 lookInput = lookAction.ReadValue<Vector2>();
 
-        float cameraHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
-        transform.Rotate(0, cameraHorizontalRotation, 0);
+        cameraVerticalRotation -= lookInput.y * mouseSensitivity;
+        cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -verticalLookLimit, verticalLookLimit);
+
+        transform.Rotate(Vector3.up * lookInput.x * mouseSensitivity);
+
+        playerCamera.transform.localRotation = Quaternion.Euler(cameraVerticalRotation, 0, 0);
     }
 
     private void HandleCrouching()
     {
-        // Adjusts the player's height and movement speed for crouching
-        if (Input.GetKey(KeyCode.LeftControl))
+        bool isCrouching = crouchAction.ReadValue<float>() > 0;
+
+        if (isCrouching)
         {
             controller.height = crouchHeight;
             walkSpeed = crouchMovementSpeed;
@@ -141,6 +184,7 @@ public class PlayerController : MonoBehaviour
             sprintSpeed = 12f;
         }
     }
+
 
     public void UpdatePosition(Vector3 newPosition)
     {
