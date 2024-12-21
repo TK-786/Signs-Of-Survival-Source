@@ -23,13 +23,16 @@ public class mainMenu : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true; // Make the cursor visible
+
         MainMenu.SetActive(true);
         settingsMenu.SetActive(false);
         playGameMenu.SetActive(false);
         difficultyMenu.SetActive(false);
         gameTitle.SetActive(true);
-
     }
+
 
     private GameObject GetCurrentMenu()
     {
@@ -82,15 +85,13 @@ public class mainMenu : MonoBehaviour
 
     public void BackButton()
     {
-
         if (menuStackHistory.Count > 0)
         {
-   
             GameObject lastMenu = menuStackHistory.Pop();
 
             GetCurrentMenu().SetActive(false);
             lastMenu.SetActive(true);
-            
+
             if (lastMenu == MainMenu)
             {
                 gameTitle.SetActive(true);
@@ -99,12 +100,15 @@ public class mainMenu : MonoBehaviour
             {
                 gameTitle.SetActive(false);
             }
-            
         }
         else
         {
             MainMenu.SetActive(true);
             gameTitle.SetActive(true);
         }
+
+        // Ensure the mouse is unlocked and visible when returning to menus
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

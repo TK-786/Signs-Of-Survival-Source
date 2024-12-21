@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PickUpScript : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class PickUpScript : MonoBehaviour
     public GameObject interactionCanvas;
     public TMP_Text interactionText;
 
+    private InputAction pickUpAction;
+    private InputAction throwAction;
+    private InputAction equipAction;
+    private InputAction storeAction;
+
+
     void Start()
     {
         holdLayer = LayerMask.NameToLayer("holdLayer");
@@ -27,9 +34,18 @@ public class PickUpScript : MonoBehaviour
         interactionCanvas.SetActive(false);
     }
 
-    void Update()
+
+    private void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        pickUpAction.Disable();
+        throwAction.Disable();
+        equipAction.Disable();
+        storeAction.Disable();
+    }
+
+    public void PickUp(InputAction.CallbackContext context)
+    {
+        if (context.performed)
         {
             if (heldObj == null)
             {
@@ -48,41 +64,39 @@ public class PickUpScript : MonoBehaviour
                 DropObject();
             }
         }
+    }
 
-        if (heldObj != null)
+    public void Throw(InputAction.CallbackContext context)
+    {
+        if (context.performed)
         {
-            MoveObject();
-
-            if (!isEquipped)
-            {
-                interactionCanvas.SetActive(true);
-                interactionText.text = "Press F to store in inventory";
-            }
-
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !isEquipped)
-            {
-                EquipObject();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (heldObj != null)
             {
                 StopClipping();
                 ThrowObject();
             }
+        }
+    }
 
-            if (Input.GetKeyDown(KeyCode.F))
+
+    public void Equip(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (heldObj != null && !isEquipped)
             {
-                Debug.Log("Pressed F to add to inventory.");
+                EquipObject();
+            }
+        }
+    }
 
+    public void StoreInInventory(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (heldObj != null)
+            {
                 Item item = heldObj.GetComponent<Item>();
-                if (item != null)
-                {
-                    Debug.Log("Item found: " + item.ItemName);
-                }
-                else
-                {
-                    Debug.LogError("Item component is null.");
-                }
                 if (item != null)
                 {
                     item.AddToInventory();
@@ -90,11 +104,8 @@ public class PickUpScript : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            interactionCanvas.SetActive(false);
-        }
     }
+
 
     public void PickUpObject(GameObject pickUpObj)
     {
