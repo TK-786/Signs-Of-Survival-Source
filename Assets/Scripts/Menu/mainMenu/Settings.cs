@@ -24,6 +24,9 @@ public class Settings : MonoBehaviour
     public float popOutAmount = 20f; 
     public float popOutSpeed = 5f;
 
+    private GameObject currentActiveButton;
+
+
     // Start is called before the first frame update
     //void Start()
     //{
@@ -55,7 +58,9 @@ public class Settings : MonoBehaviour
     {
         basicButtonOgPosition = basicButton.transform.localPosition;
         keyBindsButtonOgPosition = keyBindsButton.transform.localPosition;
-        
+
+        ShowBasicSettings();
+
     }
 
     public void ShowBasicSettings()
@@ -66,6 +71,8 @@ public class Settings : MonoBehaviour
         ButtonPopOut(basicButton);
         ResetButton(keyBindsButton);
 
+        currentActiveButton = basicButton;
+
 
     }
     public void ShowKeyBindsSettings()
@@ -75,22 +82,29 @@ public class Settings : MonoBehaviour
 
         ButtonPopOut(keyBindsButton);
         ResetButton(basicButton);
+
+        currentActiveButton = keyBindsButton;
     }
 
     private void ButtonPopOut(GameObject clickedButton)
     {
         if (clickedButton != null)
         {
-            clickedButton.transform.localPosition += new Vector3(popOutAmount, 0, 0);
+           
+            clickedButton.transform.localPosition = new Vector3(
+                clickedButton == basicButton ? basicButtonOgPosition.x - popOutAmount : keyBindsButtonOgPosition.x - popOutAmount,
+                clickedButton.transform.localPosition.y,
+                clickedButton.transform.localPosition.z
+            );
         }
 
     }
-    private void ResetButton(GameObject clickedButton)
+    private void ResetButton(GameObject resetButton) 
     {
-        if (clickedButton != null)
+        if (resetButton != null)
         {
-            Vector3 targetPosition = clickedButton == basicButton ? basicButtonOgPosition : keyBindsButtonOgPosition;
-            clickedButton.transform.localPosition = Vector3.Lerp(clickedButton.transform.localPosition, targetPosition, Time.deltaTime * popOutSpeed);
+            Vector3 targetPosition = resetButton == basicButton ? basicButtonOgPosition : keyBindsButtonOgPosition;
+            resetButton.transform.localPosition = targetPosition;
         }
     }
 
