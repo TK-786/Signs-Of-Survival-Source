@@ -63,7 +63,7 @@ public class Settings : MonoBehaviour
         basicSettings.SetActive(true);
         keyBindsSettings.SetActive(false);
 
-        buttonPopOut(basicButton);
+        ButtonPopOut(basicButton);
         ResetButton(keyBindsButton);
 
 
@@ -73,11 +73,11 @@ public class Settings : MonoBehaviour
         basicSettings.SetActive(false);
         keyBindsSettings.SetActive(true);
 
-        buttonPopOut(keyBindsButton);
+        ButtonPopOut(keyBindsButton);
         ResetButton(basicButton);
     }
 
-    private void buttonPopOut(GameObject clickedButton)
+    private void ButtonPopOut(GameObject clickedButton)
     {
         if (clickedButton != null)
         {
