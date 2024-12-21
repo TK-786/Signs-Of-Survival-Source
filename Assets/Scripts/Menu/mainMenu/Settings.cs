@@ -12,6 +12,8 @@ public class Settings : MonoBehaviour
     //public Slider brightnessSlider;
     //public Image brightnessOverlay;
 
+    [SerializeField] private string mainMenuCanvasName = "startMenu";
+
     public GameObject basicSettings;
     public GameObject keyBindsSettings;
 
@@ -23,6 +25,8 @@ public class Settings : MonoBehaviour
 
     public float popOutAmount = 20f; 
     public float popOutSpeed = 5f;
+
+    private Canvas mainMenuCanvas;
 
     private GameObject currentActiveButton;
 
@@ -59,6 +63,10 @@ public class Settings : MonoBehaviour
         basicButtonOgPosition = basicButton.transform.localPosition;
         keyBindsButtonOgPosition = keyBindsButton.transform.localPosition;
 
+        mainMenuCanvas = CanvasName(mainMenuCanvasName);
+
+       
+
         ShowBasicSettings();
 
     }
@@ -68,10 +76,18 @@ public class Settings : MonoBehaviour
         basicSettings.SetActive(true);
         keyBindsSettings.SetActive(false);
 
-        ButtonPopOut(basicButton);
-        ResetButton(keyBindsButton);
+        if (IsInMainMenuCanvas())
+        {
+            ButtonPopOutMain(basicButton);
 
-        currentActiveButton = basicButton;
+        }
+        else
+        {
+            ButtonPopOutPause(basicButton);
+        }
+
+        ResetButton(keyBindsButton);
+        //currentActiveButton = basicButton;
 
 
     }
@@ -79,25 +95,48 @@ public class Settings : MonoBehaviour
     {
         basicSettings.SetActive(false);
         keyBindsSettings.SetActive(true);
-
-        ButtonPopOut(keyBindsButton);
-        ResetButton(basicButton);
-
-        currentActiveButton = keyBindsButton;
-    }
-
-    private void ButtonPopOut(GameObject clickedButton)
-    {
-        if (clickedButton != null)
+        if (IsInMainMenuCanvas())
         {
-           
-            clickedButton.transform.localPosition = new Vector3(
-                clickedButton == basicButton ? basicButtonOgPosition.x - popOutAmount : keyBindsButtonOgPosition.x - popOutAmount,
-                clickedButton.transform.localPosition.y,
-                clickedButton.transform.localPosition.z
-            );
+            ButtonPopOutMain(keyBindsButton);
+
+        }
+        else
+        {
+            ButtonPopOutPause(keyBindsButton);
         }
 
+        ResetButton(basicButton);
+        //currentActiveButton = keyBindsButton;
+    }
+
+    private void ButtonPopOutPause(GameObject clickedButton)
+    {
+
+        if (clickedButton != null)
+        {
+
+            clickedButton.transform.localPosition = new Vector3(
+              clickedButton == basicButton ? basicButtonOgPosition.x - popOutAmount : keyBindsButtonOgPosition.x - popOutAmount,
+              clickedButton.transform.localPosition.y,
+              clickedButton.transform.localPosition.z
+          );
+        }
+
+
+    
+}
+    private void ButtonPopOutMain(GameObject clickedButton)
+    {
+
+        if (clickedButton != null && clickedButton.transform.localPosition.y != basicButtonOgPosition.y + popOutAmount)
+        {
+                clickedButton.transform.localPosition = new Vector3(
+                    clickedButton.transform.localPosition.x,
+                    clickedButton.transform.localPosition.y + popOutAmount,
+                    clickedButton.transform.localPosition.z
+                );
+           
+        }
     }
     private void ResetButton(GameObject resetButton) 
     {
@@ -108,4 +147,21 @@ public class Settings : MonoBehaviour
         }
     }
 
+    private bool IsInMainMenuCanvas()
+    {
+        return mainMenuCanvas != null && mainMenuCanvas.gameObject.activeSelf;
+    }
+
+    private Canvas CanvasName(string canvasName)
+    {
+        Canvas[] Canvases = Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None);
+        foreach (Canvas canvas in Canvases)
+        {
+            if (canvas.name == canvasName)
+            {
+                return canvas;
+            }
+        }
+        return null;
+    }
 }
