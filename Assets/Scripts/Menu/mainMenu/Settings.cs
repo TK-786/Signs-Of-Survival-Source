@@ -5,12 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor.Search;
+using UnityEngine.UIElements;
 
 public class Settings : MonoBehaviour
 {
     //public Slider volumeSlider;
     //public Slider brightnessSlider;
     //public Image brightnessOverlay;
+
+    public UnityEngine.UI.Slider sensitivitySlider;
+    public TextMeshProUGUI sensitivityText;
+
 
     [SerializeField] private string mainMenuCanvasName = "startMenu";
 
@@ -60,14 +65,44 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
+
+        float sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7);
+        sensitivitySlider.value = sensitivityValue;
+       
+        if (sensitivityText != null)
+        {
+            sensitivityText.text = $"{sensitivityValue}";
+        }
+        else
+        {
+            Debug.LogError("sensitivityText is not assigned in the Inspector!");
+        }
+
+        sensitivitySlider.onValueChanged.AddListener(ChangeSensitivity);
+        ChangeSensitivity(sensitivityValue);
+
         basicButtonOgPosition = basicButton.transform.localPosition;
         keyBindsButtonOgPosition = keyBindsButton.transform.localPosition;
 
         mainMenuCanvas = CanvasName(mainMenuCanvasName);
-
-       
-
         ShowBasicSettings();
+
+    }
+
+    public void ChangeSensitivity(float changedVal)
+    {
+
+        if (sensitivityText != null)
+        {
+            sensitivityText.text = $"{changedVal}";
+        }
+        else
+        {
+            Debug.LogError("sensitivityText is not assigned in the Inspector!");
+            return;
+            
+        }
+        PlayerPrefs.SetFloat("Sensitivity", changedVal);
 
     }
 
