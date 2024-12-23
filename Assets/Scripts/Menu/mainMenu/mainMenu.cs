@@ -23,8 +23,8 @@ public class mainMenu : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
-        Cursor.visible = true; // Make the cursor visible
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true; 
 
         MainMenu.SetActive(true);
         settingsMenu.SetActive(false);
