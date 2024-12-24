@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class mainMenu : MonoBehaviour
 {
@@ -11,6 +12,15 @@ public class mainMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject playGameMenu;
     public GameObject difficultyMenu;
+
+    //difficulty Menu buttons
+    public Button easyButton;
+    public Button mediumButton;
+    public Button hardButton;
+    public Button chaosButton;
+
+    //chaos Menu overlay
+    public GameObject chaosMenu;
 
     public GameObject gameTitle;
 
@@ -78,6 +88,21 @@ public class mainMenu : MonoBehaviour
         gameTitle.SetActive(false);
         //MainMenu is current menu shown, so push this into stack
         menuStackHistory.Push(MainMenu);
+
+    }
+
+
+    public void LoadChaosMenu()
+    {
+        LoadGame();
+        Time.timeScale = 0;
+        if (chaosMenu != null)
+        {
+            chaosMenu.SetActive(true);
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
 
     }
 

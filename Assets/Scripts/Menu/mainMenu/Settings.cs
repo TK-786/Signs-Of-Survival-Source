@@ -9,9 +9,9 @@ using UnityEngine.UIElements;
 
 public class Settings : MonoBehaviour
 {
-    //public Slider volumeSlider;
-    //public Slider brightnessSlider;
-    //public Image brightnessOverlay;
+    public UnityEngine.UI.Slider volumeSlider;
+    public UnityEngine.UI.Slider brightnessSlider;
+    public UnityEngine.UI.Image brightnessOverlay;
 
     public UnityEngine.UI.Slider sensitivitySlider;
     public TextMeshProUGUI sensitivityText;
@@ -31,6 +31,7 @@ public class Settings : MonoBehaviour
     public float popOutAmount = 20f; 
     public float popOutSpeed = 5f;
 
+
     private Canvas mainMenuCanvas;
 
     private GameObject currentActiveButton;
@@ -47,36 +48,41 @@ public class Settings : MonoBehaviour
 
     //}
 
-    //public void ChangeVolume(float v)
-    //{
-    //    AudioListener.volume = v;
-    //}
 
-    //public void ChangeBrightnessFunc(float b)
-    //{
-    //    PlayerPrefs.SetFloat("Brightness", b);
-    //    PlayerPrefs.Save();
-    //    Color color = brightnessOverlay.color;
-    //    color.a = 1 - b;
-    //    brightnessOverlay.color = color;
-
-
-    //}
 
     private void Start()
     {
+        //volumeSlider.value = AudioListener.volume;
+        //volumeSlider.onValueChanged.AddListener(ChangeVolume);
+
+
+        //this is for the brightness settings. maybe import this to scene script too
+        if (brightnessOverlay != null)
+        {
+            Color color = brightnessOverlay.color;
+            color.a = 0; // Set to 0 transparency
+            brightnessOverlay.color = color;
+        }
+        brightnessSlider.value = 0;
+        PlayerPrefs.SetFloat("Brightness", 0); 
+        PlayerPrefs.Save();
+
+
+
+
+        float savedVolume = PlayerPrefs.GetFloat("Volume", 1f); 
+        volumeSlider.value = savedVolume;
+        AudioListener.volume = savedVolume;
+        volumeSlider.onValueChanged.AddListener(ChangeVolume);
+
 
         float sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7);
         sensitivitySlider.value = sensitivityValue;
-       
         if (sensitivityText != null)
         {
             sensitivityText.text = $"{sensitivityValue}";
         }
-        else
-        {
-            Debug.LogError("sensitivityText is not assigned in the Inspector!");
-        }
+      
 
         sensitivitySlider.onValueChanged.AddListener(ChangeSensitivity);
         ChangeSensitivity(sensitivityValue);
@@ -86,6 +92,30 @@ public class Settings : MonoBehaviour
 
         mainMenuCanvas = CanvasName(mainMenuCanvasName);
         ShowBasicSettings();
+
+    }
+
+    public void ChangeVolume(float v)
+    {
+        AudioListener.volume = v;
+        PlayerPrefs.SetFloat("Volume", v);
+        PlayerPrefs.Save();
+    }
+
+    public void ChangeBrightnessFunc(float b)
+    {
+        PlayerPrefs.SetFloat("Brightness", b);
+        PlayerPrefs.Save();
+        if (brightnessOverlay != null)
+        {
+            Color color = brightnessOverlay.color;
+            //color.a = 1 - b;
+            //color.a = Mathf.Clamp(1 - b, 0, 0.7f);
+            color.a = Mathf.Lerp(0, 0.7f, b);
+            brightnessOverlay.color = color;
+        }
+
+
 
     }
 
@@ -118,6 +148,7 @@ public class Settings : MonoBehaviour
         }
         else
         {
+            Debug.Log("here in basic");
             ButtonPopOutPause(basicButton);
         }
 
@@ -155,6 +186,8 @@ public class Settings : MonoBehaviour
               clickedButton.transform.localPosition.y,
               clickedButton.transform.localPosition.z
           );
+            Debug.Log($"Original Position: {clickedButton.transform.localPosition}, Target Position: {clickedButton.transform.localPosition}");
+            clickedButton.transform.localPosition = clickedButton.transform.localPosition;
         }
 
 
