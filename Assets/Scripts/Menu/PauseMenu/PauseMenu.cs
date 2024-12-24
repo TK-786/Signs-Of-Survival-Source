@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu; // Assign your Pause Menu GameObject
+    public GameObject pauseMenu; 
     public GameObject settingsMenu;
 
     private bool gamePaused = false;
@@ -77,11 +77,11 @@ public class PauseMenu : MonoBehaviour
             Debug.LogError("pauseMenu is not assigned!");
             return;
         }
-        pauseMenu.SetActive(false); // Hide the pause menu
-        Time.timeScale = 1f;        // Resume all game logic
+        pauseMenu.SetActive(false); 
+        Time.timeScale = 1f;        
         gamePaused = false;
 
-        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+        Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
 
         // Enable player input

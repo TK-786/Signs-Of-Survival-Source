@@ -10,11 +10,17 @@ using UnityEngine.UIElements;
 public class Settings : MonoBehaviour
 {
     public UnityEngine.UI.Slider volumeSlider;
+
     public UnityEngine.UI.Slider brightnessSlider;
     public UnityEngine.UI.Image brightnessOverlay;
 
     public UnityEngine.UI.Slider sensitivitySlider;
     public TextMeshProUGUI sensitivityText;
+
+    public UnityEngine.UI.Slider resolutionSlider;
+
+    public UnityEngine.UI.Toggle visualSoundEffects;
+
 
 
     [SerializeField] private string mainMenuCanvasName = "startMenu";
@@ -37,63 +43,60 @@ public class Settings : MonoBehaviour
     private GameObject currentActiveButton;
 
 
-    // Start is called before the first frame update
-    //void Start()
-    //{
-    //    volumeSlider.value = AudioListener.volume;
-    //    volumeSlider.onValueChanged.AddListener(ChangeVolume);
-
-    //    brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 2f);
-    //    brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
-
-    //}
-
 
 
     private void Start()
     {
-        //volumeSlider.value = AudioListener.volume;
-        //volumeSlider.onValueChanged.AddListener(ChangeVolume);
-
-
-        //this is for the brightness settings. maybe import this to scene script too
-        if (brightnessOverlay != null)
-        {
-            Color color = brightnessOverlay.color;
-            color.a = 0; // Set to 0 transparency
-            brightnessOverlay.color = color;
-        }
-        brightnessSlider.value = 0;
-        PlayerPrefs.SetFloat("Brightness", 0); 
-        PlayerPrefs.Save();
 
 
 
 
+        //this sets the volume settings
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f); 
         volumeSlider.value = savedVolume;
         AudioListener.volume = savedVolume;
         volumeSlider.onValueChanged.AddListener(ChangeVolume);
 
+        //this sets the brightness settings
+        float savedBrightness = PlayerPrefs.GetFloat("Brightness", 0f); 
+        brightnessSlider.value = savedBrightness;
+        SetBrightness(savedBrightness); 
+        brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
 
+        //this sets the sensitivity settings
         float sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7);
         sensitivitySlider.value = sensitivityValue;
         if (sensitivityText != null)
         {
             sensitivityText.text = $"{sensitivityValue}";
         }
-      
-
         sensitivitySlider.onValueChanged.AddListener(ChangeSensitivity);
         ChangeSensitivity(sensitivityValue);
+
+        //this is for resolutions settings
+        float savedResolution = PlayerPrefs.GetFloat("Resolution", 0f);
+        resolutionSlider.value = savedResolution;
+        SetResolution(savedResolution);
+        //brightnessSlider.onValueChanged.AddListener(ChangeResolution);
+
+        //this is for resolutions settings
+        int savedVisualSoundEffects = PlayerPrefs.GetInt("VisualSoundEffects", 0);
+        visualSoundEffects.isOn = (savedVisualSoundEffects == 1);
+        SetVisualSoundEffects(visualSoundEffects.isOn);
+        visualSoundEffects.onValueChanged.AddListener(ChangeVisualSoundEffects);
+
+
 
         basicButtonOgPosition = basicButton.transform.localPosition;
         keyBindsButtonOgPosition = keyBindsButton.transform.localPosition;
 
         mainMenuCanvas = CanvasName(mainMenuCanvasName);
+        //pauseMenuCanvas = CanvasName(pauseMenuCanvasName);
         ShowBasicSettings();
 
     }
+
+
 
     public void ChangeVolume(float v)
     {
@@ -102,22 +105,24 @@ public class Settings : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+
     public void ChangeBrightnessFunc(float b)
     {
+        SetBrightness(b);
         PlayerPrefs.SetFloat("Brightness", b);
         PlayerPrefs.Save();
+        
+    }
+    public void SetBrightness(float b)
+    {
         if (brightnessOverlay != null)
         {
             Color color = brightnessOverlay.color;
-            //color.a = 1 - b;
-            //color.a = Mathf.Clamp(1 - b, 0, 0.7f);
             color.a = Mathf.Lerp(0, 0.7f, b);
             brightnessOverlay.color = color;
         }
-
-
-
     }
+
 
     public void ChangeSensitivity(float changedVal)
     {
@@ -126,15 +131,63 @@ public class Settings : MonoBehaviour
         {
             sensitivityText.text = $"{changedVal}";
         }
-        else
-        {
-            Debug.LogError("sensitivityText is not assigned in the Inspector!");
-            return;
-            
-        }
         PlayerPrefs.SetFloat("Sensitivity", changedVal);
+        PlayerPrefs.Save();
 
     }
+
+
+    public void ChangeResolution(float r)
+    {
+        SetResolution(r);
+        PlayerPrefs.SetFloat("Resolution", r);
+        PlayerPrefs.Save();
+
+    }
+    private void SetResolution(float r)
+    {
+        //default resolution values
+        int w = 1921;
+        int h = 1080;
+
+        if (r < 0.33f)
+        {
+            w = 1280;
+            h = 720;
+        }
+        else if(r > 0.33f & r < 0.66f)
+        {
+            w = 1600;
+            h = 900;
+        }
+        Screen.SetResolution(w, h, FullScreenMode.Windowed);
+    }
+
+    public void ChangeVisualSoundEffects(bool ticked)
+    {
+        PlayerPrefs.SetInt("VisualSoundEffects", ticked ? 1 : 0);
+        PlayerPrefs.Save();
+        SetVisualSoundEffects(ticked);
+    }
+    public void SetVisualSoundEffects(bool ticked)
+    {
+        if (ticked)
+        {
+            Debug.Log("Visual sound effects enabled.");
+
+            //visual sound effects is enabled
+        }
+        else
+        {
+            Debug.Log("Visual sound effects disabled.");
+
+            //visual sound effects disabled
+        }
+
+    }
+
+
+
 
     public void ShowBasicSettings()
     {
@@ -232,4 +285,56 @@ public class Settings : MonoBehaviour
         }
         return null;
     }
+
+
+
+
+
+
+
+
+
+
+    //this is now for starting a new game, in which you would want settings to be reset.
+
+    public void StartGameWithResetSettings()
+    {
+        resetBrightness();
+        resetVolume();
+        resetSensitivity();
+
+    }
+
+
+
+    public void resetBrightness()
+    {
+        //this is for the brightness settings. maybe import this to scene script too
+        if (brightnessOverlay != null)
+        {
+            Color color = brightnessOverlay.color;
+            color.a = 0; // Set to 0 transparency
+            brightnessOverlay.color = color;
+        }
+        brightnessSlider.value = 0;
+        PlayerPrefs.SetFloat("Brightness", 0);
+        PlayerPrefs.Save();
+    }
+
+    public void resetVolume()
+    {
+        AudioListener.volume = 1f;
+        PlayerPrefs.SetFloat("Volume", 1f);
+        PlayerPrefs.Save();
+
+    }
+    public void resetSensitivity()
+    {
+        sensitivitySlider.value = 7f;
+        PlayerPrefs.SetFloat("Sensitivity", 7f);
+        PlayerPrefs.Save();
+
+    }
+
+
 }
