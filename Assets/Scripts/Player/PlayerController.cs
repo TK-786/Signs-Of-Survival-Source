@@ -24,16 +24,21 @@ public class PlayerController : MonoBehaviour
     public float cameraDistance = 0.5f;
     public float cameraMinDistance = 0.1f;
     public LayerMask collisionLayer;
+    public Transform camaraLocation;
 
     public AudioSource footstepAudioSource;
 
-    public PlayerStats playerStats; // Reference to PlayerStats component
+    public GameObject player;
+
+    public PlayerStats playerStats;
+    public bool stealth = false;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        playerStats = GetComponent<PlayerStats>(); // Get PlayerStats component
+        playerStats = player.GetComponent<PlayerStats>(); // Get PlayerStats component
         ConfigureCursor();
+
     }
 
     void Update()
@@ -51,12 +56,14 @@ public class PlayerController : MonoBehaviour
     // Example of taking damage (you can trigger this method on certain events)
     public void SimulateDamage(float damage)
     {
+        Debug.Log("player will take demage");
         playerStats.TakeDamage(damage);
     }
 
-    private void MovingSound() 
+
+    private void MovingSound()
     {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        if (controller.height == standingHeight && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
         {
             if (!footstepAudioSource.isPlaying)
             {
@@ -164,7 +171,45 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y = 0;
 
         // Adjusts the camera position based on the new player position
-        Vector3 cameraOffset = transform.forward * 0.82f;
-        playerCamera.transform.position = newPosition + cameraOffset + playerCamera.transform.localPosition;
+        Vector3 cameraOffset = transform.forward;
+        playerCamera.transform.position = newPosition + camaraLocation.position;
     }
+
+    public IEnumerator BoostPlayerStats()
+    {
+        float originalWalkSpeed = walkSpeed;
+        float originalSprintSpeed = sprintSpeed;
+        float originalJumpHeight = jumpHeight;
+
+        walkSpeed *= 2;
+        sprintSpeed *= 2;
+        jumpHeight *= 1.5f;
+
+        yield return new WaitForSeconds(30);
+
+        walkSpeed = originalWalkSpeed;
+        sprintSpeed = originalSprintSpeed;
+        jumpHeight = originalJumpHeight;
+    }
+
+    public IEnumerator SilencePlayer()
+    {
+        bool wasFootstepAudioPlaying = footstepAudioSource.isPlaying;
+        stealth = true;
+
+        footstepAudioSource.mute = true;
+
+        if (wasFootstepAudioPlaying)
+        {
+            footstepAudioSource.Stop();
+        }
+
+        yield return new WaitForSeconds(30f);
+
+        footstepAudioSource.mute = false;
+
+        stealth = false;
+    }
+
+
 }

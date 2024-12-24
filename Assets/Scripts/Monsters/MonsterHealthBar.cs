@@ -6,7 +6,7 @@ public class MonsterHealthBar : MonoBehaviour
     [Header("References")]
     public GameObject monster;
     public Slider healthBarSlider;
-    public Vector3 offset = new Vector3(0, 2, 0); // Position offset to raise the health bar above the monster
+    public Vector3 offset = new Vector3(0, 1, 0); // Position offset to raise the health bar above the monster
 
     private void Update()
     {

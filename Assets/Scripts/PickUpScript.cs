@@ -52,8 +52,12 @@ public class PickUpScript : MonoBehaviour
         if (heldObj != null)
         {
             MoveObject();
-            interactionCanvas.SetActive(true);
-            interactionText.text = "Press F to store in inventory";
+
+            if (!isEquipped)
+            {
+                interactionCanvas.SetActive(true);
+                interactionText.text = "Press F to store in inventory";
+            }
 
             if (Input.GetKeyDown(KeyCode.Mouse0) && !isEquipped)
             {
@@ -126,7 +130,19 @@ public class PickUpScript : MonoBehaviour
         MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
         if (meshCollider != null)
         {
-            meshCollider.isTrigger = true;
+            meshCollider.isTrigger = false;
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(heldObj.transform.position, Vector3.down, out hit, 1f))
+        {
+            // Place the item slightly above the floor
+            heldObj.transform.position = hit.point + Vector3.up * 0.4f;
+        }
+        else
+        {
+            // If no floor detected, slightly raise the item to prevent clipping
+            heldObj.transform.position += Vector3.up * 0.2f;
         }
 
         Item item = heldObj.GetComponent<Item>();
@@ -141,7 +157,8 @@ public class PickUpScript : MonoBehaviour
 
     void MoveObject()
     {
-        heldObj.transform.position = holdPos.transform.position;
+        if (!isEquipped)
+            {heldObj.transform.position = holdPos.transform.position;}
     }
 
     void ThrowObject()
@@ -171,13 +188,12 @@ public class PickUpScript : MonoBehaviour
 
     void EquipObject()
     {
+        interactionCanvas.SetActive(false);
         if (heldObj != null)
         {
-            heldObj.transform.parent.position = rightHandPos.position;
-
+            heldObj.transform.SetParent(rightHandPos);
             heldObj.transform.localPosition = Vector3.zero;
             heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
-            heldObj.layer = defaultLayer;
 
             MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
             if (meshCollider != null)
@@ -223,4 +239,5 @@ public class PickUpScript : MonoBehaviour
             SetLayerRecursive(child.gameObject, layer);
         }
     }
+    public GameObject getHeldObj => heldObj;
 }
