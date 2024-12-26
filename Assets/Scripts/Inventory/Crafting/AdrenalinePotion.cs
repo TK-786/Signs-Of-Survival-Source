@@ -32,7 +32,6 @@ public class AdrenalinePotion : MonoBehaviour
     {
         if (item != null && item.isHeld)
         {
-            Debug.Log("Using Adrenaline Potion...");
             playerController.StartCoroutine(playerController.BoostPlayerStats());
             Destroy(gameObject);
         }
