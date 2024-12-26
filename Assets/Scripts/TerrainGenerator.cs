@@ -62,23 +62,20 @@ public class TerrainGenerator : MonoBehaviour
                 float xCoord = (float)x / resolution;
                 float zCoord = (float)z / resolution;
 
-                // Generate base terrain (flatlands)
-                float baseHeight = Mathf.PerlinNoise(xCoord / baseNoiseScale + seed, zCoord / baseNoiseScale + seed);
+                // Generate base terrain (flatlands) with higher noise scale for smoother terrain
+                float baseHeight = Mathf.PerlinNoise((xCoord / baseNoiseScale) + seed, (zCoord / baseNoiseScale) + seed);
 
-                // Generate mountain terrain
-                float mountainHeight = Mathf.PerlinNoise(xCoord / mountainNoiseScale + seed * 2, zCoord / mountainNoiseScale + seed * 2);
+                // Generate mountain terrain with less contrast
+                float mountainHeight = Mathf.PerlinNoise((xCoord / mountainNoiseScale) + seed * 2, (zCoord / mountainNoiseScale) + seed * 2);
 
-                // Blend flatlands and mountains
-                if (mountainHeight > mountainThreshold)
-                {
-                    // Add mountain peaks
-                    heightMap[x, z] = Mathf.Lerp(baseHeight, mountainHeight, mountainHeight - mountainThreshold) * heightMultiplier;
-                }
-                else
-                {
-                    // Flatlands
-                    heightMap[x, z] = baseHeight * heightMultiplier * 0.5f; // Reduce height for flatlands
-                }
+                // Avoid extreme dips by blending flatlands and mountains more gradually
+                float blendedHeight = Mathf.Lerp(baseHeight, mountainHeight, Mathf.Clamp01(mountainHeight - mountainThreshold));
+
+                // Ensure no extreme dips by clamping the height value
+                blendedHeight = Mathf.Clamp(blendedHeight, 0.2f, 1.0f);
+
+                // Apply height multiplier
+                heightMap[x, z] = blendedHeight * heightMultiplier;
             }
         }
 
