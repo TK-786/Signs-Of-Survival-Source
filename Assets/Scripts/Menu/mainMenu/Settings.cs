@@ -131,6 +131,7 @@ public class Settings : MonoBehaviour
         {
             player.mouseSensitivity = sensitivityValue;
         }
+        PlayerPrefs.SetFloat("Sensitivity", sensitivityValue);
     }
 
     public void DecreaseSensitivity()
@@ -142,6 +143,7 @@ public class Settings : MonoBehaviour
         {
             player.mouseSensitivity = sensitivityValue;
         }
+        PlayerPrefs.SetFloat("Sensitivity", sensitivityValue);
     }
 
     private void UpdateSensitivityText()
