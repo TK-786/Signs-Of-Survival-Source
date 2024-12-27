@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor.Search;
-using UnityEngine.UIElements;
 
 public class Settings : MonoBehaviour
 {
@@ -14,7 +12,8 @@ public class Settings : MonoBehaviour
     public UnityEngine.UI.Slider brightnessSlider;
     public UnityEngine.UI.Image brightnessOverlay;
 
-    public UnityEngine.UI.Slider sensitivitySlider;
+    private float sensitivityValue;
+
     public TextMeshProUGUI sensitivityText;
 
     public UnityEngine.UI.Slider resolutionSlider;
@@ -42,15 +41,13 @@ public class Settings : MonoBehaviour
 
     private GameObject currentActiveButton;
 
-
-
+    private PlayerController player;
+    [SerializeField] private GameObject playerObj;
 
     private void Start()
     {
-
-
-
-
+        
+        // sensitivitySlider.minValue = 0.1f;
         //this sets the volume settings
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f); 
         volumeSlider.value = savedVolume;
@@ -64,14 +61,11 @@ public class Settings : MonoBehaviour
         brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
 
         //this sets the sensitivity settings
-        float sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7);
-        sensitivitySlider.value = sensitivityValue;
+        sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7f);
         if (sensitivityText != null)
         {
             sensitivityText.text = $"{sensitivityValue}";
         }
-        sensitivitySlider.onValueChanged.AddListener(ChangeSensitivity);
-        ChangeSensitivity(sensitivityValue);
 
         //this is for resolutions settings
         float savedResolution = PlayerPrefs.GetFloat("Resolution", 0f);
@@ -93,6 +87,10 @@ public class Settings : MonoBehaviour
         mainMenuCanvas = CanvasName(mainMenuCanvasName);
         //pauseMenuCanvas = CanvasName(pauseMenuCanvasName);
         ShowBasicSettings();
+
+        if (playerObj != null){
+            player = playerObj.GetComponent<PlayerController>();
+        }
 
     }
 
@@ -124,16 +122,31 @@ public class Settings : MonoBehaviour
     }
 
 
-    public void ChangeSensitivity(float changedVal)
+    public void IncreaseSensitivity()
     {
-
-        if (sensitivityText != null)
+        sensitivityValue += 0.1f;  
+        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f);  
+        UpdateSensitivityText();
+        if (player != null)
         {
-            sensitivityText.text = $"{changedVal}";
+            player.mouseSensitivity = sensitivityValue;
         }
-        PlayerPrefs.SetFloat("Sensitivity", changedVal);
-        PlayerPrefs.Save();
+    }
 
+    public void DecreaseSensitivity()
+    {
+        sensitivityValue -= 0.1f;  // Decrease by 0.1
+        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f); 
+        UpdateSensitivityText();
+        if (player != null)
+        {
+            player.mouseSensitivity = sensitivityValue;
+        }
+    }
+
+    private void UpdateSensitivityText()
+    {
+        sensitivityText.text = $"{sensitivityValue:F2}";
     }
 
 
@@ -330,11 +343,14 @@ public class Settings : MonoBehaviour
     }
     public void resetSensitivity()
     {
-        sensitivitySlider.value = 7f;
-        PlayerPrefs.SetFloat("Sensitivity", 7f);
+        sensitivityValue = 7f;
+        PlayerPrefs.SetFloat("Sensitivity", sensitivityValue);
         PlayerPrefs.Save();
 
+        // Update UI
+        if (player != null)
+        {
+            player.mouseSensitivity = sensitivityValue;
+        }
     }
-
-
 }

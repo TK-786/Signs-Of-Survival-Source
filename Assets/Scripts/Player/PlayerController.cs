@@ -58,6 +58,11 @@ public class PlayerController : MonoBehaviour
         sprintAction = playerInput.actions["Sprint"];
         lookAction = playerInput.actions["Look"];
         crouchAction = playerInput.actions["Crouch"];
+        
+        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity");
+        if (mouseSensitivity == 0.0f){
+            mouseSensitivity = 1f;
+        }
     }
 
     void Update()
