@@ -61,7 +61,7 @@ public class Settings : MonoBehaviour
         brightnessSlider.onValueChanged.AddListener(ChangeBrightnessFunc);
 
         //this sets the sensitivity settings
-        sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 7f);
+        sensitivityValue = PlayerPrefs.GetFloat("Sensitivity", 1f);
         if (sensitivityText != null)
         {
             sensitivityText.text = $"{sensitivityValue}";
@@ -343,7 +343,7 @@ public class Settings : MonoBehaviour
     }
     public void resetSensitivity()
     {
-        sensitivityValue = 7f;
+        sensitivityValue = 1f;
         PlayerPrefs.SetFloat("Sensitivity", sensitivityValue);
         PlayerPrefs.Save();
 
