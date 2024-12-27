@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -17,11 +18,13 @@ public class InventoryManager : MonoBehaviour
     private CraftingManager craftingManager;
     public CraftingManager CraftingManager => craftingManager;
 
+    private InputAction openInventoryAction;
+    private InputAction craftingModeAction;
+
     public float raycastDistance = 5f;
 
     public bool craftmode = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         menuOpen = false;
@@ -29,43 +32,30 @@ public class InventoryManager : MonoBehaviour
         pickUpScript = Camera.main.GetComponent<PickUpScript>();
 
         craftingManager = CraftingPanel.GetComponent<CraftingManager>();
-            
+
         DescriptionPanel.SetActive(true);
         CraftingPanel.SetActive(false);
+
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        openInventoryAction = playerInput.actions["OpenInventory"];
+        craftingModeAction = playerInput.actions["CraftingMode"];
+
+        openInventoryAction.Enable();
+        craftingModeAction.Enable();
+
+        openInventoryAction.performed += ToggleInventoryMenu;
+        craftingModeAction.performed += ToggleCraftingModeInput;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        // Raycasting to detect crafting table
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, raycastDistance))
-            {
-                if (hit.collider.gameObject.name == "CraftingStation")
-                {
-                    craftmode = true;
-                    ToggleCraftingMode();
-                    Menu.SetActive(!menuOpen);
-                    menuOpen = !menuOpen;
-                    Cursor.visible = menuOpen;
-                    Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
-                }
-            }
-        }
-        if (Input.GetButtonDown("Inventory"))
-        {
-            craftmode = false;
-            ToggleCraftingMode();
-            Menu.SetActive(!menuOpen);
-            menuOpen = !menuOpen;
-            Cursor.visible = menuOpen;
-            Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
-        }
+        openInventoryAction.Disable();
+        craftingModeAction.Disable();
     }
 
-    public bool GetMode() {
+    public bool GetMode()
+    {
         return craftmode;
     }
 
@@ -74,9 +64,40 @@ public class InventoryManager : MonoBehaviour
         return craftingSlots;
     }
 
+    public void ToggleInventoryMenu(InputAction.CallbackContext context)
+    {
+        craftmode = false;
+        ToggleCraftingMode();
+        Menu.SetActive(!menuOpen);
+        menuOpen = !menuOpen;
+        Cursor.visible = menuOpen;
+        Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
+
+        Debug.Log(menuOpen ? "Inventory opened." : "Inventory closed.");
+    }
+
+    public void ToggleCraftingModeInput(InputAction.CallbackContext context)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, raycastDistance))
+        {
+            if (hit.collider.gameObject.name == "CraftingStation")
+            {
+                craftmode = true;
+                ToggleCraftingMode();
+                Menu.SetActive(!menuOpen);
+                menuOpen = !menuOpen;
+                Cursor.visible = menuOpen;
+                Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
+
+                Debug.Log("Crafting mode toggled.");
+            }
+        }
+    }
+
     void ToggleCraftingMode()
     {
-        if (craftmode == true)
+        if (craftmode)
         {
             DescriptionPanel.SetActive(false);
             CraftingPanel.SetActive(true);
@@ -104,6 +125,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+
 
     public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item)
     {
