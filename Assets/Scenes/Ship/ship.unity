@@ -8968,8 +8968,8 @@ MonoBehaviour:
   playerCamera: {fileID: 1798078166}
   walkSpeed: 5
   sprintSpeed: 15
-  jumpHeight: 10
-  gravityForce: 25
+  jumpHeight: 1.75
+  gravityForce: 9.8
   mouseSensitivity: 1
   verticalLookLimit: 90
   standingHeight: 2
@@ -26210,7 +26210,6 @@ MonoBehaviour:
   volumeSlider: {fileID: 1626143502}
   brightnessSlider: {fileID: 313402814}
   brightnessOverlay: {fileID: 0}
-  sensitivitySlider: {fileID: 2111781211}
   sensitivityText: {fileID: 137328054}
   resolutionSlider: {fileID: 1687331170}
   visualSoundEffects: {fileID: 559322369}
@@ -26221,6 +26220,7 @@ MonoBehaviour:
   keyBindsButton: {fileID: 765434597}
   popOutAmount: 20
   popOutSpeed: 5
+  playerObj: {fileID: 0}
 --- !u!114 &447118135
 MonoBehaviour:
   m_ObjectHideFlags: 0

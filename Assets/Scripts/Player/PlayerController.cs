@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     public Camera playerCamera;
     public float walkSpeed = 5f;
     public float sprintSpeed = 10f;
-    public float jumpHeight = 10f;
-    public float gravityForce = 25f;
+    public float jumpHeight = 3f;
+    public float gravityForce = 9.8f;
     public float mouseSensitivity = 1f;
     public float verticalLookLimit = 45f;
     public float standingHeight = 2f;
@@ -147,27 +147,30 @@ public class PlayerController : MonoBehaviour
         Vector3 forwardMovement = transform.TransformDirection(Vector3.forward) * input.y;
         Vector3 sidewaysMovement = transform.TransformDirection(Vector3.right) * input.x;
 
-        bool isSprinting = sprintAction.ReadValue<float>() > 0; // Detect sprint action
+        bool isSprinting = sprintAction.ReadValue<float>() > 0;
         float currentMovementSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
         Vector3 movement = (forwardMovement + sidewaysMovement) * currentMovementSpeed;
 
         if (controller.isGrounded)
         {
-            playerVelocity.y = 0;
+            if (playerVelocity.y < 0)
+            {
+                playerVelocity.y = -2f;
+            }
+
             if (jumpAction.triggered)
             {
-                playerVelocity.y = Mathf.Sqrt(jumpHeight * 2f * gravityForce);
+                playerVelocity.y = Mathf.Sqrt(2f * -Physics.gravity.y * jumpHeight);
             }
         }
-        else
-        {
-            playerVelocity.y -= gravityForce * Time.deltaTime;
-        }
+
+        playerVelocity.y += Physics.gravity.y * Time.deltaTime;
 
         Vector3 finalMovement = movement + Vector3.up * playerVelocity.y;
         controller.Move(finalMovement * Time.deltaTime);
     }
+
 
     private void HandleCameraRotation()
     {
