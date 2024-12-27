@@ -46,7 +46,6 @@ public class Settings : MonoBehaviour
 
     private void Start()
     {
-        
         // sensitivitySlider.minValue = 0.1f;
         //this sets the volume settings
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f); 
@@ -125,8 +124,12 @@ public class Settings : MonoBehaviour
     public void IncreaseSensitivity()
     {
         sensitivityValue += 0.1f;  
-        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f);  
+        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f);
+
+        sensitivityValue = (float)System.Math.Round(sensitivityValue, 1);
+
         UpdateSensitivityText();
+
         if (player != null)
         {
             player.mouseSensitivity = sensitivityValue;
@@ -137,7 +140,10 @@ public class Settings : MonoBehaviour
     public void DecreaseSensitivity()
     {
         sensitivityValue -= 0.1f;  // Decrease by 0.1
-        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f); 
+        sensitivityValue = Mathf.Clamp(sensitivityValue, 0.1f, 10f);
+
+        sensitivityValue = (float)System.Math.Round(sensitivityValue, 1);
+
         UpdateSensitivityText();
         if (player != null)
         {
@@ -148,7 +154,7 @@ public class Settings : MonoBehaviour
 
     private void UpdateSensitivityText()
     {
-        sensitivityText.text = $"{sensitivityValue:F2}";
+        sensitivityText.text = $"{sensitivityValue:F1}";
     }
 
 
