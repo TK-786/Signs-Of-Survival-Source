@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,8 +6,6 @@ public class BlindMonsterAI : MonoBehaviour
     public float hearingRadius = 19.5f;
     public float defaultSoundRadius = 50f;
     public NavMeshAgent navMeshAgent;
-    public float damageAmount = 20f;
-    public float knockbackForce = 70f;
     public LayerMask groundLayer;
 
     public AudioClip defaultSound;
@@ -20,15 +17,15 @@ public class BlindMonsterAI : MonoBehaviour
 
     private bool isChasing = false;
 
-    public Camera mainCamera;
+    public Camera mainCamera;         // Used for AI logic if necessary
     public GameObject player;
     private PlayerController playerController;
 
-    private Vector3 cameraOffset;
+    private Vector3 cameraOffset;     // If you need it for AI logic
     public float cameraHeight = 1.75f;
 
-    public float Health = 500f;
-    public float maxHealth = 500f;
+    // Reference to your new combat/damage script
+    private MonsterCombatHandler combatHandler;
 
     private bool hasPlayedSpotSound = false;
     private bool isSpotSoundPlaying = false;
@@ -36,16 +33,15 @@ public class BlindMonsterAI : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 initialPosition;
 
-    private PromptUser promptManager;
-    public Transform teleportDestination;
     private void Start()
     {
-        promptManager = GameObject.Find("PromptBox").GetComponentInChildren<PromptUser>();
+        // Get references
         playerController = player.GetComponent<PlayerController>();
         navMeshAgent.speed = 10f;
         lastPosition = transform.position;
         initialPosition = transform.position;
 
+        combatHandler = GetComponent<MonsterCombatHandler>();
         if (mainCamera != null)
         {
             cameraOffset = new Vector3(0, cameraHeight, 0);
@@ -58,13 +54,15 @@ public class BlindMonsterAI : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
+        // If player is too far away, reset monster and stop any chase audio
         if (distance >= defaultSoundRadius)
         {
             ResetMonster();
             audioSource.Stop();
         }
 
-        if (playerController.stealth == false &&  (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y  != 0))
+        // Blind monster chases if player is making noise
+        if (playerController.stealth == false && (IsPlayerMakingNoise() || navMeshAgent.velocity.magnitude != 0))
         {
             if (!isChasing && !hasPlayedSpotSound)
             {
@@ -79,15 +77,17 @@ public class BlindMonsterAI : MonoBehaviour
                 isChasing = true;
             }
 
+            // Once the spotPlayerSound finishes, switch to chase loop
             if (isSpotSoundPlaying && !audioSource.isPlaying)
             {
                 isSpotSoundPlaying = false;
             }
-
             if (!isSpotSoundPlaying)
             {
                 PlayChaseSound();
             }
+
+            // Actually chase the player
             if (IsPlayerMakingNoise())
             {
                 ChasePlayer();
@@ -102,128 +102,31 @@ public class BlindMonsterAI : MonoBehaviour
 
     private void ResetMonster()
     {
-        // Reset position
+        // Return the monster to its starting position
         transform.position = initialPosition;
 
-        // Reset velocity or state if applicable
+        // Stop movement
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.velocity = Vector3.zero; // Stop any movement
+            rb.velocity = Vector3.zero;
         }
-
-        // Optional: Reset animation or AI state
-        // e.g., animator.SetBool("isChasing", false);
-        // monsterAI.ChangeState(MonsterState.Idle);
     }
 
     private bool IsPlayerMakingNoise()
     {
         AudioSource playerAudio = player.GetComponent<AudioSource>();
-
         if (playerAudio != null && playerAudio.isPlaying)
         {
             float distance = Vector3.Distance(transform.position, player.transform.position);
             return distance <= hearingRadius;
         }
-
         return false;
     }
 
     private void ChasePlayer()
     {
         navMeshAgent.SetDestination(player.transform.position);
-    }
-
-    public void TakeDamage(float dmg)
-    {
-        Health -= dmg;
-        Debug.Log("Bullet hit new health is : " + Health);
-
-        if (Health <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public float GetHealthRatio()
-    {
-        return Health / maxHealth;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            ApplyDamageAndKnockback(collision.gameObject);
-        }
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            TakeDamage(50);
-        }
-    }
-
-    private void ApplyDamageAndKnockback(GameObject player)
-    {
-        // Apply damage to the player if needed
-        PlayerStats playerStats = player.GetComponent<PlayerStats>();
-        if (playerStats != null)
-        {
-            playerStats.TakeDamage(damageAmount);
-            if (playerStats.getHealth() <= 0){
-                playerStats.Heal();
-                ResetMonster();
-                promptManager.InitPrompt("YOU DIED \n the monster that killed you is the blind monster. crouch to stop making noise to prevent it from detecting you");
-                playerController.UpdatePosition(teleportDestination.position);
-            }
-        }
-
-        Vector3 knockbackDirection = (player.transform.position - transform.position).normalized;
-        knockbackDirection.y = 0f;
-
-        StartCoroutine(ApplyKnockback(player, knockbackDirection, knockbackForce, 0.2f));
-
-        PlayAttackSound();
-    }
-
-    private IEnumerator ApplyKnockback(GameObject player, Vector3 direction, float force, float duration)
-    {
-        float initialYPosition = player.transform.position.y;
-
-        direction.Normalize();
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            float knockbackStep = force * (1 - (elapsedTime / duration));
-            Vector3 movement = direction * knockbackStep * Time.deltaTime;
-
-            Vector3 intendedPosition = player.transform.position + movement;
-
-            // Check for collisions
-            if (Physics.Raycast(player.transform.position, movement.normalized, out RaycastHit hit, movement.magnitude, ~0, QueryTriggerInteraction.Ignore))
-            {
-                intendedPosition = hit.point - movement.normalized * 0.1f;
-            }
-
-            intendedPosition.y = initialYPosition;
-
-            playerController.UpdatePosition(intendedPosition);
-
-            // Update camera position if necessary
-            if (mainCamera != null)
-            {
-                mainCamera.transform.position = Vector3.Lerp(
-                    mainCamera.transform.position,
-                    intendedPosition + cameraOffset,
-                    elapsedTime / duration
-                );
-            }
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
     }
 
     private void HandleDefaultSound()
@@ -257,6 +160,7 @@ public class BlindMonsterAI : MonoBehaviour
         }
     }
 
+    // If you still need an “attack sound,” you can call it from here
     private void PlayAttackSound()
     {
         if (audioSource != null && attackSound != null)

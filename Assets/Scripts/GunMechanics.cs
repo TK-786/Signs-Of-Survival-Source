@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GunMechanics : MonoBehaviour
 {
@@ -17,15 +16,15 @@ public class GunMechanics : MonoBehaviour
         item = GetComponent<Item>();
     }
 
-    void Update()
+    public void OnUse(InputAction.CallbackContext context)
     {
-        if (item != null && item.isHeld && Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        if (context.performed && item != null && item.isHeld && Time.time >= nextFireTime)
         {
             Shoot();
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         nextFireTime = Time.time + fireRate;
 
