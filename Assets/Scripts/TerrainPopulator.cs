@@ -119,6 +119,7 @@ public class TerrainPopulator : MonoBehaviour
         {
             SmoothTerrainAround(position, 20f);
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+            position.y -= 1f;
 
             // Instantiate the ship with default rotation
             InstantiateObject(shipPrefab, position);
@@ -388,16 +389,5 @@ public class TerrainPopulator : MonoBehaviour
 
         terrainData.SetHeights(0, 0, heights);
         terrain.Flush(); // Ensure changes are applied immediately
-    }
-
-    void OnDrawGizmos()
-    {
-        if (usedPositions == null || usedPositions.Count == 0) return;
-
-        Gizmos.color = Color.red;
-        foreach (Vector3 pos in usedPositions)
-        {
-            Gizmos.DrawSphere(pos, 1f);
-        }
     }
 }
