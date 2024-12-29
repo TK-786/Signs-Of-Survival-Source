@@ -485,16 +485,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 512688823}
-  terrainWidth: 1024
+  terrainWidth: 512
   terrainHeight: 70
-  terrainLength: 1024
+  terrainLength: 512
   baseNoiseScale: 0.5
-  mountainNoiseScale: 0.08
+  mountainNoiseScale: 0.33
   mountainThreshold: 0.1
   heightMultiplier: 1
   smoothingFactor: 0.5
   seed: 0
-  useRandomSeed: 0
+  useRandomSeed: 1
 --- !u!154 &512688822
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_MaterialTemplate: {fileID: 2100000, guid: b6e911a839ac6b247b89892cfbc9c73d, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 512688823}
   shipPrefab: {fileID: 616882264128772833, guid: 5aae1b2c59ac3e14a8d5f4e7dcbe882f, type: 3}
-  bunkerPrefab: {fileID: 8375780258456287503, guid: 95c4c30e460650843b6940ec42400913, type: 3}
+  bunkerPrefab: {fileID: 6733156721811211214, guid: 8e4644afdf1c65249bf162be929888a2, type: 3}
   treePrefabs:
   - {fileID: 1129082267597178501, guid: 6918e15b7b4a3ee4791806efba5ce8f1, type: 3}
   - {fileID: 4685652190737569176, guid: 3f3ad7707cdf8cf4bacc2fd3aa2736c6, type: 3}
@@ -615,14 +615,14 @@ MonoBehaviour:
     minFlowersPerPatch: 1
     maxFlowersPerPatch: 3
     patchRadius: 5
-  forestTreeCount: 100
-  forestRadius: 50
-  stumpCount: 50
-  gravestoneCount: 30
+  forestTreeCount: 300
+  forestRadius: 100
+  stumpCount: 70
+  gravestoneCount: 50
   flowerPatchCount: 15
   minObjectDistance: 5
   seed: 0
-  useRandomSeed: 0
+  useRandomSeed: 1
 --- !u!1 &818175767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1365,7 +1365,7 @@ Transform:
   m_GameObject: {fileID: 1873946098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 266.3, y: 32.9252, z: 199.59}
+  m_LocalPosition: {x: 199, y: 167, z: 240}
   m_LocalScale: {x: 0.76578075, y: 0.76578075, z: 0.76578075}
   m_ConstrainProportionsScale: 0
   m_Children:
