@@ -10,8 +10,9 @@ public class ForestKidBehaviourTree : MonoBehaviour
 
     private ForestKidFSM.MonsterState _currentState;
 
-    public GameObject player;
     public NavMeshAgent agent;
+
+    public GameObject player;
 
     [SerializeField] private float detectionRange = 10f;
 
@@ -24,9 +25,15 @@ public class ForestKidBehaviourTree : MonoBehaviour
 
     private MonsterCombatHandler combatHandler;
 
+    public float audioRange = 20f;
+
 
     private void Awake()
     {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
         _fsm = GetComponent<ForestKidFSM>();
         spawnPosition = transform.position;
         combatHandler = GetComponent<MonsterCombatHandler>();
@@ -60,12 +67,10 @@ public class ForestKidBehaviourTree : MonoBehaviour
         if (CanSeePlayer())
         {
             agent.SetDestination(transform.position); 
-            Debug.Log("Day: Sees player, but not hostile. Just minding own business...");
         }
         else
         {
             PatrolArea();
-            Debug.Log("Day: Wandering around peacefully...");
         }
     }
 
@@ -74,36 +79,29 @@ public class ForestKidBehaviourTree : MonoBehaviour
         if (CanSeePlayer())
         {
             agent.SetDestination(player.transform.position);
-            Debug.Log("Night: Chasing player...");
 
         }
         else
         {
             PatrolArea();
-            Debug.Log("Night: Searching for player...");
         }
     }
 
     private void AttackedBehavior()
     {
-        Debug.Log("AttackedBehavior: Monster is enraged or fighting back!");
-
         if (combatHandler.IsHealthLow())
         {
             agent.SetDestination(spawnPosition);
-            Debug.Log("AttackedBehavior: Monster is fleeing due to low health!");
         }
         else
         {
             if (CanSeePlayer())
             {
                 agent.SetDestination(player.transform.position);
-                Debug.Log("AttackedBehavior: Monster is retaliating!");
             }
             else
             {
                 PatrolArea();
-                Debug.Log("AttackedBehavior: Monster is looking for the attacker...");
             }
         }
     }
@@ -136,11 +134,15 @@ public class ForestKidBehaviourTree : MonoBehaviour
         return spawnPosition;
     }
 
-
-
     private bool CanSeePlayer()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         return distanceToPlayer <= detectionRange;
+    }
+
+    public bool IsPlayerInAudioRange()
+    {
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        return distanceToPlayer <= audioRange;
     }
 }

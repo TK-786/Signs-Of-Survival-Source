@@ -54,7 +54,7 @@ public class BlindMonsterFSM : MonoBehaviour
                         currentState = MonsterState.Idle;
                     }
                 }
-                break;
+            break;
         }
 
         behaviorTree.SetCurrentState(currentState);
@@ -62,9 +62,7 @@ public class BlindMonsterFSM : MonoBehaviour
 
     private void SetAnimation()
     {
-        if (animator == null) return;
 
-        // "Hostile" = true if Chasing, false if Idle
         bool isHostile = (currentState == MonsterState.Chasing);
         animator.SetBool("Hostile", isHostile);
     }

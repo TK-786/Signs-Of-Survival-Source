@@ -4,24 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MonsterCombatHandler : MonoBehaviour
 {
-    [Header("Health Settings")]
-    public float Health = 500f;
-    public float maxHealth = 500f;
+    public float Health;
+    public float maxHealth;
 
-    [Header("Attack Settings")]
-    public float damageAmount = 20f;
-    public float knockbackForce = 70f;
-    public float lowHealthThreshold = 30f;
+    public float damageAmount;
+    public float knockbackForce;
+    public float lowHealthThreshold;
 
-    [Header("Player Reference")]
     public GameObject player;                      
     private PlayerController playerController;  
 
-    [Header("Respawn / Prompt")]
     public PromptUser promptManager;            
     public Transform teleportDestination;         
 
-    [Header("Camera (for knockback movement)")]
     public Camera mainCamera;
     public float cameraHeight = 1.75f;            
     private Vector3 cameraOffset;
@@ -59,7 +54,6 @@ public class MonsterCombatHandler : MonoBehaviour
     public void TakeDamage(float dmg)
     {
         Health -= dmg;
-        Debug.Log($"[MonsterCombatHandler] Monster took {dmg} damage. Current Health: {Health}");
 
         if (Health <= 0)
         {

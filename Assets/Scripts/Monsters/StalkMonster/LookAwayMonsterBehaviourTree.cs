@@ -5,20 +5,23 @@ public class LookAwayMonsterBehaviourTree : MonoBehaviour
 {
     private LookAwayMonsterFSM.MonsterState _currentState;
 
-    [Header("References")]
-    public GameObject player;
     public NavMeshAgent agent;
+    public AudioSource audioSource;
 
-    [Header("Look Detection")]
     public float maxViewAngle = 60f;  
-    public float dotThreshold;      
+    public float dotThreshold;
+
+    public GameObject player;
 
     public float DistanceToPlayer { get; private set; }
     public bool IsPlayerLookingAtMonster { get; private set; }
 
     private void Awake()
     {
-        if (!agent) agent = GetComponent<NavMeshAgent>();
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
 
         float halfAngleRadians = maxViewAngle * 0.5f * Mathf.Deg2Rad;
         dotThreshold = Mathf.Cos(halfAngleRadians);
@@ -26,15 +29,26 @@ public class LookAwayMonsterBehaviourTree : MonoBehaviour
 
     public void SetCurrentState(LookAwayMonsterFSM.MonsterState newState)
     {
+        if (_currentState == LookAwayMonsterFSM.MonsterState.Hidden && newState != LookAwayMonsterFSM.MonsterState.Hidden)
+        {
+            if (audioSource && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
+
         _currentState = newState;
+
         if (_currentState == LookAwayMonsterFSM.MonsterState.Seen)
         {
             if (agent)
             {
-                agent.SetDestination(transform.position);
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
             }
         }
     }
+
 
     public void ExecuteBehavior()
     {
@@ -63,33 +77,28 @@ public class LookAwayMonsterBehaviourTree : MonoBehaviour
 
     private void SeenBehavior()
     {
-        if (agent && agent.velocity.sqrMagnitude > 0.1f)
+        if (agent)
         {
-            agent.SetDestination(transform.position);
+            agent.ResetPath();
+            agent.velocity = Vector3.zero;
         }
-
     }
 
     private void HiddenBehavior()
     {
-
-        if (!agent || player == null) return;
-
         agent.speed = 2f;
 
         Vector3 playerPos = player.transform.position;
         agent.SetDestination(playerPos);
+
+        if (audioSource && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 
     private void UpdateDistanceAndLook()
     {
-        if (!player)
-        {
-            DistanceToPlayer = Mathf.Infinity;
-            IsPlayerLookingAtMonster = false;
-            return;
-        }
-
         DistanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         Vector3 playerForward = player.transform.forward;

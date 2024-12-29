@@ -6,7 +6,6 @@ using UnityEngine.AI;
 /// </summary>
 public class BlindMonsterBehaviourTree : MonoBehaviour
 {
-    [Header("References")]
     public NavMeshAgent agent;
     public GameObject player;
     public AudioSource audioSource;
@@ -15,11 +14,9 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     public Vector3 lastHeardPlayerPosition { get; set; }
 
-    [Header("Hearing Settings")]
     public float hearingRadius = 19.5f;
     public float arriveThreshold = 1.0f;
 
-    [Header("Audio Clips")]
     public AudioClip spotPlayerSound;
     public AudioClip chaseSound;
     public AudioClip idleDefaultSound;
@@ -27,7 +24,6 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
     private bool hasPlayedSpotSound;
     private bool isSpotSoundPlaying;
 
-    [Header("Idle Sound Settings")]
     public float idleHearingRadius = 50f;
     private bool isIdleSoundPlaying;
 
@@ -35,7 +31,10 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     private void Awake()
     {
-        if (!agent) agent = GetComponent<NavMeshAgent>();
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
     }
 
     public void SetCurrentState(BlindMonsterFSM.MonsterState newState)
@@ -67,7 +66,7 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     private void IdleBehavior()
     {
-        if (agent && agent.velocity.sqrMagnitude > 0.1f)
+        if (agent.velocity.sqrMagnitude > 0.1f)
         {
             agent.SetDestination(transform.position);
         }
@@ -90,8 +89,6 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     private void ChasingBehavior()
     {
-        if (!agent) return;
-
         if (!hasPlayedSpotSound && spotPlayerSound != null)
         {
             if (audioSource && audioSource.isPlaying) audioSource.Stop();
@@ -119,8 +116,6 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
     {
         CanHearPlayer = false;
 
-        if (!player) return;
-
         AudioSource playerAudio = player.GetComponent<AudioSource>();
         if (playerAudio && playerAudio.isPlaying)
         {
@@ -134,13 +129,15 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     public Vector3 GetPlayerPosition()
     {
-        return player ? player.transform.position : transform.position;
+        return player.transform.position;
     }
 
     public bool HasReachedLastKnownPosition()
     {
         float distance = Vector3.Distance(transform.position, lastHeardPlayerPosition);
-        return (distance <= arriveThreshold);
+        bool isStationary = agent.velocity.sqrMagnitude < 1f;
+        Debug.Log(agent.velocity.sqrMagnitude);
+        return (distance <= arriveThreshold) || isStationary;
     }
 
     private void PlayChaseSound()
@@ -165,8 +162,6 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
 
     private void PlayIdleDefaultSound()
     {
-        if (!audioSource || !idleDefaultSound) return;
-
         if (!audioSource.isPlaying || audioSource.clip != idleDefaultSound)
         {
             audioSource.clip = idleDefaultSound;

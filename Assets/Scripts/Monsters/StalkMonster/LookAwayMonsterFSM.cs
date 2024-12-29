@@ -15,8 +15,6 @@ public class LookAwayMonsterFSM : MonoBehaviour
 
     public float rangeThreshold = 50f;
 
-    public Animator animator;
-
     private void Start()
     {
         behaviorTree = GetComponent<LookAwayMonsterBehaviourTree>();
@@ -25,8 +23,6 @@ public class LookAwayMonsterFSM : MonoBehaviour
     private void Update()
     {
         StateMachineLogic();
-
-        SetAnimation();
 
         behaviorTree.ExecuteBehavior();
     }
@@ -55,14 +51,5 @@ public class LookAwayMonsterFSM : MonoBehaviour
 
         behaviorTree.SetCurrentState(currentState);
         
-    }
-
-
-    private void SetAnimation()
-    {
-        if (!animator) return;
-
-        animator.SetBool("IsSeen", (currentState == MonsterState.Seen));
-        animator.SetBool("IsCreeping", (currentState == MonsterState.Hidden));
     }
 }

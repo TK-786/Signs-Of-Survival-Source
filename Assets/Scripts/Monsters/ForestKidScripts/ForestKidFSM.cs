@@ -22,10 +22,16 @@ public class ForestKidFSM : MonoBehaviour
 
     public Animator animator;
 
+    public float audioRange = 20f;
+
+    private AudioSource audioSource;
+
     private void Start()
     {
         behaviorTree = GetComponent<ForestKidBehaviourTree>();
         combatHandler = GetComponent<MonsterCombatHandler>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -35,6 +41,8 @@ public class ForestKidFSM : MonoBehaviour
         StateMachineLogic();
 
         setAnimation();
+
+        SetAudioPitch();
 
         behaviorTree.ExecuteBehavior();
     }
@@ -63,13 +71,13 @@ public class ForestKidFSM : MonoBehaviour
                 break;
 
             case MonsterState.NightHostile:
-                if (!isNight)
-                {
-                    currentState = MonsterState.DayWander;
-                }
-                else if (isAttacked)
+                if (isAttacked)
                 {
                     currentState = MonsterState.Attacked;
+                }
+                else if (!isNight)
+                {
+                    currentState = MonsterState.DayWander;
                 }
                 break;
 
@@ -88,5 +96,35 @@ public class ForestKidFSM : MonoBehaviour
         bool isHostile = (currentState == MonsterState.NightHostile || currentState == MonsterState.Attacked);
 
         animator.SetBool("Hostile", isHostile);
+    }
+
+    private void SetAudioPitch()
+    {
+        if (behaviorTree.IsPlayerInAudioRange())
+        {
+            if (currentState == MonsterState.NightHostile || currentState == MonsterState.Attacked)
+            {
+                audioSource.pitch = 2.0f;
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                audioSource.pitch = 1.0f;
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 }
