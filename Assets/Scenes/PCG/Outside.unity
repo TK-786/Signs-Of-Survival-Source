@@ -586,11 +586,15 @@ MonoBehaviour:
   shipPrefab: {fileID: 616882264128772833, guid: 5aae1b2c59ac3e14a8d5f4e7dcbe882f, type: 3}
   bunkerPrefab: {fileID: 8375780258456287503, guid: 95c4c30e460650843b6940ec42400913, type: 3}
   treePrefabs:
+  - {fileID: 1129082267597178501, guid: 6918e15b7b4a3ee4791806efba5ce8f1, type: 3}
+  - {fileID: 4685652190737569176, guid: 3f3ad7707cdf8cf4bacc2fd3aa2736c6, type: 3}
+  - {fileID: 2451433774432116556, guid: 38e6adcfe335072478aa54d5dc7c69f6, type: 3}
+  - {fileID: 6746395548491746994, guid: d93553ee194df6c40ac6e5b0950f22d6, type: 3}
   - {fileID: 4008272133109337941, guid: 5551460c82c6f4449ba6d6bee205cd55, type: 3}
   stumpPrefabs:
   - {fileID: 7453291069307502520, guid: cd33a01b7da073645b70568e8bcca47e, type: 3}
   gravestonePrefabs:
-  - {fileID: 5179397220328613897, guid: 7141181d1439fd847a3c559fd3a1ff97, type: 3}
+  - {fileID: 4298068281421568712, guid: 7141181d1439fd847a3c559fd3a1ff97, type: 3}
   - {fileID: 6403756702558223784, guid: 71afc22e95016bf428ee43eda87ed23f, type: 3}
   - {fileID: 3889126119514957598, guid: 51584e47acb944f4c97cf493269f2f4b, type: 3}
   - {fileID: 2713986113763817874, guid: d8237810fa24c0748aad74ae06fc8711, type: 3}
@@ -1361,7 +1365,7 @@ Transform:
   m_GameObject: {fileID: 1873946098}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 708.7, y: 48.12, z: 634}
+  m_LocalPosition: {x: 266.3, y: 32.9252, z: 199.59}
   m_LocalScale: {x: 0.76578075, y: 0.76578075, z: 0.76578075}
   m_ConstrainProportionsScale: 0
   m_Children:

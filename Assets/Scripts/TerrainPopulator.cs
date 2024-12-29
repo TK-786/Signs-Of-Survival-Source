@@ -96,14 +96,11 @@ public class TerrainPopulator : MonoBehaviour
             Vector3 directionToCenter = terrainCenter - position;
             directionToCenter.y = 0; // Ignore Y-axis for horizontal rotation
 
-            // Create rotation to face the center of the map
-            Quaternion lookRotation = Quaternion.LookRotation(directionToCenter);
+            // Create rotation to face the center of the map and flip by 180°
+            Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0);
 
-            // Combine the -90° X rotation with the calculated look rotation
-            Quaternion finalRotation = Quaternion.Euler(-90f, lookRotation.eulerAngles.y, 0);
-
-            // Instantiate the bunker with the final rotation
-            InstantiateObject(bunkerPrefab, position, finalRotation);
+            // Instantiate the bunker with the corrected rotation
+            InstantiateObject(bunkerPrefab, position, lookRotation);
             usedPositions.Add(position);
         }
         else
@@ -334,8 +331,13 @@ public class TerrainPopulator : MonoBehaviour
 
     void InstantiateObject(GameObject prefab, Vector3 position, Quaternion? rotation = null)
     {
-        // Ensure the prefab's pivot is at the base for correct placement
-        Quaternion finalRotation = rotation ?? Quaternion.Euler(0, random.Next(0, 360), 0);
+        // Use the prefab's original rotation as the base
+        Quaternion baseRotation = prefab.transform.rotation;
+
+        // Combine the base rotation with the specified or random rotation
+        Quaternion finalRotation = rotation.HasValue ? rotation.Value * baseRotation : baseRotation;
+
+        // Instantiate with the corrected rotation
         GameObject obj = Instantiate(prefab, position, finalRotation);
         obj.transform.parent = transform;
     }
