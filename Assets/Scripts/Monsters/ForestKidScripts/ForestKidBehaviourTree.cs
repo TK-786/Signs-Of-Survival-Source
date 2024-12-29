@@ -14,7 +14,6 @@ public class ForestKidBehaviourTree : MonoBehaviour
     public NavMeshAgent agent;
 
     [SerializeField] private float detectionRange = 10f;
-    [SerializeField] private float attackRange = 2f;
 
     [SerializeField] private float wanderRadius = 5f;
     [SerializeField] private float wanderDelay = 2f;
