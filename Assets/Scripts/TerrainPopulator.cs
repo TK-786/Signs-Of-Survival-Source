@@ -40,12 +40,6 @@ public class TerrainPopulator : MonoBehaviour
 
     void Start()
     {
-        if (terrain == null)
-        {
-            Debug.LogError("Terrain is not assigned.");
-            return;
-        }
-
         terrainData = terrain.terrainData;
 
         if (useRandomSeed)
@@ -83,25 +77,27 @@ public class TerrainPopulator : MonoBehaviour
 
     void PlaceBunker()
     {
-        Vector3 position = FindFlatAreaOrFlatten(10f);
+        Vector3 position = FindAreaOutsideForest(10f, 20f); 
         if (position != Vector3.zero)
         {
             SmoothTerrainAround(position, 10f);
-
-            // Adjust the position's y-coordinate to match the terrain height
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
 
-            // Calculate direction to face the center of the map
-            Vector3 terrainCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
-            Vector3 directionToCenter = terrainCenter - position;
-            directionToCenter.y = 0; // Ignore Y-axis for horizontal rotation
+            if (IsFarEnough(position))
+            {
+                // Make bunker face center
+                Vector3 terrainCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+                Vector3 directionToCenter = terrainCenter - position;
+                directionToCenter.y = 0;
+                Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0);
 
-            // Create rotation to face the center of the map and flip by 180°
-            Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0);
-
-            // Instantiate the bunker with the corrected rotation
-            InstantiateObject(bunkerPrefab, position, lookRotation);
-            usedPositions.Add(position);
+                InstantiateObject(bunkerPrefab, position, lookRotation);
+                usedPositions.Add(position);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to place the bunker due to overlap.");
+            }
         }
         else
         {
@@ -111,21 +107,139 @@ public class TerrainPopulator : MonoBehaviour
 
     void PlaceShip()
     {
-        Vector3 position = FindFlatAreaOrFlatten(20f);
+        Vector3 position = FindAreaOutsideForest(20f, 20f);
         if (position != Vector3.zero)
         {
             SmoothTerrainAround(position, 20f);
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
             position.y -= 1f;
 
-            // Instantiate the ship with default rotation
-            InstantiateObject(shipPrefab, position);
-            usedPositions.Add(position);
+            if (IsFarEnough(position))
+            {
+                InstantiateObject(shipPrefab, position);
+                usedPositions.Add(position);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to place the ship due to overlap.");
+            }
         }
         else
         {
             Debug.LogWarning("Failed to place the ship.");
         }
+    }
+
+    void PlaceForest()
+    {
+        Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+        forestCenter.y = terrain.SampleHeight(forestCenter) + terrain.transform.position.y;
+
+        if (forestCenter == Vector3.zero)
+        {
+            Debug.LogWarning("Failed to place the forest.");
+            return;
+        }
+
+        for (int i = 0; i < forestTreeCount; i++)
+        {
+            float angle = (float)random.NextDouble() * 360f;
+            float radius = (float)random.NextDouble() * forestRadius;
+
+            Vector3 position = forestCenter + Quaternion.Euler(0, angle, 0) * Vector3.forward * radius;
+            position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+
+            if (IsFarEnough(position))
+            {
+                GameObject treePrefab = treePrefabs[random.Next(treePrefabs.Length)];
+                InstantiateObject(treePrefab, position);
+                usedPositions.Add(position);
+            }
+        }
+    }
+
+    void PlaceFlowerPatches()
+    {
+        Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+        for (int i = 0; i < flowerPatchCount; i++)
+        {
+            Vector3 patchCenter = FindFlatAreaWithinRadius(forestCenter, forestRadius);  // Ensure the flower patch is inside the forest
+            if (patchCenter == Vector3.zero)
+            {
+                Debug.LogWarning($"Failed to place flower patch #{i + 1}.");
+                continue;
+            }
+
+            FlowerPatch patch = flowerPatches[random.Next(flowerPatches.Length)];
+            int flowerCount = random.Next(patch.minFlowersPerPatch, patch.maxFlowersPerPatch);
+
+            for (int j = 0; j < flowerCount; j++)
+            {
+                float angle = (float)random.NextDouble() * 360f;
+                float radius = (float)random.NextDouble() * patch.patchRadius;
+                Vector3 position = patchCenter + Quaternion.Euler(0, angle, 0) * Vector3.forward * radius;
+
+                position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+
+                // Ensure the position is valid and not overlapping
+                if (IsFarEnough(position))
+                {
+                    GameObject flowerPrefab = patch.flowerPrefabs[random.Next(patch.flowerPrefabs.Length)];
+                    InstantiateObject(flowerPrefab, position);
+                    usedPositions.Add(position);
+                }
+            }
+        }
+    }
+
+    void PlaceScatteredObjects(GameObject[] prefabs, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Vector3 position = FindFlatAreaOrFlatten(5f);
+            if (position == Vector3.zero)
+            {
+                Debug.LogWarning($"Failed to place scattered object #{i + 1}.");
+                continue;
+            }
+
+            GameObject prefab = prefabs[random.Next(prefabs.Length)];
+            InstantiateObject(prefab, position);
+            usedPositions.Add(position);
+        }
+    }
+
+    Vector3 FindAreaOutsideForest(float minFlatSize, float bufferDistance = 10f)
+    {
+        Vector3 position = Vector3.zero;
+        bool isValidPlacement = false;
+
+        Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+
+        while (!isValidPlacement)
+        {
+            // Find a flat area
+            position = FindFlatAreaOrFlatten(minFlatSize);
+            if (position != Vector3.zero)
+            {
+                // Check if the position is outside the forest and has buffer space
+                float distanceFromForest = Vector3.Distance(position, forestCenter);
+                if (distanceFromForest < forestRadius + bufferDistance)  // Ensure it's outside the forest with added buffer
+                {
+                    Debug.LogWarning("Placement is within the forest or too close to the forest. Trying again...");
+                    continue;  // Retry if too close to the forest or within it
+                }
+
+                isValidPlacement = true;  // Valid placement found
+            }
+            else
+            {
+                Debug.LogWarning("Failed to find a valid position.");
+                isValidPlacement = true;  // Exit the loop if no valid position found after retries
+            }
+        }
+
+        return position;
     }
 
     Vector3 FindFlatAreaOrFlatten(float minFlatSize)
@@ -252,94 +366,24 @@ public class TerrainPopulator : MonoBehaviour
         terrain.Flush(); // Ensure changes are applied immediately
     }
 
-    void PlaceForest()
+    Vector3 FindFlatAreaWithinRadius(Vector3 center, float radius)
     {
-        Vector3 forestCenter = FindFlatAreaOrFlatten(forestRadius);
-        if (forestCenter == Vector3.zero)
-        {
-            Debug.LogWarning("Failed to place the forest.");
-            return;
-        }
+        int maxAttempts = 100;
+        float maxSlope = 5f;
 
-        for (int i = 0; i < forestTreeCount; i++)
+        for (int i = 0; i < maxAttempts; i++)
         {
             float angle = (float)random.NextDouble() * 360f;
-            float radius = (float)random.NextDouble() * forestRadius;
-
-            Vector3 position = forestCenter + Quaternion.Euler(0, angle, 0) * Vector3.forward * radius;
+            float distance = (float)random.NextDouble() * radius;
+            Vector3 position = center + Quaternion.Euler(0, angle, 0) * Vector3.forward * distance;
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
 
-            // Ensure the position is valid and not overlapping
-            if (IsFarEnough(position))
+            if (IsAreaFlat(position, 5f, maxSlope) && IsFarEnough(position))
             {
-                GameObject treePrefab = treePrefabs[random.Next(treePrefabs.Length)];
-                InstantiateObject(treePrefab, position);
-                usedPositions.Add(position);
+                return position;
             }
         }
-    }
-
-    void PlaceFlowerPatches()
-    {
-        for (int i = 0; i < flowerPatchCount; i++)
-        {
-            Vector3 patchCenter = FindFlatAreaOrFlatten(5f);
-            if (patchCenter == Vector3.zero)
-            {
-                Debug.LogWarning($"Failed to place flower patch #{i + 1}.");
-                continue;
-            }
-
-            FlowerPatch patch = flowerPatches[random.Next(flowerPatches.Length)];
-            int flowerCount = random.Next(patch.minFlowersPerPatch, patch.maxFlowersPerPatch);
-
-            for (int j = 0; j < flowerCount; j++)
-            {
-                float angle = (float)random.NextDouble() * 360f;
-                float radius = (float)random.NextDouble() * patch.patchRadius;
-                Vector3 position = patchCenter + Quaternion.Euler(0, angle, 0) * Vector3.forward * radius;
-
-                position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
-
-                // Ensure the position is valid and not overlapping
-                if (IsFarEnough(position))
-                {
-                    GameObject flowerPrefab = patch.flowerPrefabs[random.Next(patch.flowerPrefabs.Length)];
-                    InstantiateObject(flowerPrefab, position);
-                    usedPositions.Add(position);
-                }
-            }
-        }
-    }
-
-    void PlaceScatteredObjects(GameObject[] prefabs, int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            Vector3 position = FindFlatAreaOrFlatten(5f);
-            if (position == Vector3.zero)
-            {
-                Debug.LogWarning($"Failed to place scattered object #{i + 1}.");
-                continue;
-            }
-
-            GameObject prefab = prefabs[random.Next(prefabs.Length)];
-            InstantiateObject(prefab, position);
-            usedPositions.Add(position);
-        }
-    }
-
-    void InstantiateObject(GameObject prefab, Vector3 position, Quaternion? rotation = null)
-    {
-        // Use the prefab's original rotation as the base
-        Quaternion baseRotation = prefab.transform.rotation;
-
-        // Combine the base rotation with the specified or random rotation
-        Quaternion finalRotation = rotation.HasValue ? rotation.Value * baseRotation : baseRotation;
-
-        // Instantiate with the corrected rotation
-        GameObject obj = Instantiate(prefab, position, finalRotation);
-        obj.transform.parent = transform;
+        return Vector3.zero;
     }
 
     void SmoothTerrainAround(Vector3 center, float radius)
@@ -391,5 +435,13 @@ public class TerrainPopulator : MonoBehaviour
 
         terrainData.SetHeights(0, 0, heights);
         terrain.Flush(); // Ensure changes are applied immediately
+    }
+
+    void InstantiateObject(GameObject prefab, Vector3 position, Quaternion? rotation = null)
+    {
+        Quaternion baseRotation = prefab.transform.rotation;
+        Quaternion finalRotation = rotation.HasValue ? rotation.Value * baseRotation : baseRotation;
+        GameObject obj = Instantiate(prefab, position, finalRotation);
+        obj.transform.parent = transform;
     }
 }

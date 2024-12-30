@@ -603,12 +603,12 @@ MonoBehaviour:
   - flowerPrefabs:
     - {fileID: 6266243655257867730, guid: 46f6024b65789d042acab90e0ea982d3, type: 3}
     minFlowersPerPatch: 1
-    maxFlowersPerPatch: 3
+    maxFlowersPerPatch: 5
     patchRadius: 5
   - flowerPrefabs:
     - {fileID: 5394509629226927088, guid: a81f5b3da6c67e845ba079402fb45b48, type: 3}
     minFlowersPerPatch: 1
-    maxFlowersPerPatch: 3
+    maxFlowersPerPatch: 4
     patchRadius: 5
   - flowerPrefabs:
     - {fileID: 7200255712855098761, guid: c39301410f584c9429ef93af2fd0ad46, type: 3}
