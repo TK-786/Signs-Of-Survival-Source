@@ -82,16 +82,19 @@ public class TerrainPopulator : MonoBehaviour
         {
             SmoothTerrainAround(position, 10f);
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+            position.y -= 1f;
 
             if (IsFarEnough(position))
             {
-                // Make bunker face center
-                Vector3 terrainCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+                Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(position.x / terrain.terrainData.size.x, position.z / terrain.terrainData.size.z);
+                Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
                 Vector3 directionToCenter = terrainCenter - position;
                 directionToCenter.y = 0;
-                Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0);
 
-                InstantiateObject(bunkerPrefab, position, lookRotation);
+                Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); // 180 degree turn to face center
+                Quaternion finalRotation = Quaternion.FromToRotation(Vector3.up, terrainNormal) * lookRotation;
+
+                InstantiateObject(bunkerPrefab, position, finalRotation);
                 usedPositions.Add(position);
             }
             else
@@ -112,11 +115,13 @@ public class TerrainPopulator : MonoBehaviour
         {
             SmoothTerrainAround(position, 20f);
             position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
-            position.y -= 1f;
+            position.y -= 4f;
+            Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(position.x / terrain.terrainData.size.x, position.z / terrain.terrainData.size.z);
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, terrainNormal);
 
             if (IsFarEnough(position))
             {
-                InstantiateObject(shipPrefab, position);
+                InstantiateObject(shipPrefab, position, rotation);
                 usedPositions.Add(position);
             }
             else
@@ -163,7 +168,7 @@ public class TerrainPopulator : MonoBehaviour
         Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
         for (int i = 0; i < flowerPatchCount; i++)
         {
-            Vector3 patchCenter = FindFlatAreaWithinRadius(forestCenter, forestRadius);  // Ensure the flower patch is inside the forest
+            Vector3 patchCenter = FindFlatAreaWithinRadius(forestCenter, forestRadius);
             if (patchCenter == Vector3.zero)
             {
                 Debug.LogWarning($"Failed to place flower patch #{i + 1}.");
@@ -181,7 +186,6 @@ public class TerrainPopulator : MonoBehaviour
 
                 position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
 
-                // Ensure the position is valid and not overlapping
                 if (IsFarEnough(position))
                 {
                     GameObject flowerPrefab = patch.flowerPrefabs[random.Next(patch.flowerPrefabs.Length)];
@@ -218,24 +222,22 @@ public class TerrainPopulator : MonoBehaviour
 
         while (!isValidPlacement)
         {
-            // Find a flat area
             position = FindFlatAreaOrFlatten(minFlatSize);
             if (position != Vector3.zero)
             {
-                // Check if the position is outside the forest and has buffer space
                 float distanceFromForest = Vector3.Distance(position, forestCenter);
-                if (distanceFromForest < forestRadius + bufferDistance)  // Ensure it's outside the forest with added buffer
+                if (distanceFromForest < forestRadius + bufferDistance)
                 {
                     Debug.LogWarning("Placement is within the forest or too close to the forest. Trying again...");
-                    continue;  // Retry if too close to the forest or within it
+                    continue; 
                 }
 
-                isValidPlacement = true;  // Valid placement found
+                isValidPlacement = true;  
             }
             else
             {
                 Debug.LogWarning("Failed to find a valid position.");
-                isValidPlacement = true;  // Exit the loop if no valid position found after retries
+                isValidPlacement = true;
             }
         }
 
@@ -260,7 +262,6 @@ public class TerrainPopulator : MonoBehaviour
             }
         }
 
-        // If no flat area is found, flatten the terrain
         float randX = (float)random.NextDouble() * terrainData.size.x;
         float randZ = (float)random.NextDouble() * terrainData.size.z;
         Vector3 flatPosition = new Vector3(randX, 0, randZ);
@@ -269,7 +270,6 @@ public class TerrainPopulator : MonoBehaviour
         Debug.LogWarning("No flat area found. Flattening terrain at position: " + flatPosition);
         FlattenTerrain(flatPosition, minFlatSize);
 
-        // Re-sample height after flattening
         flatPosition.y = terrain.SampleHeight(flatPosition) + terrain.transform.position.y;
 
         return flatPosition;
@@ -321,7 +321,6 @@ public class TerrainPopulator : MonoBehaviour
         int centerZ = Mathf.RoundToInt(center.z / terrainSize.z * resolution);
         int flattenRadius = Mathf.RoundToInt(radius / terrainSize.x * resolution);
 
-        // Calculate the average height within the flatten area
         float totalHeight = 0f;
         int count = 0;
 
@@ -363,7 +362,7 @@ public class TerrainPopulator : MonoBehaviour
         }
 
         terrainData.SetHeights(0, 0, heights);
-        terrain.Flush(); // Ensure changes are applied immediately
+        terrain.Flush();
     }
 
     Vector3 FindFlatAreaWithinRadius(Vector3 center, float radius)
@@ -408,7 +407,6 @@ public class TerrainPopulator : MonoBehaviour
                     float distance = Mathf.Sqrt(x * x + z * z) / smoothRadius;
                     if (distance <= 1f)
                     {
-                        // Average height with neighboring points for smoothing
                         float sum = 0f;
                         int count = 0;
 
@@ -434,7 +432,7 @@ public class TerrainPopulator : MonoBehaviour
         }
 
         terrainData.SetHeights(0, 0, heights);
-        terrain.Flush(); // Ensure changes are applied immediately
+        terrain.Flush();
     }
 
     void InstantiateObject(GameObject prefab, Vector3 position, Quaternion? rotation = null)
