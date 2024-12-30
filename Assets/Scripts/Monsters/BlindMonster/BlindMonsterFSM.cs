@@ -4,6 +4,9 @@ public class BlindMonsterFSM : MonoBehaviour
 {
     public BlindMonsterBehaviourTree behaviorTree;
 
+    private float nextAttackTime;
+    public float attackCooldown = 2f;
+
     public enum MonsterState
     {
         Idle,
@@ -22,8 +25,7 @@ public class BlindMonsterFSM : MonoBehaviour
     private void Update()
     {
         StateMachineLogic();
-
-        SetAnimation();
+        UpdateAnimations();
 
         behaviorTree.ExecuteBehavior();
     }
@@ -33,7 +35,7 @@ public class BlindMonsterFSM : MonoBehaviour
         switch (currentState)
         {
             case MonsterState.Idle:
-                if (behaviorTree.CanHearPlayer)
+                if (behaviorTree.CanHearPlayer && !behaviorTree.playerController.stealth)
                 {
                     currentState = MonsterState.Chasing;
 
@@ -60,10 +62,22 @@ public class BlindMonsterFSM : MonoBehaviour
         behaviorTree.SetCurrentState(currentState);
     }
 
-    private void SetAnimation()
+    private void UpdateAnimations()
     {
+        bool isChasingState = (currentState == MonsterState.Chasing);
 
-        bool isHostile = (currentState == MonsterState.Chasing);
-        animator.SetBool("Hostile", isHostile);
+        float sqrSpeed = behaviorTree.agent.velocity.sqrMagnitude;
+        bool isMoving = sqrSpeed > 0.1f;
+
+        animator.SetBool("Chasing", isChasingState && isMoving);
+
+        float distanceToPlayer = Vector3.Distance(transform.position, behaviorTree.player.transform.position);
+        Debug.Log(distanceToPlayer);
+        if (Time.time >= nextAttackTime && distanceToPlayer < 3f)
+        {
+            Debug.Log("YESS");
+            animator.SetTrigger("Attack");
+            nextAttackTime = Time.time + attackCooldown;
+        }
     }
 }

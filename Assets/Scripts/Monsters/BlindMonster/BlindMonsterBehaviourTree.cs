@@ -28,12 +28,14 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
     private bool isIdleSoundPlaying;
 
     public bool CanHearPlayer { get; private set; }
+    public PlayerController playerController;
 
     private void Awake()
     {
         if (player == null)
         {
             player = GameObject.FindWithTag("Player");
+            playerController = player.GetComponent<PlayerController>();
         }
     }
 
@@ -136,7 +138,6 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, lastHeardPlayerPosition);
         bool isStationary = agent.velocity.sqrMagnitude < 1f;
-        Debug.Log(agent.velocity.sqrMagnitude);
         return (distance <= arriveThreshold) || isStationary;
     }
 

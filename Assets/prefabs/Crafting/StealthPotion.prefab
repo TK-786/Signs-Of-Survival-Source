@@ -267,16 +267,12 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: d86064f6-ebca-44f4-8b19-605d4d49e44a
-    m_ActionName: 'UI/Pause[/Keyboard/p]'
+    m_ActionId: 2fc21c7d-a132-4fbe-bf86-239007a62ab3
+    m_ActionName: 'Movement/PickUp[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 2f2f60b9-eb32-4a4e-8ae4-e1e0744d4794
-    m_ActionName: 'Inventory/PickUp[/Keyboard/e]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f5fda7c1-27bd-487c-8a67-3810d872ea0a
-    m_ActionName: 'Inventory/Throw[/Mouse/rightButton]'
+    m_ActionId: 86a5ba04-7e89-491a-b751-99fa72b34de3
+    m_ActionName: 'Movement/Throw[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -6474430118386663236}
@@ -291,22 +287,26 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 9f70be8c-2653-44fd-80e9-bb597dfe2d19
-    m_ActionName: 'Inventory/Use[/Mouse/leftButton]'
+    m_ActionId: c3f78677-48e6-4761-80e1-9be24f4268df
+    m_ActionName: 'Movement/Use[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 0085479b-6cfa-4c9a-8829-f42f4667a0d3
-    m_ActionName: 'Inventory/Add[/Keyboard/f]'
+    m_ActionId: b0781afb-3134-4c80-b904-590dcac5759d
+    m_ActionName: 'Movement/AddToInventory[/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 951900e2-dfb1-4b65-85f5-3428641a6505
-    m_ActionName: 'Inventory/Open[/Keyboard/tab]'
+    m_ActionId: 44ede816-5433-40c7-97ca-33188faf2e5f
+    m_ActionName: 'Movement/OpenInventory[/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: ae565120-2742-4ab7-a9eb-0d45a5437324
-    m_ActionName: 'Inventory/CraftingMode[/Keyboard/e]'
+    m_ActionId: 77b50797-6a92-4a03-afef-8a3c7a9fdb50
+    m_ActionName: 'Movement/CraftingMode[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a9f75c25-5dbe-4ff4-b83f-371f21f89a3c
+    m_ActionName: 'Movement/Pause[/Keyboard/p]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Inventory
+  m_DefaultActionMap: Movement
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
