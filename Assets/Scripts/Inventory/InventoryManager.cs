@@ -107,6 +107,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    void onUse(InputAction.CallbackContext context)
+    {
+        
+    }
 
     public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item)
     {

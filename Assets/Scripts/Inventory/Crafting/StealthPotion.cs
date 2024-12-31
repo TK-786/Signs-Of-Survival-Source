@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class StealthPotion : MonoBehaviour
+public class StealthPotion : MonoBehaviour, IUsable
 {
     private PlayerController playerController;
     private Item item;
@@ -20,7 +20,7 @@ public class StealthPotion : MonoBehaviour
 
     }
 
-    public void OnUse(InputAction.CallbackContext context)
+    public void OnUse()
     {
         if (item != null && item.isHeld)
         {

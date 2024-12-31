@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HealingPotion : MonoBehaviour
+public class HealingPotion : MonoBehaviour, IUsable
 {
     private PlayerController playerController;
     private Item item;
@@ -20,7 +20,7 @@ public class HealingPotion : MonoBehaviour
 
     }
 
-    public void OnUse(InputAction.CallbackContext context)
+    public void OnUse()
     {
         if (item != null && item.isHeld)
         {

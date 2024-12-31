@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GunMechanics : MonoBehaviour
+public class GunMechanics : MonoBehaviour, IUsable
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
@@ -16,9 +16,9 @@ public class GunMechanics : MonoBehaviour
         item = GetComponent<Item>();
     }
 
-    public void OnUse(InputAction.CallbackContext context)
+    public void OnUse()
     {
-        if (context.performed && item != null && item.isHeld && Time.time >= nextFireTime)
+        if (item.isHeld && Time.time >= nextFireTime)
         {
             Shoot();
         }

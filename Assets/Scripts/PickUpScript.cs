@@ -63,6 +63,23 @@ public class PickUpScript : MonoBehaviour
         }
     }
 
+    public void Use(InputAction.CallbackContext context)
+    {
+        Debug.Log("Action Called");
+        if (context.performed)
+        {
+            if (heldObj != null)
+            {
+                Debug.Log("held object");
+                IUsable usable = heldObj.GetComponent<IUsable>();
+                if (usable != null) {
+                    Debug.Log("Is usable");
+                    usable.OnUse();
+                }
+            }
+        }
+    }
+
 
     public void Equip(InputAction.CallbackContext context)
     {
