@@ -67,10 +67,13 @@ public class PickUpScript : MonoBehaviour
     {
         if (context.performed)
         {
+            Debug.Log("Use");
             if (heldObj != null)
             {
+                Debug.Log("is held");
                 IUsable usable = heldObj.GetComponent<IUsable>();
                 if (usable != null) {
+                    Debug.Log("usabe");
                     usable.OnUse();
                 }
             }

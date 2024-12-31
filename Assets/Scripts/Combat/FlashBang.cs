@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Flashbang : MonoBehaviour
+public class Flashbang : MonoBehaviour, IUsable
 {
     public float flashRadius = 10f;     
     public float flashDuration = 3f;
@@ -13,7 +13,7 @@ public class Flashbang : MonoBehaviour
         pickUpScrip = Camera.main.GetComponent<PickUpScript>();
     }
 
-    public void Throw()
+    public void OnUse()
     {
         pickUpScrip.ThrowObject();
 

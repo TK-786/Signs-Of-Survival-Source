@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 8516706398668616841}
   m_Layer: 0
   m_Name: BlindMonster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

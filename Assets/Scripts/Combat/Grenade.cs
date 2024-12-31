@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Grenade : MonoBehaviour
+public class Grenade : MonoBehaviour, IUsable
 {
     public float explosionDelay = 1f;
     public float explosionRadius = 10f;
@@ -17,7 +17,7 @@ public class Grenade : MonoBehaviour
         pickUpScript = Camera.main.GetComponent<PickUpScript>();
     }
 
-    public void Throw()
+    public void OnUse()
     {
         // Enable Rigidbody for throwing
 

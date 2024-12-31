@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SMGMechanics : MonoBehaviour
+public class SMGMechanics : MonoBehaviour, IUsable
 {
     public GameObject bulletPrefab;  // The bullet prefab
     public Transform firePoint;     // The point from which bullets are fired
@@ -18,10 +18,8 @@ public class SMGMechanics : MonoBehaviour
         item = GetComponent<Item>();
     }
 
-    void Update()
-    {
-        // Fire bullets while holding the left mouse button
-        if (item != null && item.isHeld && Input.GetMouseButton(0) && Time.time >= nextFireTime)
+    public void OnUse() {
+        if (item != null && item.isHeld && Time.time >= nextFireTime)
         {
             if (currentAmmo > 0)
             {
