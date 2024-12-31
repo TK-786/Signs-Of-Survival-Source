@@ -24,10 +24,21 @@ public class MonsterCombatHandler : MonoBehaviour
     private Vector3 initialPosition;
     private Rigidbody rb;
 
+    public GameObject itemDropPrefab;
+
     private void Start()
     {
-        if (player != null)
+        float difficultyMode = PlayerPrefs.GetFloat("DifficultyMode", 1f);
+
+        Health = Health * difficultyMode;
+        maxHealth = maxHealth * difficultyMode;
+
+        damageAmount = damageAmount * difficultyMode;
+        knockbackForce = knockbackForce * difficultyMode;
+
+        if (player == null)
         {
+            player = GameObject.FindWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
         }
 
@@ -57,6 +68,7 @@ public class MonsterCombatHandler : MonoBehaviour
 
         if (Health <= 0)
         {
+            DropItem();
             Destroy(gameObject);
         }
     }
@@ -154,4 +166,11 @@ public class MonsterCombatHandler : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
+
+    private void DropItem()
+    {
+        Vector3 dropPosition = transform.position + new Vector3(0, 4f, 0);
+        Instantiate(itemDropPrefab, dropPosition, Quaternion.identity);
+    }
+
 }

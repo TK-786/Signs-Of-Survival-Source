@@ -72,7 +72,7 @@ public class BlindMonsterFSM : MonoBehaviour
         animator.SetBool("Chasing", isChasingState && isMoving);
 
         float distanceToPlayer = Vector3.Distance(transform.position, behaviorTree.player.transform.position);
-        Debug.Log(distanceToPlayer);
+
         if (Time.time >= nextAttackTime && distanceToPlayer < 3f)
         {
             Debug.Log("YESS");

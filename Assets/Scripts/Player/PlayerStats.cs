@@ -9,6 +9,9 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        float difficultyMode = PlayerPrefs.GetFloat("DifficultyMode", 1f);
+
+        maxHealth = maxHealth / difficultyMode;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }

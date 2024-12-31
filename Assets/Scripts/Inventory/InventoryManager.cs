@@ -18,9 +18,6 @@ public class InventoryManager : MonoBehaviour
     private CraftingManager craftingManager;
     public CraftingManager CraftingManager => craftingManager;
 
-    private InputAction openInventoryAction;
-    private InputAction craftingModeAction;
-
     public float raycastDistance = 5f;
 
     public bool craftmode = false;
@@ -36,22 +33,6 @@ public class InventoryManager : MonoBehaviour
         DescriptionPanel.SetActive(true);
         CraftingPanel.SetActive(false);
 
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        openInventoryAction = playerInput.actions["OpenInventory"];
-        craftingModeAction = playerInput.actions["CraftingMode"];
-
-        openInventoryAction.Enable();
-        craftingModeAction.Enable();
-
-        openInventoryAction.performed += ToggleInventoryMenu;
-        craftingModeAction.performed += ToggleCraftingModeInput;
-
-    }
-
-    private void OnDisable()
-    {
-        openInventoryAction.Disable();
-        craftingModeAction.Disable();
     }
 
     public bool GetMode()

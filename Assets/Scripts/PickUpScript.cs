@@ -21,26 +21,11 @@ public class PickUpScript : MonoBehaviour
     public GameObject interactionCanvas;
     public TMP_Text interactionText;
 
-    private InputAction pickUpAction;
-    private InputAction throwAction;
-    private InputAction equipAction;
-    private InputAction storeAction;
-
-
     void Start()
     {
         holdLayer = LayerMask.NameToLayer("holdLayer");
         defaultLayer = LayerMask.NameToLayer("Default");
         interactionCanvas.SetActive(false);
-    }
-
-
-    private void OnDisable()
-    {
-        pickUpAction.Disable();
-        throwAction.Disable();
-        equipAction.Disable();
-        storeAction.Disable();
     }
 
     public void PickUp(InputAction.CallbackContext context)

@@ -26,9 +26,6 @@ public class mainMenu : MonoBehaviour
 
     public AudioSource mainMenuMusic;
 
-    //this creates a stack with menu history so when I call back function, I dont
-    //manually create a new function depending on where the back function is being
-    //called in the menu stack. I use this instead.
     private Stack<GameObject> menuStackHistory = new Stack<GameObject>();
 
 
@@ -59,6 +56,7 @@ public class mainMenu : MonoBehaviour
         if (difficultyMenu.activeSelf) return difficultyMenu;
         return null;
     }
+
     public void PlayGame()
     {
         MainMenu.SetActive(false);
@@ -76,7 +74,24 @@ public class mainMenu : MonoBehaviour
             mainMenuMusic.Stop();
         }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
+    public void loadEasy()
+    {
+        PlayerPrefs.SetFloat("DifficultyMode", (float) 0.5);
+        LoadGame();
+    }
+
+    public void loadMeduim()
+    {
+        PlayerPrefs.SetFloat("DifficultyMode", (float) 1);
+        LoadGame();
+    }
+
+    public void loadHard()
+    {
+        PlayerPrefs.SetFloat("DifficultyMode", (float) 2);
+        LoadGame();
     }
 
     public void OpenNewGame()
@@ -116,7 +131,6 @@ public class mainMenu : MonoBehaviour
         Cursor.visible = false;
 
     }
-
 
 
     public void BackButton()
