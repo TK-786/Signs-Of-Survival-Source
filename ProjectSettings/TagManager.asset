@@ -8,6 +8,8 @@ TagManager:
   - engine
   - Bullet
   - Monster
+  - SniperBullet
+  - SMGBullet
   layers:
   - Default
   - TransparentFX

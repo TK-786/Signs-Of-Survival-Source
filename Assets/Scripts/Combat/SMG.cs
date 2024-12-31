@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SMGMechanics : MonoBehaviour, IUsable
 {
-    public GameObject bulletPrefab;  // The bullet prefab
+    public GameObject smgBulletPrefab;  // The bullet prefab
     public Transform firePoint;     // The point from which bullets are fired
     public float bulletSpeed = 100f;  // Speed of the bullets
     public float fireRate = 0.1f;   // Very fast fire rate for SMG
@@ -38,7 +38,7 @@ public class SMGMechanics : MonoBehaviour, IUsable
         currentAmmo--;
 
         // Create and launch the bullet
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(smgBulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = firePoint.forward * bulletSpeed;
 

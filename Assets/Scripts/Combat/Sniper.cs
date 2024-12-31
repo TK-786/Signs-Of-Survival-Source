@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class SniperMechanics : MonoBehaviour
+
+public class SniperMechanics : MonoBehaviour, IUsable
 {
-    public GameObject bulletPrefab;
+    public GameObject sniperBulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 150f; // Faster than the gun bullet
     public float fireRate = 1.5f; // Slower fire rate
@@ -33,8 +35,29 @@ public class SniperMechanics : MonoBehaviour
 
     void Update()
     {
+        // Handle zoom with the Z key
+        if (Keyboard.current.zKey.wasPressedThisFrame)
+        {
+            isZoomed = !isZoomed; // Toggle zoom state
+        }
+
+        // Smoothly transition the camera field of view
+        if (playerCamera != null)
+        {
+            float targetFOV = isZoomed ? zoomFOV : defaultFOV;
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, zoomSpeed * Time.deltaTime);
+        }
+
+        // Check for shooting
+        if (Mouse.current.leftButton.wasPressedThisFrame && item != null && item.isHeld)
+        {
+            OnUse(); // Call the OnUse() method to handle shooting
+        }
+    }
+    public void OnUse()
+    {
         // Handle shooting
-        if (item != null && item.isHeld && Input.GetMouseButtonDown(0) && Time.time >= nextFireTime)
+        if (item != null && item.isHeld && Time.time >= nextFireTime)
         {
             if (currentAmmo > 0)
             {
@@ -47,7 +70,7 @@ public class SniperMechanics : MonoBehaviour
         }
 
         // Handle zoom with the Z key
-        if (item != null && item.isHeld && Input.GetKeyDown(KeyCode.Z)) // Press Z to toggle zoom
+        if (item != null && item.isHeld) // Press Z to toggle zoom
         {
             isZoomed = !isZoomed; // Toggle zoom state
         }
@@ -64,7 +87,7 @@ public class SniperMechanics : MonoBehaviour
         nextFireTime = Time.time + fireRate;
         currentAmmo--;
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(sniperBulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = firePoint.forward * bulletSpeed;
 
@@ -72,4 +95,5 @@ public class SniperMechanics : MonoBehaviour
 
         Destroy(bullet, 15f); // Destroy the bullet after 15 seconds
     }
+
 }
