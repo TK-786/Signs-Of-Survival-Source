@@ -37,6 +37,8 @@ public class BlindMonsterAI : MonoBehaviour
     private Vector3 initialPosition;
 
     private PromptUser promptManager;
+    public bool isBlinded = false;
+    private Coroutine freezeCoroutine;
     public Transform teleportDestination;
     private void Start()
     {
@@ -52,8 +54,42 @@ public class BlindMonsterAI : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void Freeze(float duration)
     {
+        if (freezeCoroutine != null)
+        {
+            StopCoroutine(freezeCoroutine); // Stop any ongoing freeze coroutine
+        }
+        freezeCoroutine = StartCoroutine(FreezeCoroutine(duration));
+    }
+
+    private IEnumerator FreezeCoroutine(float duration)
+    {
+        Debug.Log("Freezing monster for " + duration + " seconds.");
+        isBlinded = true;
+
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = false;
+        }
+        isBlinded = false;
+        Debug.Log("Unfreezing monster.");
+        freezeCoroutine = null; // Clear the coroutine reference
+    }
+
+
+private void Update()
+    {
+      
+        
+
         HandleDefaultSound();
 
         float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -64,7 +100,7 @@ public class BlindMonsterAI : MonoBehaviour
             audioSource.Stop();
         }
 
-        if (playerController.stealth == false &&  (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y  != 0))
+        if (playerController.stealth == false && (IsPlayerMakingNoise() || navMeshAgent.velocity.x + navMeshAgent.velocity.y != 0))
         {
             if (!isChasing && !hasPlayedSpotSound)
             {
@@ -88,6 +124,7 @@ public class BlindMonsterAI : MonoBehaviour
             {
                 PlayChaseSound();
             }
+
             if (IsPlayerMakingNoise())
             {
                 ChasePlayer();
@@ -99,6 +136,10 @@ public class BlindMonsterAI : MonoBehaviour
             HandleDefaultSound();
         }
     }
+
+
+
+
 
     private void ResetMonster()
     {
@@ -264,4 +305,21 @@ public class BlindMonsterAI : MonoBehaviour
             audioSource.PlayOneShot(attackSound);
         }
     }
+
+    public void ResumeMovement()
+    {
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = false; // Resume pathfinding
+            navMeshAgent.SetDestination(player.transform.position); // Force recalculation of path
+            Debug.Log($"Monster movement resumed. isStopped: {navMeshAgent.isStopped}");
+        }
+        else
+        {
+            Debug.LogError("NavMeshAgent is null and cannot resume movement.");
+        }
+    }
+
+
+
 }

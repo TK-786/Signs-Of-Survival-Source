@@ -2,22 +2,30 @@ using System.Collections;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
-{     
-    public float explosionDelay = 3f;   
-    public float explosionRadius = 5f;  
-    public float explosionForce = 700f; 
+{
+    public float explosionDelay = 1f;
+    public float explosionRadius = 10f;
+    public float explosionForce = 700f;
     public GameObject explosionEffect;
 
-    private PickUpScript pickUpScrip;
+    private Collider grenadeCollider;
+    private PickUpScript pickUpScript;
 
     void Start()
     {
-        pickUpScrip = Camera.main.GetComponent<PickUpScript>();
+        grenadeCollider = GetComponent<Collider>();
+        pickUpScript = Camera.main.GetComponent<PickUpScript>();
     }
 
     public void Throw()
     {
-        pickUpScrip.ThrowObject();
+        // Enable Rigidbody for throwing
+
+        // Ignore collisions with the monster
+        IgnoreMonsterCollisions(true);
+        pickUpScript.ThrowObject();
+
+        // Start the explosion countdown
         StartCoroutine(ExplodeAfterDelay());
     }
 
@@ -25,18 +33,21 @@ public class Grenade : MonoBehaviour
     {
         yield return new WaitForSeconds(explosionDelay);
 
+        // Re-enable collisions with monsters
+        IgnoreMonsterCollisions(false);
+
         Explode();
     }
 
     private void Explode()
     {
-        
+        // Instantiate explosion effect
         if (explosionEffect != null)
         {
             Instantiate(explosionEffect, transform.position, transform.rotation);
         }
 
-        
+        // Detect nearby objects within the explosion radius
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
         foreach (Collider nearbyObject in colliders)
@@ -47,21 +58,28 @@ public class Grenade : MonoBehaviour
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
 
-            
-            if (nearbyObject.CompareTag("Player"))
+            // Apply damage to monsters
+            BlindMonsterAI monster = nearbyObject.GetComponent<BlindMonsterAI>();
+            if (monster != null)
             {
-                Debug.Log("Player hit by grenade!");
+                monster.TakeDamage(100); // Adjust damage as needed
+                Debug.Log("Monster hit by grenade! Health decreased.");
             }
         }
 
-        
-        Destroy(gameObject);
+        Destroy(gameObject); // Destroy the grenade
     }
 
-    private void OnDrawGizmosSelected()
+    private void IgnoreMonsterCollisions(bool ignore)
     {
-    
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.CompareTag("Monster")) // Ensure monsters are tagged as "Monster"
+            {
+                Physics.IgnoreCollision(grenadeCollider, collider, ignore);
+            }
+        }
     }
 }

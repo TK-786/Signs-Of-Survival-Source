@@ -131,7 +131,13 @@ public class PickUpScript : MonoBehaviour
             heldObj.transform.localPosition = Vector3.zero;
             heldObj.transform.localRotation = Quaternion.identity;
 
-           
+            // Specific adjustment for the sniper
+            if (heldObj.name.Contains("Sniper")) // Adjust this based on your sniper's name
+            {
+                heldObj.transform.localPosition = new Vector3(0.3f, -0.2f, 0.5f); // Fine-tune as needed
+                heldObj.transform.localRotation = Quaternion.Euler(-10, 90, 0); // Adjust the rotation
+            }
+
             Collider[] allObjects = GameObject.FindGameObjectsWithTag("canPickUp")
                 .Select(o => o.GetComponent<Collider>())
                 .Where(c => c != null && c != heldObj.GetComponent<Collider>())
