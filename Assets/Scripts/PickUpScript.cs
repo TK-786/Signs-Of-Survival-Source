@@ -21,26 +21,11 @@ public class PickUpScript : MonoBehaviour
     public GameObject interactionCanvas;
     public TMP_Text interactionText;
 
-    private InputAction pickUpAction;
-    private InputAction throwAction;
-    private InputAction equipAction;
-    private InputAction storeAction;
-
-
     void Start()
     {
         holdLayer = LayerMask.NameToLayer("holdLayer");
         defaultLayer = LayerMask.NameToLayer("Default");
         interactionCanvas.SetActive(false);
-    }
-
-
-    private void OnDisable()
-    {
-        pickUpAction.Disable();
-        throwAction.Disable();
-        equipAction.Disable();
-        storeAction.Disable();
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -74,6 +59,23 @@ public class PickUpScript : MonoBehaviour
             {
                 StopClipping();
                 ThrowObject();
+            }
+        }
+    }
+
+    public void Use(InputAction.CallbackContext context)
+    {
+        Debug.Log("Action Called");
+        if (context.performed)
+        {
+            if (heldObj != null)
+            {
+                Debug.Log("held object");
+                IUsable usable = heldObj.GetComponent<IUsable>();
+                if (usable != null) {
+                    Debug.Log("Is usable");
+                    usable.OnUse();
+                }
             }
         }
     }

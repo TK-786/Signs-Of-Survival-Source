@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AdrenalinePotion : MonoBehaviour
+public class AdrenalinePotion : MonoBehaviour, IUsable
 {
     private PlayerController playerController;
     private Item item;
-
-    private InputAction useAction;
 
     void Start()
     {
@@ -19,16 +17,7 @@ public class AdrenalinePotion : MonoBehaviour
 
     }
 
-    private void OnDisable()
-    {
-        if (useAction != null)
-        {
-            useAction.performed -= OnUse;
-            useAction.Disable();
-        }
-    }
-
-    public void OnUse(InputAction.CallbackContext context)
+    public void OnUse()
     {
         if (item != null && item.isHeld)
         {
