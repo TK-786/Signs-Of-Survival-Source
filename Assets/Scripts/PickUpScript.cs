@@ -65,15 +65,12 @@ public class PickUpScript : MonoBehaviour
 
     public void Use(InputAction.CallbackContext context)
     {
-        Debug.Log("Action Called");
         if (context.performed)
         {
             if (heldObj != null)
             {
-                Debug.Log("held object");
                 IUsable usable = heldObj.GetComponent<IUsable>();
                 if (usable != null) {
-                    Debug.Log("Is usable");
                     usable.OnUse();
                 }
             }
@@ -174,7 +171,7 @@ public class PickUpScript : MonoBehaviour
             {heldObj.transform.position = holdPos.transform.position;}
     }
 
-    void ThrowObject()
+    public void ThrowObject()
     {
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;

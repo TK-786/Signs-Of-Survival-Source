@@ -430,7 +430,9 @@ MonoBehaviour:
   teleportDestination: {fileID: 0}
   mainCamera: {fileID: 0}
   cameraHeight: 1.75
+  isBlinded: 0
   itemDropPrefab: {fileID: 7674114615975719218, guid: 7c37435b76638cc4a9eabe1382f8485f, type: 3}
+  navMeshAgent: {fileID: 8516706398668616841}
 --- !u!82 &6061405540740013277
 AudioSource:
   m_ObjectHideFlags: 0
