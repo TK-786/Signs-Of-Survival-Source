@@ -12,6 +12,11 @@ public class PauseMenu : MonoBehaviour
     private Stack<GameObject> PauseMenuStackHistory = new Stack<GameObject>();
     public GameObject player;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         Debug.Log("PauseMenu initialized.");

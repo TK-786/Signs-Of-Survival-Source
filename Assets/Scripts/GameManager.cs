@@ -1,7 +1,25 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
+
     // Variables to track fuel and repair status
     public static float fuel = 0f;
     public static float repair = 0f;
@@ -41,4 +59,16 @@ public class GameManager : MonoBehaviour
     {
         return fuel;
     }
+
+    public void LoadNextScene(string nextSceneName)
+    {
+        SceneManager.LoadSceneAsync(nextSceneName).completed += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(AsyncOperation operation)
+    {
+        Debug.Log("Scene loaded, syncing inventory...");
+        GameObject spawnPoint = GameObject.Find("SpawnPosition");
+        PlayerController.Instance.transform.position = spawnPoint.transform.position;
+    }    
 }

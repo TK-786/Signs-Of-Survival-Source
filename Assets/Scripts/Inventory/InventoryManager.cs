@@ -5,9 +5,11 @@ using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance { get; private set; }
     public GameObject Menu;
     private bool menuOpen;
-    public ItemSlot[] itemSlots;
+    [SerializeField] private ItemSlot[] itemSlots;
+    public ItemSlot[] ItemSlots {get {return itemSlots;}}
     public ItemSlot[] craftingSlots;
     public ItemSlot craftingSlot;
     private PickUpScript pickUpScript;
@@ -25,6 +27,17 @@ public class InventoryManager : MonoBehaviour
 
     public bool craftmode = false;
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         menuOpen = false;
@@ -37,8 +50,21 @@ public class InventoryManager : MonoBehaviour
         CraftingPanel.SetActive(false);
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
+    
+        if (playerInput != null)
+        {
+            openInventoryAction = playerInput.actions["OpenInventory"];
+            craftingModeAction = playerInput.actions["Interact"];
+            openInventoryAction.Enable();
+            craftingModeAction.Enable();
+            Debug.Log("PlayerInput actions enabled.");
+        }
+        else
+        {
+            Debug.LogError("PlayerInput component not found.");
+        }
         openInventoryAction = playerInput.actions["OpenInventory"];
-        craftingModeAction = playerInput.actions["CraftingMode"];
+        craftingModeAction = playerInput.actions["Interact"];
 
         openInventoryAction.Enable();
         craftingModeAction.Enable();

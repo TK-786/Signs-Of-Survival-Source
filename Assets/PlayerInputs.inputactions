@@ -96,7 +96,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CraftingMode",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "77b50797-6a92-4a03-afef-8a3c7a9fdb50",
                     "expectedControlType": "Button",
@@ -276,7 +276,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CraftingMode",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

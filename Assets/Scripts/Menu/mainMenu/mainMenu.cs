@@ -75,8 +75,7 @@ public class mainMenu : MonoBehaviour
         {
             mainMenuMusic.Stop();
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
+        SceneManager.LoadScene("Outside");
     }
 
     public void OpenNewGame()

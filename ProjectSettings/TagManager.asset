@@ -7,6 +7,7 @@ TagManager:
   - canPickUp
   - engine
   - Bullet
+  - BunkerDoor
   layers:
   - Default
   - TransparentFX

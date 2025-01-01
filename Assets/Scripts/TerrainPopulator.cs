@@ -76,37 +76,50 @@ public class TerrainPopulator : MonoBehaviour
     }
 
     void PlaceBunker()
+{
+    Vector3 position = FindAreaOutsideForest(10f, 20f); 
+    if (position != Vector3.zero)
     {
-        Vector3 position = FindAreaOutsideForest(10f, 20f); 
-        if (position != Vector3.zero)
+        SmoothTerrainAround(position, 10f);
+        position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+        position.y -= 1f;
+
+        if (IsFarEnough(position))
         {
-            SmoothTerrainAround(position, 10f);
-            position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
-            position.y -= 1f;
+            Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(
+                position.x / terrain.terrainData.size.x, 
+                position.z / terrain.terrainData.size.z
+            );
 
-            if (IsFarEnough(position))
-            {
-                Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(position.x / terrain.terrainData.size.x, position.z / terrain.terrainData.size.z);
-                Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
-                Vector3 directionToCenter = terrainCenter - position;
-                directionToCenter.y = 0;
+            Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
+            Vector3 directionToCenter = terrainCenter - position;
+            directionToCenter.y = 0;
 
-                Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); // 180 degree turn to face center
-                Quaternion finalRotation = Quaternion.FromToRotation(Vector3.up, terrainNormal) * lookRotation;
+            Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); 
+            
+            Quaternion normalRotation = Quaternion.FromToRotation(Vector3.up, terrainNormal);
+            float maxTiltAngle = 5f;
+            Vector3 eulerAngles = normalRotation.eulerAngles;
+            eulerAngles.x = Mathf.Clamp(eulerAngles.x, -maxTiltAngle, maxTiltAngle);
+            eulerAngles.z = Mathf.Clamp(eulerAngles.z, -maxTiltAngle, maxTiltAngle);
 
-                InstantiateObject(bunkerPrefab, position, finalRotation);
-                usedPositions.Add(position);
-            }
-            else
-            {
-                Debug.LogWarning("Failed to place the bunker due to overlap.");
-            }
+            Quaternion finalRotation = Quaternion.Euler(eulerAngles) * lookRotation;
+
+            InstantiateObject(bunkerPrefab, position, finalRotation);
+            usedPositions.Add(position);
+
+            FlattenTerrain(position, 12f);
         }
         else
         {
-            Debug.LogWarning("Failed to place the bunker.");
+            Debug.LogWarning("Failed to place the bunker due to overlap.");
         }
     }
+    else
+    {
+        Debug.LogWarning("Failed to place the bunker.");
+    }
+}
 
     void PlaceShip()
     {
