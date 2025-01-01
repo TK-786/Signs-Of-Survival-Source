@@ -6,7 +6,7 @@ public class BunkerInteraction : MonoBehaviour
 {
     public Transform bunkerDoor;          // The door's position
     public float interactionDistance = 3f; // Max interaction distance
-    public string nextSceneName = "ship";  // Name of the scene to load
+    public string nextSceneName = "Bunker";  // Name of the scene to load
 
     private InputAction interactAction;
 

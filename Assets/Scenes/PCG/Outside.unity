@@ -1209,7 +1209,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: F
+  m_Text: 
 --- !u!222 &120298450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2730,7 +2730,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tab
+  m_Text: 
 --- !u!222 &270950779
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3488,7 +3488,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D
+  m_Text: 
 --- !u!222 &301690481
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6248,7 +6248,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pause
+  m_Text: 
 --- !u!222 &520479479
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7178,7 +7178,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Crouch
+  m_Text: 
 --- !u!222 &646592101
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7925,7 +7925,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: W
+  m_Text: 
 --- !u!222 &757586525
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8004,7 +8004,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P
+  m_Text: 
 --- !u!222 &780384343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8572,7 +8572,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PickUp
+  m_Text: 
 --- !u!222 &849577423
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10012,7 +10012,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sprint
+  m_Text: 
 --- !u!222 &995313528
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12064,7 +12064,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jump
+  m_Text: 
 --- !u!222 &1179086101
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13638,7 +13638,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Throw
+  m_Text: 
 --- !u!222 &1365050446
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14489,7 +14489,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: A
+  m_Text: 
 --- !u!222 &1566319833
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15282,7 +15282,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: E
+  m_Text: 
 --- !u!222 &1659500632
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15746,7 +15746,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: E
+  m_Text: 
 --- !u!222 &1694651969
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16189,7 +16189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Space
+  m_Text: 
 --- !u!222 &1739669863
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16402,7 +16402,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Shift
+  m_Text: 
 --- !u!222 &1755559154
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17111,7 +17111,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: S
+  m_Text: 
 --- !u!222 &1851647093
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17783,7 +17783,7 @@ MonoBehaviour:
   playerStats: {fileID: 370594115}
   stealth: 0
   isPaused: 0
-  animator: {fileID: 52747491}
+  animator: {fileID: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!143 &1873946104
 CharacterController:
@@ -18099,7 +18099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: RMB
+  m_Text: 
 --- !u!222 &1895620115
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18194,7 +18194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: C
+  m_Text: 
 --- !u!222 &1903438154
 CanvasRenderer:
   m_ObjectHideFlags: 0

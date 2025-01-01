@@ -459,4 +459,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bunkerDoor: {fileID: 6304465780636482103}
   interactionDistance: 3
-  nextSceneName: ship
+  nextSceneName: Bunker
