@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         bool isMoving = moveInput != Vector2.zero;
 
-        animator.SetBool("IsMoving", isMoving);
+        //animator.SetBool("IsMoving", isMoving);
     }
 
     private void ConfigureCursor()

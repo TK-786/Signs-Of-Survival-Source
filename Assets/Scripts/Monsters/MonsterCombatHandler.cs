@@ -160,6 +160,7 @@ public class MonsterCombatHandler : MonoBehaviour
 
     private IEnumerator ApplyKnockback(GameObject playerObj, Vector3 direction, float force, float duration)
     {
+        Debug.Log("still not working");
         float elapsedTime = 0f;
         float initialYPosition = playerObj.transform.position.y;
 

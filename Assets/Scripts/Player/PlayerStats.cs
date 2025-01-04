@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
 
         maxHealth = maxHealth / difficultyMode;
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        //healthBar.SetMaxHealth(maxHealth);
     }
 
     public void TakeDamage(float damage)
@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        healthBar.SetHealth(currentHealth);
+        //healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -43,6 +43,6 @@ public class PlayerStats : MonoBehaviour
     {
         currentHealth = maxHealth;
         Debug.Log("player is reset to full health");
-        healthBar.SetHealth(currentHealth);
+        //healthBar.SetHealth(currentHealth);
     }
 }
