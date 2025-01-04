@@ -48,8 +48,16 @@ public class BunkerInteraction : MonoBehaviour
 
             if (hit.collider.CompareTag("BunkerDoor"))
             {
-                Debug.Log("Loading scene: " + nextSceneName);
+                string currentScene = SceneManager.GetActiveScene().name;
+
+                // Determine the next scene based on current scene
+                string nextSceneName = (currentScene == "Outside") ? "Bunker" : "Outside";
+
+                Debug.Log($"Transitioning from {currentScene} to {nextSceneName}");
+
+                // Load the next scene
                 GameManager.instance.LoadNextScene(nextSceneName);
+
             }
         }
     }

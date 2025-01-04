@@ -9004,6 +9004,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 917440218}
   m_CullTransparentMesh: 0
+--- !u!1 &935020838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 935020839}
+  m_Layer: 0
+  m_Name: SpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &935020839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935020838}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 104.5, y: 126.2, z: 384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &937754606
 GameObject:
   m_ObjectHideFlags: 0
@@ -17783,7 +17814,7 @@ MonoBehaviour:
   playerStats: {fileID: 370594115}
   stealth: 0
   isPaused: 0
-  animator: {fileID: 0}
+  animator: {fileID: 52747491}
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!143 &1873946104
 CharacterController:
@@ -19695,3 +19726,4 @@ SceneRoots:
   - {fileID: 192001918}
   - {fileID: 1239396434}
   - {fileID: 1273047493}
+  - {fileID: 935020839}

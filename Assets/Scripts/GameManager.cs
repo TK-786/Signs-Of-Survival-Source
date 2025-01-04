@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public string lastSceneName;
 
     void Awake()
     {
@@ -62,13 +63,56 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextScene(string nextSceneName)
     {
+        lastSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadSceneAsync(nextSceneName).completed += OnSceneLoaded;
     }
 
     private void OnSceneLoaded(AsyncOperation operation)
     {
         Debug.Log("Scene loaded, syncing inventory...");
-        GameObject spawnPoint = GameObject.Find("SpawnPosition");
-        PlayerController.Instance.transform.position = spawnPoint.transform.position;
-    }    
+        StartCoroutine(SetPlayerPosition());
+    }
+
+    private System.Collections.IEnumerator SetPlayerPosition()
+    {
+        // Wait until the SpawnPosition object is found
+        GameObject spawnPoint = null;
+        int retries = 10; // Number of attempts to find the spawn point
+        float retryDelay = 0.1f; // Delay between attempts
+
+        while (spawnPoint == null && retries > 0)
+        {
+            spawnPoint = GameObject.Find("SpawnPosition");
+            if (spawnPoint == null)
+            {
+                retries--;
+                Debug.LogWarning("SpawnPosition not found yet, retrying...");
+                yield return new WaitForSeconds(retryDelay); // Wait before retrying
+            }
+        }
+
+        if (spawnPoint != null)
+        {
+            Debug.Log($"Found spawn point at: {spawnPoint.transform.position}");
+
+            // Access the player and its CharacterController
+            PlayerController player = PlayerController.Instance;
+            CharacterController controller = player.GetComponent<CharacterController>();
+
+            // Disable CharacterController to avoid conflicts
+            controller.enabled = false;
+
+            // Set player position
+            player.transform.position = spawnPoint.transform.position;
+
+            // Re-enable CharacterController
+            controller.enabled = true;
+
+            Debug.Log($"Player moved to spawn point at: {spawnPoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogError("SpawnPoint not found after retries!");
+        }
+    }
 }
