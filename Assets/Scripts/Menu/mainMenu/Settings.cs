@@ -194,13 +194,11 @@ public class Settings : MonoBehaviour
     {
         if (ticked)
         {
-            Debug.Log("Visual sound effects enabled.");
 
             //visual sound effects is enabled
         }
         else
         {
-            Debug.Log("Visual sound effects disabled.");
 
             //visual sound effects disabled
         }
@@ -222,15 +220,12 @@ public class Settings : MonoBehaviour
         }
         else
         {
-            Debug.Log("here in basic");
             ButtonPopOutPause(basicButton);
         }
 
         ResetButton(keyBindsButton);
-        //currentActiveButton = basicButton;
-
-
     }
+
     public void ShowKeyBindsSettings()
     {
         basicSettings.SetActive(false);
@@ -260,7 +255,6 @@ public class Settings : MonoBehaviour
               clickedButton.transform.localPosition.y,
               clickedButton.transform.localPosition.z
           );
-            Debug.Log($"Original Position: {clickedButton.transform.localPosition}, Target Position: {clickedButton.transform.localPosition}");
             clickedButton.transform.localPosition = clickedButton.transform.localPosition;
         }
 

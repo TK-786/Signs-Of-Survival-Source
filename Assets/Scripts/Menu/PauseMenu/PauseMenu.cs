@@ -19,7 +19,6 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("PauseMenu initialized.");
         pauseMenu.SetActive(false);
         settingsMenu.SetActive(false);
         Time.timeScale = 1f;
@@ -75,13 +74,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
-        Debug.Log("ResumeGame called. Deactivating pause menu.");
-
-        if (pauseMenu == null)
-        {
-            Debug.LogError("pauseMenu is not assigned!");
-            return;
-        }
         pauseMenu.SetActive(false); 
         Time.timeScale = 1f;        
         gamePaused = false;
@@ -89,7 +81,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
 
-        // Enable player input
         player.GetComponent<PlayerController>().isPaused = false;
     }
 

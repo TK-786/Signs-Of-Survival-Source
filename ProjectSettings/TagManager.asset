@@ -8,6 +8,9 @@ TagManager:
   - engine
   - Bullet
   - BunkerDoor
+  - Monster
+  - SniperBullet
+  - SMGBullet
   layers:
   - Default
   - TransparentFX

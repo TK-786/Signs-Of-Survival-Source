@@ -20,9 +20,6 @@ public class InventoryManager : MonoBehaviour
     private CraftingManager craftingManager;
     public CraftingManager CraftingManager => craftingManager;
 
-    private InputAction openInventoryAction;
-    private InputAction craftingModeAction;
-
     public float raycastDistance = 5f;
 
     public bool craftmode = false;
@@ -51,35 +48,7 @@ public class InventoryManager : MonoBehaviour
 
         PlayerInput playerInput = GetComponent<PlayerInput>();
     
-        if (playerInput != null)
-        {
-            openInventoryAction = playerInput.actions["OpenInventory"];
-            craftingModeAction = playerInput.actions["Interact"];
-            openInventoryAction.Enable();
-            craftingModeAction.Enable();
-            Debug.Log("PlayerInput actions enabled.");
-        }
-        else
-        {
-            Debug.LogError("PlayerInput component not found.");
-        }
-        openInventoryAction = playerInput.actions["OpenInventory"];
-        craftingModeAction = playerInput.actions["Interact"];
-
-        openInventoryAction.Enable();
-        craftingModeAction.Enable();
-
-        openInventoryAction.performed += ToggleInventoryMenu;
-        craftingModeAction.performed += ToggleCraftingModeInput;
-
     }
-
-    private void OnDisable()
-    {
-        openInventoryAction.Disable();
-        craftingModeAction.Disable();
-    }
-
     public bool GetMode()
     {
         return craftmode;
@@ -152,6 +121,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    void onUse(InputAction.CallbackContext context)
+    {
+        
+    }
 
     public void AddItem(string name, int quantity, Sprite icon, string itemDescription, int stackLimit, Item item)
     {

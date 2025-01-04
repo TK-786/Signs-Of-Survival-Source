@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 6201230409189643726}
   - component: {fileID: 6118160632523631483}
   - component: {fileID: 2587492161730316543}
+  - component: {fileID: -7072959242474246845}
   m_Layer: 5
   m_Name: MonsterHealthCanvas
   m_TagString: Untagged
@@ -377,3 +378,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &-7072959242474246845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7471731656831978383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e8ab066062b3a4498488999f8aaf64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 0}
+  healthBarSlider: {fileID: 0}
+  offset: {x: 0, y: 1, z: 0}

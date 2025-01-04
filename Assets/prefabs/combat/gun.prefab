@@ -157,7 +157,11 @@ MonoBehaviour:
   itemDescription: Glock
   stackLimit: 1
   inventoryManager: {fileID: 0}
+<<<<<<<< HEAD:Assets/prefabs/combat/gun.prefab
   item: {fileID: 9114825097544646286}
+========
+  item: {fileID: 5775864065538386703}
+>>>>>>>> main:Assets/prefabs/Combat/SelfMade Assets/gun.prefab
   isHeld: 0
 --- !u!54 &184716744929642572
 Rigidbody:
