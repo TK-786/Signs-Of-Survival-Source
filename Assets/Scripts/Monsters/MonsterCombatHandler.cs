@@ -64,15 +64,15 @@ public class MonsterCombatHandler : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(50);  
+            TakeDamage(25);  
         }
         else if (collision.gameObject.CompareTag("SniperBullet"))
         {
-            TakeDamage(50); // Sniper bullet damage
+            TakeDamage(100);
         }
         else if (collision.gameObject.CompareTag("SMGBullet"))
         {
-            TakeDamage(15); // SMG bullet damage
+            TakeDamage(15);
         }
     }
 

@@ -206,7 +206,13 @@ public class PickUpScript : MonoBehaviour
         {
             heldObj.transform.SetParent(rightHandPos);
             heldObj.transform.localPosition = Vector3.zero;
-            heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
+            if (heldObj.name == "sniperNew" || heldObj.name == "AMG")
+            {
+                heldObj.transform.localRotation *= Quaternion.Euler(270, 90, 0f);
+            }
+            else {
+                heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
+            }
 
             MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
             if (meshCollider != null)

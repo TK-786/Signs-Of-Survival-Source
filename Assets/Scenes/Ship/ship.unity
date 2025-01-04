@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.047
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0008961954, g: 0.001054869, b: 0.0013514964, a: 0.047}
+  m_IndirectSpecularColor: {r: 0.0012080699, g: 0.0011301615, b: 0.0011371057, a: 0.047}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -28484,10 +28484,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8636817148161145839, guid: 944412e8d23ecc84895d7fc4cd956c2f, type: 3}
-      propertyPath: smgBulletPrefab
-      value: 
-      objectReference: {fileID: 6593034258790301712, guid: 1a553d2d4a5382043a631f072db242a0, type: 3}
     - target: {fileID: 8704454186466269963, guid: 944412e8d23ecc84895d7fc4cd956c2f, type: 3}
       propertyPath: m_Name
       value: AMG
@@ -35986,15 +35982,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -80.3
+      value: -88.83
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071067
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalRotation.y
@@ -36002,7 +35998,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 36695990946988215, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -36020,10 +36016,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: sniperNew
       objectReference: {fileID: 0}
-    - target: {fileID: 4524188869940353152, guid: 00ca2feb930d687488c5dd0eb984f252, type: 3}
-      propertyPath: sniperBulletPrefab
-      value: 
-      objectReference: {fileID: 6593034258790301712, guid: 8f6ff58104c884e4c8cf89c454923a08, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3505688875735864862}
   - component: {fileID: 3717882552633206593}
   m_Layer: 0
-  m_Name: SMGBullet
-  m_TagString: SMGBullet
+  m_Name: SniperBullet
+  m_TagString: SniperBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.279324, y: 3.3488653, z: -210.2746}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
