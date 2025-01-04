@@ -65,15 +65,15 @@ public class PickUpScript : MonoBehaviour
 
     public void Use(InputAction.CallbackContext context)
     {
-        Debug.Log("Action Called");
         if (context.performed)
         {
+            Debug.Log("Use");
             if (heldObj != null)
             {
-                Debug.Log("held object");
+                Debug.Log("is held");
                 IUsable usable = heldObj.GetComponent<IUsable>();
                 if (usable != null) {
-                    Debug.Log("Is usable");
+                    Debug.Log("usabe");
                     usable.OnUse();
                 }
             }
@@ -174,7 +174,7 @@ public class PickUpScript : MonoBehaviour
             {heldObj.transform.position = holdPos.transform.position;}
     }
 
-    void ThrowObject()
+    public void ThrowObject()
     {
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;
@@ -206,7 +206,13 @@ public class PickUpScript : MonoBehaviour
         {
             heldObj.transform.SetParent(rightHandPos);
             heldObj.transform.localPosition = Vector3.zero;
-            heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
+            if (heldObj.name == "sniperNew" || heldObj.name == "AMG")
+            {
+                heldObj.transform.localRotation *= Quaternion.Euler(270, 90, 0f);
+            }
+            else {
+                heldObj.transform.localRotation *= Quaternion.Euler(0, 90, 0);
+            }
 
             MeshCollider meshCollider = heldObj.GetComponent<MeshCollider>();
             if (meshCollider != null)

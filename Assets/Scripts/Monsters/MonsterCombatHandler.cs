@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class MonsterCombatHandler : MonoBehaviour
@@ -24,7 +25,12 @@ public class MonsterCombatHandler : MonoBehaviour
     private Vector3 initialPosition;
     private Rigidbody rb;
 
+    private Coroutine freezeCoroutine;
+    public bool isBlinded = false;
+
     public GameObject itemDropPrefab;
+
+    public NavMeshAgent navMeshAgent;
 
     private void Start()
     {
@@ -58,7 +64,15 @@ public class MonsterCombatHandler : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(50);  
+            TakeDamage(25);  
+        }
+        else if (collision.gameObject.CompareTag("SniperBullet"))
+        {
+            TakeDamage(100);
+        }
+        else if (collision.gameObject.CompareTag("SMGBullet"))
+        {
+            TakeDamage(15);
         }
     }
 
@@ -86,6 +100,36 @@ public class MonsterCombatHandler : MonoBehaviour
     public bool TakenDMG() 
     {
         return !(Health == maxHealth);
+    }
+
+    private IEnumerator FreezeCoroutine(float duration)
+    {
+        Debug.Log("Freezing monster for " + duration + " seconds.");
+        isBlinded = true;
+
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = false;
+        }
+        isBlinded = false;
+        Debug.Log("Unfreezing monster.");
+        freezeCoroutine = null; 
+    }
+
+    public void Freeze(float duration)
+    {
+        if (freezeCoroutine != null)
+        {
+            StopCoroutine(freezeCoroutine);
+        }
+        freezeCoroutine = StartCoroutine(FreezeCoroutine(duration));
     }
 
     private void ApplyDamageAndKnockback(GameObject playerObj)
