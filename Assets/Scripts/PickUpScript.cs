@@ -39,11 +39,6 @@ public class PickUpScript : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                StopClipping();
-                DropObject();
-            }
         }
     }
 
@@ -128,7 +123,7 @@ public class PickUpScript : MonoBehaviour
         }
     }
 
-    void DropObject()
+    public void DropObject(InputAction.CallbackContext context)
     {
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;
