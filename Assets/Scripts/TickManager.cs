@@ -31,7 +31,10 @@ public class TickManager : MonoBehaviour
     private int days;
     public int Days
     { get { return days; } set { days = value; } }
- 
+    private static bool night;
+    public static bool Night
+    { get { return night; }  }
+
     private void Awake(){
         if (Instance == null){
             Instance = this;
@@ -88,6 +91,12 @@ public class TickManager : MonoBehaviour
         }
         else if (value == 22){ // Sunset to Night
             StartCoroutine(LerpSkybox(skyBoxSunset, skyBoxNight, 20f));
+        }
+
+        if  (5 < value && value < 17){ night = false; }
+        else
+        {
+            night = true;
         }
 
     }

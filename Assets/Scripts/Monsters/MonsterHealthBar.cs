@@ -24,7 +24,7 @@ public class MonsterHealthBar : MonoBehaviour
     private void UpdateHealthBar()
     {
         // Get the monster's health ratio from its script
-        var monsterScript = monster.GetComponent<BlindMonsterAI>();
+        var monsterScript = monster.GetComponent<MonsterCombatHandler>();
 
         if (monsterScript != null)
         {
