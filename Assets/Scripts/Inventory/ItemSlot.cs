@@ -70,10 +70,10 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnLeftClick(){
-        for (int i = 0; i < inventoryManager.itemSlots.Length; i++)
+        for (int i = 0; i < inventoryManager.ItemSlots.Length; i++)
         {
-            inventoryManager.itemSlots[i].selectedSlot.SetActive(false);
-            inventoryManager.itemSlots[i].itemSelected = false;
+            inventoryManager.ItemSlots[i].selectedSlot.SetActive(false);
+            inventoryManager.ItemSlots[i].itemSelected = false;
         }
 
         Debug.Log("Left Click detected!");
