@@ -10,6 +10,7 @@ public class ShipAI : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private GameObject uiPanel;
     [SerializeField] List<Button> options = new();
+    [SerializeField] 
     private bool isActive = false;
     private bool isUIOpen = false;
     private InputAction InteractShipConsole;
@@ -35,7 +36,9 @@ public class ShipAI : MonoBehaviour
    private void ShowOptionsUI()
     {
         if (isUIOpen) return;
-
+        List<string> dialogue = new List<string>();
+        dialogue.Add("How can I help you?");
+        Dialogue.instance.InitDialogue(dialogue.ToArray());
         isUIOpen = true;
         uiPanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
@@ -64,19 +67,26 @@ public class ShipAI : MonoBehaviour
     private void DisplayTime()
     {
         TickManager tickManager = TickManager.Instance;
-        
+        List<string> dialogue = new List<string>();
+        dialogue.Add("Current Time is: " + tickManager.Hours + ":" + tickManager.Minutes);
+        dialogue.Add("It has been " + tickManager.Days + " days since the crash");
         Debug.Log("Current Time: " + tickManager.Hours + ":" + tickManager.Minutes);
         CloseUI();
     }
 
     private void DisplayWeather()
     {
+        WeatherManager weatherManager = WeatherManager.Instance;
+        List<string> dialogue = new List<string>();
+        dialogue.Add("Current Weather is " + weatherManager.CurrentWeather);
+        dialogue.Add("I detect " + weatherManager.forecast + " in the forecast");
         Debug.Log("Weather: Clear skies");
         CloseUI();
     }
 
     private void DisplayHints()
     {
+        List<string> dialogue = new List<string>();
         Debug.Log("Hint: Follow the beacon!");
         CloseUI();
     }

@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class WeatherManager : MonoBehaviour
 {
+    public static WeatherManager Instance;
     private int period = 10;
     private int weatherTick = 0;
     [SerializeField] private Weather currentWeather = Weather.clear;
     public Weather CurrentWeather => currentWeather;
     public GameObject Player;
     private Queue<Weather> weatherQueue;
+    public Weather forecast => weatherQueue.Peek();
     [SerializeField] ParticleSystem rainPS;
     [SerializeField] ParticleSystem snowPS;
     [SerializeField] ParticleSystem lightningPS;
@@ -19,8 +21,14 @@ public class WeatherManager : MonoBehaviour
     [SerializeField] AudioClip rainLightningSound;
     private AudioSource audioSource;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        if (Instance == null){
+            Instance = this;
+        }
+        else{
+            Destroy(gameObject);
+        }
         audioSource = gameObject.GetComponent<AudioSource>();
         period = 10;
         RenderSettings.fog = true;
