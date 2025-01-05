@@ -8,7 +8,7 @@ public class AudioCueManager : MonoBehaviour
     public static AudioCueManager audioCueManager;
     private GameObject player;
     private RectTransform cueUI;
-    private float radius = 350f;
+    private float radius = 75;
     [SerializeField] List<AudioClip> audioList = new List<AudioClip>();
     [SerializeField] List<GameObject> cueIcon = new List<GameObject>();
     private Dictionary<AudioClip, GameObject> clipToCue = new Dictionary<AudioClip, GameObject>();

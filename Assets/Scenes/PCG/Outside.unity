@@ -1285,6 +1285,7 @@ GameObject:
   - component: {fileID: 96329500}
   - component: {fileID: 96329499}
   - component: {fileID: 96329498}
+  - component: {fileID: 96329501}
   m_Layer: 5
   m_Name: HealthBarCanvas
   m_TagString: Untagged
@@ -1375,6 +1376,28 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &96329501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96329496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1e20a478ecb1e41af6cbf8fee8701e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioList:
+  - {fileID: 8300000, guid: d8a42664fa34cb147a176d8316a21e2f, type: 3}
+  - {fileID: 8300000, guid: df591cd7436babc49a1424f7349dacae, type: 3}
+  - {fileID: 8300000, guid: d583d94b2548d534ca44f6d91546b84f, type: 3}
+  - {fileID: 8300000, guid: 080ac10ab17d8584187ac58941ebc880, type: 3}
+  cueIcon:
+  - {fileID: 6093427581698580170, guid: 5ba78e21d91c7db418e54f49aecbb228, type: 3}
+  - {fileID: 4405495127718724761, guid: 62209fb007bc61b4fa7c6b8741bf704f, type: 3}
+  - {fileID: 456510443624911522, guid: e6f49d2db3002bc4fb6e62a36a1991f4, type: 3}
+  - {fileID: 7478903315387335108, guid: 104bfec1a7f335c4a9f4868a502787da, type: 3}
 --- !u!1 &113309525
 GameObject:
   m_ObjectHideFlags: 0
@@ -9415,7 +9438,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1527088160}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -22056,8 +22079,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1527088160}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23526,7 +23548,6 @@ RectTransform:
   - {fileID: 113309526}
   - {fileID: 1372160495}
   - {fileID: 1908481604}
-  - {fileID: 883815797}
   m_Father: {fileID: 1655073004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -55110,7 +55131,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 883815797}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -63200,3 +63221,7 @@ SceneRoots:
   - {fileID: 138862084}
   - {fileID: 231402646}
   - {fileID: 860641802}
+  - {fileID: 323303594}
+  - {fileID: 520677107}
+  - {fileID: 1655073004}
+  - {fileID: 1845671324}

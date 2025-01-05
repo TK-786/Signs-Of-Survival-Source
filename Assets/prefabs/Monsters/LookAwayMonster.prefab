@@ -2532,6 +2532,7 @@ GameObject:
   - component: {fileID: 542551496215357302}
   - component: {fileID: 5459047852883372220}
   - component: {fileID: 38211331632359205}
+  - component: {fileID: 8583611523834888138}
   m_Layer: 0
   m_Name: LookAwayMonster
   m_TagString: Monster
@@ -2746,19 +2747,19 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 080ac10ab17d8584187ac58941ebc880, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 0.58249164
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2831,6 +2832,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8583611523834888138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4419345361466739149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acb01a3ede59624b8483bf56db6d8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cueType: {fileID: 0}
 --- !u!1 &4506105204016726009
 GameObject:
   m_ObjectHideFlags: 0
