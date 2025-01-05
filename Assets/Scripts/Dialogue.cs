@@ -4,12 +4,18 @@ using UnityEngine;
 using TMPro;
 
 public class Dialogue : MonoBehaviour{
+    public static Dialogue instance;
     public TextMeshProUGUI text;
     public string[] lines;
     private int index;
     private bool typing;
     private float timer;
-    void Start(){
+    void Awake(){
+        if (instance == null){
+            instance = this;
+        } else{
+            Destroy(gameObject);
+        }
         text.text = string.Empty;
         typing = false;
     }
