@@ -19,7 +19,10 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Start()
     {
-        if (useRandomSeed)
+        if (PlayerPrefs.HasKey("seed")){
+            seed = PlayerPrefs.GetInt("seed");
+        }
+        else if (useRandomSeed)
         {
             seed = Random.Range(0, 100000); // Generate a random seed
         }

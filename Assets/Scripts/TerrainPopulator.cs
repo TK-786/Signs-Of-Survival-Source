@@ -42,7 +42,10 @@ public class TerrainPopulator : MonoBehaviour
     {
         terrainData = terrain.terrainData;
 
-        if (useRandomSeed)
+        if (PlayerPrefs.HasKey("popSeed")){
+            seed = PlayerPrefs.GetInt("popSeed");
+        }
+        else if (useRandomSeed)
         {
             seed = Random.Range(0, 100000);
         }
@@ -86,11 +89,6 @@ public class TerrainPopulator : MonoBehaviour
 
         if (IsFarEnough(position))
         {
-            Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(
-                position.x / terrain.terrainData.size.x, 
-                position.z / terrain.terrainData.size.z
-            );
-
             Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
             Vector3 directionToCenter = terrainCenter - position;
             directionToCenter.y = 0;
