@@ -124,7 +124,7 @@ public class PickUpScript : MonoBehaviour
     public void dropHeldObj(){
         if (heldObj != null){
             StopClipping();
-            DropObject();
+            //DropObject();
         }
     }
 
