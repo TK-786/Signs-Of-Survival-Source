@@ -12,7 +12,7 @@ public class ShipAI : MonoBehaviour
     List<Button> options = new();
     private bool isActive = false;
     private bool isUIOpen = false;
-    private InputAction InteractShipConsole;
+    
     void Start()
     {
         uiPanel = GameObject.Find("ButtonBox");
@@ -21,13 +21,9 @@ public class ShipAI : MonoBehaviour
         options.Add(uiPanel.transform.Find("Button3").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button4").GetComponent<Button>());
         uiPanel.SetActive(false);
-        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        InteractShipConsole = playerInput.actions["Interact"];
-        InteractShipConsole.Enable();
-        InteractShipConsole.performed += displayConsoleOptions;
     }
 
-    public void displayConsoleOptions(InputAction.CallbackContext context){
+    public void DisplayConsoleOptions(){
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
             if (hit.collider.gameObject.name == "shipConsole"){

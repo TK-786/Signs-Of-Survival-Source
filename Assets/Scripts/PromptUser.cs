@@ -37,7 +37,7 @@ public class PromptUser : MonoBehaviour
                     case "fuelRodContainer":
                         InitPrompt("Deposit fuel rod");
                         break;
-                    case "engineReader":
+                    case "EngineReader":
                         InitPrompt("Insert engine");
                         break;
                     case "CraftingStation":

@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/prefabs/bunker/Table.fbx.meta
-guid: f0c0bcf0ba3e6f049b8b7ba60018f39a
-========
-guid: 3f7ecc6c040832845b91c4dd7e7eb71c
->>>>>>>> main:Assets/prefabs/Engine.fbx.meta
+guid: e61d09432b0d7d947b87ed00e83e0ef7
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []

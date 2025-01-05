@@ -124,7 +124,13 @@ public class PickUpScript : MonoBehaviour
     public void dropHeldObj(){
         if (heldObj != null){
             StopClipping();
-            //DropObject();
+            Item item = heldObj.GetComponent<Item>();
+            if (item != null){
+                item.isHeld = false;
+            }
+
+            heldObj = null;
+            isEquipped = false;
         }
     }
 
