@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     public bool isPaused = false;
 
     public Animator animator;
-    public Vector3 spawnPosition;
 
     void Awake()
     {

@@ -18,14 +18,10 @@ public class PickUpScript : MonoBehaviour
     private int holdLayer;
     private bool isEquipped = false;
 
-    public GameObject interactionCanvas;
-    public TMP_Text interactionText;
-
     void Start()
     {
         holdLayer = LayerMask.NameToLayer("holdLayer");
         defaultLayer = LayerMask.NameToLayer("Default");
-        interactionCanvas.SetActive(false);
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -234,7 +230,6 @@ public class PickUpScript : MonoBehaviour
     {
         heldObj = null;
         heldObjRb = null;
-        interactionCanvas.SetActive(false);
         isEquipped = false;
     }
 

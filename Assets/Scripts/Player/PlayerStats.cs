@@ -13,16 +13,16 @@ public class PlayerStats : MonoBehaviour
 
         maxHealth = maxHealth / difficultyMode;
         currentHealth = maxHealth;
-        //healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("player demage takedn");
+        Debug.Log("player damage taken");
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        //healthBar.SetHealth(currentHealth);
+        healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0)
         {
