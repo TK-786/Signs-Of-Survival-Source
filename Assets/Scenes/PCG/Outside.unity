@@ -5915,7 +5915,7 @@ MonoBehaviour:
   heightMultiplier: 1
   smoothingFactor: 0.5
   seed: 0
-  useRandomSeed: 0
+  useRandomSeed: 1
 --- !u!154 &512688822
 TerrainCollider:
   m_ObjectHideFlags: 0
@@ -6043,7 +6043,7 @@ MonoBehaviour:
   flowerPatchCount: 15
   minObjectDistance: 5
   seed: 0
-  useRandomSeed: 0
+  useRandomSeed: 1
 --- !u!1 &515116194
 GameObject:
   m_ObjectHideFlags: 0
@@ -12480,6 +12480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d81556bc8041348bcf361a80c373fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastSceneName: 
 --- !u!4 &1239396434
 Transform:
   m_ObjectHideFlags: 0
@@ -17773,13 +17774,13 @@ CapsuleCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 1.1317971
+  m_Height: 4.3725357
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.13179713, y: 0.9316781, z: 0}
 --- !u!114 &1873946103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17835,7 +17836,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 3.343297
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3

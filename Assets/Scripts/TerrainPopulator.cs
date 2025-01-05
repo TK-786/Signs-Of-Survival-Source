@@ -82,7 +82,7 @@ public class TerrainPopulator : MonoBehaviour
     {
         SmoothTerrainAround(position, 10f);
         position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
-        position.y -= 1f;
+        position.y -= 3f;
 
         if (IsFarEnough(position))
         {
@@ -97,15 +97,7 @@ public class TerrainPopulator : MonoBehaviour
 
             Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); 
             
-            Quaternion normalRotation = Quaternion.FromToRotation(Vector3.up, terrainNormal);
-            float maxTiltAngle = 5f;
-            Vector3 eulerAngles = normalRotation.eulerAngles;
-            eulerAngles.x = Mathf.Clamp(eulerAngles.x, -maxTiltAngle, maxTiltAngle);
-            eulerAngles.z = Mathf.Clamp(eulerAngles.z, -maxTiltAngle, maxTiltAngle);
-
-            Quaternion finalRotation = Quaternion.Euler(eulerAngles) * lookRotation;
-
-            InstantiateObject(bunkerPrefab, position, finalRotation);
+            InstantiateObject(bunkerPrefab, position, lookRotation);
             usedPositions.Add(position);
 
             FlattenTerrain(position, 12f);
