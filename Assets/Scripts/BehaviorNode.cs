@@ -156,7 +156,7 @@ public class DisplayOptionsAction : nodeAction
         return NodeStatus.Success;
     }
 }
-    public class WaitForOptionAction : nodeAction{
+public class WaitForOptionAction : nodeAction{
     private GameObject uiPanel;
     private string selectedOption;
     private bool optionSelected;
@@ -173,21 +173,33 @@ public class DisplayOptionsAction : nodeAction
     {
         if (!optionSelected)
         {
+            // Enable the UI and unlock the cursor
+            uiPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Button[] buttons = uiPanel.GetComponentsInChildren<Button>();
-            foreach (Button button in buttons)
+
+            // Clear previous listeners to prevent stacking issues
+            foreach (Button button in options)
             {
-                button.onClick.AddListener(() => OnOptionSelected(button.GetComponentInChildren<Text>().text));
+                button.onClick.RemoveAllListeners();
+                button.gameObject.SetActive(true);
+
+                // FIX: Capture the button text in a local variable properly to avoid closure issues
+                string buttonText = button.GetComponentInChildren<Text>().text;
+                
+                // Add the listener with the correctly captured variable
+                button.onClick.AddListener(() => OnOptionSelected(buttonText));
             }
             return NodeStatus.Running;
         }
         else
         {
+            // Disable the buttons and reset the cursor when selection is complete
             foreach (Button button in options)
             {
                 button.gameObject.SetActive(false);
             }
+
             ProcessSelectedOption();
             return NodeStatus.Success;
         }
@@ -195,20 +207,28 @@ public class DisplayOptionsAction : nodeAction
 
     private void OnOptionSelected(string option)
     {
-        selectedOption = option;
-        optionSelected = true;
+        // Ensure this method sets the state only once
+        if (!optionSelected)
+        {
+            selectedOption = option;
+            optionSelected = true;
+            Debug.Log("Option Selected: " + selectedOption);
+        }
     }
 
     private void ProcessSelectedOption()
     {
-        Debug.Log("Selected option: " + selectedOption);
-        // Add your logic to process the selected option here
-        
-        // Lock the mouse cursor again
+        Debug.Log("Processing Selected Option: " + selectedOption);
+
+        // Lock the cursor back after selection
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // Hide the UI panel
+        // Hide the UI Panel completely
         uiPanel.SetActive(false);
+
+        // Reset state for next use of the node (optional if you want it reusable)
+        optionSelected = false;
+        selectedOption = null;
     }
 }

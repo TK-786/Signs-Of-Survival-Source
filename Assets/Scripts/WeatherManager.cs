@@ -14,15 +14,22 @@ public class WeatherManager : MonoBehaviour
     [SerializeField] ParticleSystem rainPS;
     [SerializeField] ParticleSystem snowPS;
     [SerializeField] ParticleSystem lightningPS;
-    [SerializeField] ParticleSystem fogPS;
+    [SerializeField] AudioClip rainSound;
+    [SerializeField] AudioClip thunderSound;
+    [SerializeField] AudioClip rainLightningSound;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
         period = 10;
+        RenderSettings.fog = true;
+        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        RenderSettings.fogColor = Color.grey;
+        RenderSettings.fogDensity = 0.005f;
         rainPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         lightningPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         FillQueue();
         changeWeather();
     }
@@ -31,6 +38,7 @@ public class WeatherManager : MonoBehaviour
         Vector3 playerPos = Player.transform.position;
         rainPS.transform.position = new Vector3(playerPos.x, 30, playerPos.z - 10);
         snowPS.transform.position = new Vector3(playerPos.x, 30, playerPos.z - 10);
+        lightningPS.transform.position = new Vector3(playerPos.x, lightningPS.transform.position.y, playerPos.z);
     }
 
     private void OnEnable(){
@@ -60,49 +68,64 @@ public class WeatherManager : MonoBehaviour
     void changeWeather(){
         currentWeather = weatherQueue.Dequeue();
         weatherQueue.Enqueue((Weather)UnityEngine.Random.Range(0,(int)Weather.max));
+        int densityMultiplier = UnityEngine.Random.Range(5, 16);
         Debug.Log("current weather: " + currentWeather);
         switch(currentWeather){
             case Weather.clear:
-                period = 2;
+                period = 360;
+                audioSource.Stop();
+                RenderSettings.fogDensity = 0.005f;
                 rainPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 lightningPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
             case Weather.foggy:
-                period = 2;
+                period = 360;
+                audioSource.Stop();
+                RenderSettings.fogDensity = 0.001f * densityMultiplier;
                 rainPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 lightningPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                fogPS.Play();
                 break;
             case Weather.rainy:
-                period = 100;
+                period = 360;
+                audioSource.Stop();
+                audioSource.clip = rainSound;
+                audioSource.loop = true;
+                audioSource.Play();
+                RenderSettings.fogDensity = 0.005f;
                 rainPS.Play();
                 snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 lightningPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
             case Weather.lightning:
-                period = 2;
+                period = 360;
+                audioSource.Stop();
+                audioSource.clip = thunderSound;
+                audioSource.loop = true;
+                audioSource.Play();
+                RenderSettings.fogDensity = 0.005f;
                 rainPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 lightningPS.Play();
-                fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
             case Weather.rain_lightning:
-                period = 2;
+                period = 360;
+                audioSource.Stop();
+                audioSource.clip = rainLightningSound;
+                audioSource.loop = true;
+                audioSource.Play();
+                RenderSettings.fogDensity = 0.005f;
                 rainPS.Play();
                 snowPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 lightningPS.Play();
-                fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
             case Weather.snow:
-                period = 100;
+                period = 360;
+                RenderSettings.fogDensity = 0.005f;
                 rainPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 snowPS.Play();
                 lightningPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                fogPS.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 break;
         }
     }
