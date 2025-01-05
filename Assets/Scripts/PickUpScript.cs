@@ -56,8 +56,7 @@ public class PickUpScript : MonoBehaviour
 
     public void Use(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
+
             Debug.Log("Use");
             if (heldObj != null)
             {
@@ -68,7 +67,7 @@ public class PickUpScript : MonoBehaviour
                     usable.OnUse();
                 }
             }
-        }
+        
     }
 
 

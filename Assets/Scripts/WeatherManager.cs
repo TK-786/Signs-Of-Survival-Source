@@ -59,7 +59,6 @@ public class WeatherManager : MonoBehaviour
 
     private void Tick(){
         weatherTick++;
-        Debug.Log("gameTick: " + TickManager.CurrentTick + ", weatherTick: " + weatherTick);
         if(weatherTick >= period){
             weatherTick = 0;
             changeWeather();

@@ -423,7 +423,7 @@ MonoBehaviour:
   Health: 500
   maxHealth: 500
   damageAmount: 20
-  knockbackForce: 100
+  knockbackForce: 30
   lowHealthThreshold: 30
   player: {fileID: 0}
   promptManager: {fileID: 0}
