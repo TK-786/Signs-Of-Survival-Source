@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 
 public class TerrainPopulator : MonoBehaviour
 {
@@ -22,7 +23,9 @@ public class TerrainPopulator : MonoBehaviour
     public GameObject[] stumpPrefabs;
     public GameObject[] gravestonePrefabs;
     public FlowerPatch[] flowerPatches;
+    public GameObject[] monsterPrefabs;
     public GameObject player;
+    public NavMeshSurface navMeshSurface;
 
     [Header("Placement Settings")]
     public int forestTreeCount = 100;
@@ -31,6 +34,7 @@ public class TerrainPopulator : MonoBehaviour
     public int gravestoneCount = 30;
     public int flowerPatchCount = 15;
     public int fuelCount = 10;
+    public int monsterCount = 10;
     public float minObjectDistance = 100f;
 
     [Header("Random Seed")]
@@ -79,6 +83,10 @@ public class TerrainPopulator : MonoBehaviour
         PlaceForest();
         Debug.Log("Placed Forest");
 
+        Debug.Log("Placing Monsters");
+        PlaceMonsters();
+        Debug.Log("Placed Monsters");
+
         Debug.Log("Placing Scattered Objects");
         PlaceScatteredObjects(stumpPrefabs, stumpCount);
         PlaceScatteredObjects(gravestonePrefabs, gravestoneCount);
@@ -87,6 +95,11 @@ public class TerrainPopulator : MonoBehaviour
         Debug.Log("Placing Flower Patches");
         PlaceFlowerPatches();
         Debug.Log("Placed Flower Patches");
+
+        Debug.Log("Populating world completed!");
+        Debug.Log("Baking NavMesh...");
+        BakeNavMesh();
+        Debug.Log("NavMesh baked successfully!");
     }
 
     void PlaceBunker()
@@ -274,6 +287,41 @@ public class TerrainPopulator : MonoBehaviour
             GameObject prefab = prefabs[random.Next(prefabs.Length)];
             InstantiateObject(prefab, position);
             usedPositions.Add(position);
+        }
+    }
+
+    void PlaceMonsters()
+    {
+        Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
+        for (int i = 0; i < monsterCount; i++)
+        {
+            float angle = (float)random.NextDouble() * 360f;
+            float radius = (float)random.NextDouble() * forestRadius;
+
+            Vector3 position = forestCenter + Quaternion.Euler(0, angle, 0) * Vector3.forward * radius;
+            
+            // Add a small offset to prevent falling through terrain
+            float heightOffset = 0.5f;
+            position.y = terrain.SampleHeight(position) + terrain.transform.position.y + heightOffset;
+
+            if (IsFarEnough(position))
+            {
+                // Only rotate around Y-axis for monsters
+                float randomYRotation = (float)random.NextDouble() * 360f;
+                Quaternion rotation = Quaternion.Euler(0, randomYRotation, 0);
+
+                GameObject monsterPrefab = monsterPrefabs[random.Next(monsterPrefabs.Length)];
+                
+                // Raycast to check ground and adjust height if needed
+                RaycastHit hit;
+                if (Physics.Raycast(position + Vector3.up * 2f, Vector3.down, out hit, 10f))
+                {
+                    position.y = hit.point.y + heightOffset;
+                }
+                
+                InstantiateObject(monsterPrefab, position, rotation);
+                usedPositions.Add(position);
+            }
         }
     }
 
@@ -505,5 +553,18 @@ public class TerrainPopulator : MonoBehaviour
         Quaternion finalRotation = rotation.HasValue ? rotation.Value * baseRotation : baseRotation;
         GameObject obj = Instantiate(prefab, position, finalRotation);
         obj.transform.parent = transform;
+    }
+
+    public void BakeNavMesh()
+    {
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.BuildNavMesh();  // This will rebuild the NavMesh based on the surface
+            Debug.Log("NavMesh baked successfully!");
+        }
+        else
+        {
+            Debug.LogError("NavMeshSurface is not assigned.");
+        }
     }
 }
