@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.047
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0056429585, g: 0.0070297583, b: 0.009508208, a: 0.047}
+  m_IndirectSpecularColor: {r: 0.0008961954, g: 0.001054869, b: 0.0013514964, a: 0.047}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -25714,6 +25714,7 @@ MonoBehaviour:
   - {fileID: 140345762}
   - {fileID: 1703316931}
   - {fileID: 852113581}
+  isActive: 0
 --- !u!1 &441996877
 GameObject:
   m_ObjectHideFlags: 0
@@ -28933,6 +28934,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8636817148161145839, guid: 944412e8d23ecc84895d7fc4cd956c2f, type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 1798078169}
     - target: {fileID: 8704454186466269963, guid: 944412e8d23ecc84895d7fc4cd956c2f, type: 3}
       propertyPath: m_Name
       value: AMG
@@ -85627,6 +85632,7 @@ SceneRoots:
   - {fileID: 874254042}
   - {fileID: 2059014447}
   - {fileID: 233072660}
+  - {fileID: 680948798}
   - {fileID: 545176640}
   - {fileID: 1239919194}
   - {fileID: 7026586}
@@ -85662,7 +85668,6 @@ SceneRoots:
   - {fileID: 2019717790}
   - {fileID: 135398097}
   - {fileID: 1450286813}
-  - {fileID: 680948798}
   - {fileID: 1101885466}
   - {fileID: 268646425}
   - {fileID: 831321695}

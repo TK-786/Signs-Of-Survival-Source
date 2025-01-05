@@ -37,6 +37,8 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
             player = GameObject.FindWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
         }
+
+        agent.speed = 10.0f;
     }
 
     public void SetCurrentState(BlindMonsterFSM.MonsterState newState)

@@ -23,6 +23,8 @@ public class LookAwayMonsterBehaviourTree : MonoBehaviour
             player = GameObject.FindWithTag("Player");
         }
 
+        agent.speed = 14.0f;
+
         float halfAngleRadians = maxViewAngle * 0.5f * Mathf.Deg2Rad;
         dotThreshold = Mathf.Cos(halfAngleRadians);
     }

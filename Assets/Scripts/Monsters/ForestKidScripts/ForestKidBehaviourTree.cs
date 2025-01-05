@@ -34,6 +34,9 @@ public class ForestKidBehaviourTree : MonoBehaviour
         {
             player = GameObject.FindWithTag("Player");
         }
+
+        agent.speed = 7.0f;
+
         _fsm = GetComponent<ForestKidFSM>();
         spawnPosition = transform.position;
         combatHandler = GetComponent<MonsterCombatHandler>();

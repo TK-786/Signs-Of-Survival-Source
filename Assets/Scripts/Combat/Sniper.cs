@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class SniperMechanics : MonoBehaviour, IUsable
 {
     public GameObject sniperBulletPrefab;
-    public Transform firePoint;
+    private Transform firePoint;
     public float bulletSpeed = 150f; // Faster than the gun bullet
     public float fireRate = 1.5f; // Slower fire rate
     public int maxAmmo = 5; // Limited ammo
@@ -19,6 +19,8 @@ public class SniperMechanics : MonoBehaviour, IUsable
     private Item item;
     private Camera playerCamera; // Reference to the player's camera
     private bool isZoomed = false; // Tracks whether zoom is active
+    public GameObject player;
+    public Camera mainCamera;
 
     void Start()
     {
@@ -35,6 +37,14 @@ public class SniperMechanics : MonoBehaviour, IUsable
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+
+            firePoint = mainCamera.transform;
+        }
         // Handle zoom with the Z key
         if (Keyboard.current.zKey.wasPressedThisFrame)
         {

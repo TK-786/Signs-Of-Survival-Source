@@ -264,9 +264,9 @@ Transform:
   m_GameObject: {fileID: 3777768234514407831}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -29.3, y: 1.76, z: -38.2}
-  m_LocalScale: {x: 2.8964794, y: 1.96, z: 3.611768}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 166.5, y: 3.36, z: 72.9}
+  m_LocalScale: {x: 1.6, y: 1.0826937, z: 1.9951217}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8246810952590452390}
   - {fileID: 992450845344617679}
@@ -358,12 +358,12 @@ MonoBehaviour:
   agent: {fileID: 8516706398668616841}
   player: {fileID: 0}
   audioSource: {fileID: 6061405540740013277}
-  hearingRadius: 19.5
+  hearingRadius: 12.5
   arriveThreshold: 1
   spotPlayerSound: {fileID: 8300000, guid: ea0611ffc996776409af38dcf542b637, type: 3}
   chaseSound: {fileID: 8300000, guid: df591cd7436babc49a1424f7349dacae, type: 3}
   idleDefaultSound: {fileID: 8300000, guid: d8a42664fa34cb147a176d8316a21e2f, type: 3}
-  idleHearingRadius: 50
+  idleHearingRadius: 30
   playerController: {fileID: 0}
 --- !u!114 &2255948450285484165
 MonoBehaviour:
@@ -389,7 +389,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3777768234514407831}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -423,7 +423,7 @@ MonoBehaviour:
   Health: 500
   maxHealth: 500
   damageAmount: 20
-  knockbackForce: 70
+  knockbackForce: 100
   lowHealthThreshold: 30
   player: {fileID: 0}
   promptManager: {fileID: 0}
@@ -2487,9 +2487,9 @@ Transform:
   m_GameObject: {fileID: 8246810952590424902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.496, z: 0.367}
-  m_LocalScale: {x: 0.08545991, y: 0.15748031, z: -0.106564336}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0, y: -0.496, z: 0.09}
+  m_LocalScale: {x: 0.16, y: 0.29483825, z: -0.19951218}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8246810952590452428}
   - {fileID: 8246810952590452388}

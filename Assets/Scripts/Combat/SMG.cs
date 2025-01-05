@@ -3,19 +3,33 @@ using UnityEngine;
 
 public class SMGMechanics : MonoBehaviour, IUsable
 {
-    public GameObject smgBulletPrefab;  // The bullet prefab
-    public Transform firePoint;     // The point from which bullets are fired
-    public float bulletSpeed = 100f;  // Speed of the bullets
-    public float fireRate = 0.1f;   // Very fast fire rate for SMG
-    public int maxAmmo = 30;        // High ammo capacity
+    public GameObject smgBulletPrefab;
+    private Transform firePoint;
+    public float bulletSpeed = 100f;
+    public float fireRate = 0.1f;
+    public int maxAmmo = 30;
     private int currentAmmo;
     private float nextFireTime = 0f;
     private Item item;
+    public GameObject player;
+    public Camera mainCamera;
 
     void Start()
     {
-        currentAmmo = maxAmmo;  // Initialize ammo
+        currentAmmo = maxAmmo;
         item = GetComponent<Item>();
+    }
+
+    void Update()
+    {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+
+            firePoint = mainCamera.transform;
+        }
     }
 
     public void OnUse() {

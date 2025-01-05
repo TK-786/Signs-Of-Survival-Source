@@ -13,7 +13,8 @@ public class MonsterCombatHandler : MonoBehaviour
     public float lowHealthThreshold;
 
     public GameObject player;                      
-    private PlayerController playerController;  
+    private PlayerController playerController;
+    private PlayerStats playerStats;
 
     public PromptUser promptManager;            
     public Transform teleportDestination;         
@@ -46,6 +47,16 @@ public class MonsterCombatHandler : MonoBehaviour
         {
             player = GameObject.FindWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+
+            Transform childTransform = player.transform.Find("Player");
+
+            if (childTransform != null)
+            {
+                playerStats = childTransform.GetComponent<PlayerStats>();
+            }
+
         }
 
         initialPosition = transform.position;
@@ -55,24 +66,38 @@ public class MonsterCombatHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update() {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+            playerController = player.GetComponent<PlayerController>();
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+        }
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Colided with player");
             ApplyDamageAndKnockback(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(25);  
+            TakeDamage(25);
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("SniperBullet"))
         {
             TakeDamage(100);
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("SMGBullet"))
         {
             TakeDamage(15);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -134,11 +159,11 @@ public class MonsterCombatHandler : MonoBehaviour
 
     private void ApplyDamageAndKnockback(GameObject playerObj)
     {
-        PlayerStats playerStats = playerObj.GetComponent<PlayerStats>();
         if (playerStats != null)
         {
+            Debug.Log("Player stats found");
             playerStats.TakeDamage(damageAmount);
-
+            Debug.Log("Demage found");
             if (playerStats.getHealth() <= 0)
             {
                 playerStats.Heal();

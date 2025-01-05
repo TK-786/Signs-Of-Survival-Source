@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         bool isMoving = moveInput != Vector2.zero;
 
-        //animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("IsMoving", isMoving);
     }
 
     private void ConfigureCursor()
@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour
 
         // Adjusts the camera position based on the new player position
         Vector3 cameraOffset = transform.forward;
-        playerCamera.transform.position = newPosition + camaraLocation.position;
+        //playerCamera.transform.position = newPosition + camaraLocation.position;
     }
 
     public IEnumerator BoostPlayerStats()
