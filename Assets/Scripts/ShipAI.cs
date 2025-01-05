@@ -17,7 +17,7 @@ public class ShipAI : MonoBehaviour
     void Start()
     {
         PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        InteractShipConsole = playerInput.actions["CraftingMode"];
+        InteractShipConsole = playerInput.actions["Interact"];
         InteractShipConsole.Enable();
         InteractShipConsole.performed += displayConsoleOptions;
     }

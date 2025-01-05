@@ -58,6 +58,12 @@ public class PlayerController : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        GameObject spawnPoint = GameObject.Find("PlayerSpawnPoint");
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.transform.position;
+        }
     }
 
     void Start()

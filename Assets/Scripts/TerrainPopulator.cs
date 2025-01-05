@@ -15,12 +15,14 @@ public class TerrainPopulator : MonoBehaviour
     [Header("Required References")]
     public Terrain terrain;
     public GameObject shipPrefab;
+    public GameObject fuelPrefab;
+    public GameObject playerShipPrefab;
     public GameObject bunkerPrefab;
     public GameObject[] treePrefabs;
     public GameObject[] stumpPrefabs;
     public GameObject[] gravestonePrefabs;
-    public GameObject grassPrefab;
     public FlowerPatch[] flowerPatches;
+    public GameObject player;
 
     [Header("Placement Settings")]
     public int forestTreeCount = 100;
@@ -28,7 +30,8 @@ public class TerrainPopulator : MonoBehaviour
     public int stumpCount = 50;
     public int gravestoneCount = 30;
     public int flowerPatchCount = 15;
-    public float minObjectDistance = 5f;
+    public int fuelCount = 10;
+    public float minObjectDistance = 100f;
 
     [Header("Random Seed")]
     public int seed;
@@ -64,6 +67,14 @@ public class TerrainPopulator : MonoBehaviour
         PlaceShip();
         Debug.Log("Placed Ship");
 
+        Debug.Log("Placing Player Ship");
+        PlacePlayerShip();
+        Debug.Log("Placed Player Ship");
+
+        Debug.Log("Placing Fuel");
+        PlaceFuel();
+        Debug.Log("Placed Fuel");
+
         Debug.Log("Placing Forest");
         PlaceForest();
         Debug.Log("Placed Forest");
@@ -79,37 +90,37 @@ public class TerrainPopulator : MonoBehaviour
     }
 
     void PlaceBunker()
-{
-    Vector3 position = FindAreaOutsideForest(10f, 20f); 
-    if (position != Vector3.zero)
     {
-        SmoothTerrainAround(position, 10f);
-        position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
-        position.y -= 3f;
-
-        if (IsFarEnough(position))
+        Vector3 position = FindAreaOutsideForest(10f, 20f); 
+        if (position != Vector3.zero)
         {
-            Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
-            Vector3 directionToCenter = terrainCenter - position;
-            directionToCenter.y = 0;
+            SmoothTerrainAround(position, 10f);
+            position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+            position.y -= 3f;
 
-            Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); 
-            
-            InstantiateObject(bunkerPrefab, position, lookRotation);
-            usedPositions.Add(position);
+            if (IsFarEnough(position))
+            {
+                Vector3 terrainCenter = new Vector3(terrain.terrainData.size.x / 2, 0, terrain.terrainData.size.z / 2);
+                Vector3 directionToCenter = terrainCenter - position;
+                directionToCenter.y = 0;
 
-            FlattenTerrain(position, 12f);
+                Quaternion lookRotation = Quaternion.LookRotation(directionToCenter) * Quaternion.Euler(0, 180f, 0); 
+                
+                InstantiateObject(bunkerPrefab, position, lookRotation);
+                usedPositions.Add(position);
+
+                FlattenTerrain(position, 12f);
+            }
+            else
+            {
+                Debug.LogWarning("Failed to place the bunker due to overlap.");
+            }
         }
         else
         {
-            Debug.LogWarning("Failed to place the bunker due to overlap.");
+            Debug.LogWarning("Failed to place the bunker.");
         }
     }
-    else
-    {
-        Debug.LogWarning("Failed to place the bunker.");
-    }
-}
 
     void PlaceShip()
     {
@@ -135,6 +146,57 @@ public class TerrainPopulator : MonoBehaviour
         else
         {
             Debug.LogWarning("Failed to place the ship.");
+        }
+    }
+
+    void PlacePlayerShip()
+    {
+        Vector3 position = FindAreaOutsideForest(20f, 30f);
+        if (position != Vector3.zero)
+        {
+            position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+            Vector3 terrainNormal = terrain.terrainData.GetInterpolatedNormal(position.x / terrain.terrainData.size.x, position.z / terrain.terrainData.size.z);
+            Quaternion rotation = Quaternion.FromToRotation(Vector3.up, terrainNormal);
+            if (IsFarEnough(position))
+            {
+                InstantiateObject(playerShipPrefab, position, rotation);
+                usedPositions.Add(position);
+                GameObject spawnPoint = GameObject.Find("PlayerSpawnPoint");
+                player.transform.position = spawnPoint.transform.position;
+            }
+            else
+            {
+                Debug.LogWarning("Failed to place the player ship due to overlap.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Failed to place the player ship.");
+        }
+    }
+
+    void PlaceFuel()
+    {
+        for (int i = 0; i < fuelCount; i++)
+        {
+            Vector3 position = FindFlatAreaOrFlatten(5f);
+            if (position != Vector3.zero)
+            {
+                position.y = terrain.SampleHeight(position) + terrain.transform.position.y;
+                if (IsFarEnough(position))
+                {
+                    InstantiateObject(fuelPrefab, position);
+                    usedPositions.Add(position);
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to place fuel #{i + 1} due to overlap.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Failed to place fuel #{i + 1}.");
+            }
         }
     }
 
@@ -165,7 +227,6 @@ public class TerrainPopulator : MonoBehaviour
             }
         }
     }
-
     void PlaceFlowerPatches()
     {
         Vector3 forestCenter = new Vector3(terrainData.size.x / 2, 0, terrainData.size.z / 2);
