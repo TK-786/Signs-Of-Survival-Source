@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     // Variables to track fuel and repair status
     public static float fuel = 0f;
     public static float repair = 0f;
+    public static bool Engine = false;
 
     // Method to increment the fuel level, up to a maximum of 3
     public static void IncrementFuel()
@@ -16,6 +17,10 @@ public class GameManager : MonoBehaviour
     public static void DecrementFuel()
     {
         fuel--;
+    }
+
+    public static void submitEngine(){
+        Engine = true;
     }
 
     // Method to set the repair status to fully repaired (100)

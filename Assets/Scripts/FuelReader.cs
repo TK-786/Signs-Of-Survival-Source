@@ -1,56 +1,38 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class FuelReader : MonoBehaviour
 {
-    public float checkRange = 3f; // Range for detecting fuel objects
-    public LayerMask detectionLayers; // Layers to check during raycasting
-    private ArrayList detectedObjects = new ArrayList(); // List of currently detected fuel objects
-    private StoryManager storyManager;
+    private int fuelAmount = 0; // Number of fuel objects detected
+    private InputAction InteractFuelContainer;
     void Start(){
-        storyManager = GameObject.Find("StoryManager").GetComponent<StoryManager>();
+        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
+        InteractFuelContainer = playerInput.actions["CraftingMode"];
+        InteractFuelContainer.Enable();
+        InteractFuelContainer.performed += depositFuel;
     }
-
-    void Update()
-    {
-        // Draw a debug ray upwards for visualization
-        Debug.DrawRay(transform.position, Vector3.up * checkRange, Color.red);
-
-        // Perform raycasting to detect objects within range
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.up, checkRange, detectionLayers);
-        ArrayList currentDetectedObjects = new ArrayList();
-
-        // Add newly detected fuel objects to the list
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.transform.name == "Fuel")
-            {
-                currentDetectedObjects.Add(hit.transform);
-
-                // Increment fuel if this object wasn't detected before
-                if (!detectedObjects.Contains(hit.transform))
-                {
-                    GameManager.IncrementFuel();
+    public void depositFuel(InputAction.CallbackContext context){
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
+            if (hit.collider.gameObject == gameObject){
+                Debug.Log("fuel container detected");
+                if (fuelAmount >= 10){
+                    Dialogue.instance.InitDialogue(new string[]{"I have deposited enough fuel to power the ship!"});
+                } else {
+                    GameObject obj = Camera.main.gameObject.GetComponent<PickUpScript>().getHeldObj;
+                    if(obj.GetComponent<Item>().ItemName == "Fuel Rod"){
+                        Destroy(obj);
+                        fuelAmount++;
+                        GameManager.IncrementFuel();
+                    } else {
+                        Dialogue.instance.InitDialogue(new string[]{"I need to put in a fuel rod!"});
+                    }
                 }
             }
         }
-
-        // Remove objects that are no longer detected
-        foreach (Transform previouslyDetected in detectedObjects)
-        {
-            if (!currentDetectedObjects.Contains(previouslyDetected))
-            {
-                GameManager.DecrementFuel();
-            }
-        }
-
-        // Update the list of detected objects
-        detectedObjects = currentDetectedObjects;
-        if ((getFuelAmount() > 2)&&(storyManager.storyEvent < 4)){
-            storyManager.AdvanceStoryEvent(4);
-        }
     }
     public int getFuelAmount(){
-        return detectedObjects.Count;
+        return fuelAmount;
     }
 }
