@@ -121,6 +121,12 @@ public class PickUpScript : MonoBehaviour
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
     }
+    public void dropHeldObj(){
+        if (heldObj != null){
+            StopClipping();
+            DropObject();
+        }
+    }
 
     public void DropObject(InputAction.CallbackContext context)
     {

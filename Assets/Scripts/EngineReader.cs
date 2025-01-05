@@ -1,44 +1,40 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EngineReader : MonoBehaviour
 {
-    public float checkRange = 2f;
-    public LayerMask detectionLayers;
-    private bool isObjectDetected = false;
-    private StoryManager storyManager;
+    private bool Engine; // Number of fuel objects detected
+    private InputAction InteractEngineContainer;
+    private GameObject mainShip;
+    private Transform EnginePosition;
     void Start(){
-        storyManager = GameObject.Find("StoryManager").GetComponent<StoryManager>();
+        mainShip = GameObject.Find("MainShipOpen");
+        EnginePosition = mainShip.transform.Find("enginePos").GetComponent<Transform>();
+        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
+        InteractEngineContainer = playerInput.actions["CraftingMode"];
+        InteractEngineContainer.Enable();
+        InteractEngineContainer.performed += depositFuel;
     }
-
-    void Update()
-    {
-        // Set the direction for the raycast
-        Vector3 rayDirection = transform.forward;
-
-        // Visualize the ray in the editor
-        Debug.DrawRay(transform.position, rayDirection * checkRange, Color.blue);
-
-        // Perform the raycast to detect objects within range
+    public void depositFuel(InputAction.CallbackContext context){
         RaycastHit hit;
-        bool hitDetected = Physics.Raycast(transform.position, rayDirection, out hit, checkRange, detectionLayers);
-
-        if (hitDetected)
-        {
-            // If an "Engine" is detected for the first time, mark as repaired
-            if (!isObjectDetected && hit.transform.name.Contains("Engine"))
-            {
-                isObjectDetected = true;
-                GameManager.RepairedShip();
-                storyManager.AdvanceStoryEvent(10);
-            }
-        }
-        else
-        {
-            // If an "Engine" was previously detected but is no longer detected, mark as broken
-            if (isObjectDetected)
-            {
-                isObjectDetected = false;
-                GameManager.BreakShip();
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 6f)){
+            if (hit.collider.gameObject == gameObject){
+                Debug.Log("Engine container detected");
+                if (Engine){
+                    Dialogue.instance.InitDialogue(new string[]{"I have already inserted the engine!"});
+                } else {
+                    GameObject obj = Camera.main.gameObject.GetComponent<PickUpScript>().getHeldObj;
+                    if(obj.GetComponent<Item>().ItemName == "Engine"){
+                        Camera.main.gameObject.GetComponent<PickUpScript>().dropHeldObj();
+                        obj.transform.position = EnginePosition.position;
+                        obj.transform.rotation = EnginePosition.rotation;
+                        obj.tag = "Untagged";
+                        Engine = true;
+                        GameManager.submitEngine();
+                    } else {
+                        Dialogue.instance.InitDialogue(new string[]{"I need to put in an Engine!"});
+                    }
+                }
             }
         }
     }

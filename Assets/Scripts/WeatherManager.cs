@@ -42,6 +42,25 @@ public class WeatherManager : MonoBehaviour
         changeWeather();
     }
 
+    public string GetWeather(Weather weather){
+        switch(weather){
+            case Weather.clear:
+                return "Clear skies";
+            case Weather.foggy:
+                return "Foggy weather";
+            case Weather.rainy:
+                return "Rain";
+            case Weather.lightning:
+                return "Lightning";
+            case Weather.rain_lightning:
+                return "Rain and Lightning";
+            case Weather.snow:
+                return "Snow";
+            default:
+                return "Clear skies";
+        }
+    }
+
     private void Update(){
         Vector3 playerPos = Player.transform.position;
         rainPS.transform.position = new Vector3(playerPos.x, 30, playerPos.z - 10);

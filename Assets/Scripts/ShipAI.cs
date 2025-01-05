@@ -8,14 +8,19 @@ using UnityEngine.UI;
 public class ShipAI : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private GameObject uiPanel;
-    [SerializeField] List<Button> options = new();
-    [SerializeField] 
+    private GameObject uiPanel;
+    List<Button> options = new();
     private bool isActive = false;
     private bool isUIOpen = false;
     private InputAction InteractShipConsole;
     void Start()
     {
+        uiPanel = GameObject.Find("ButtonBox");
+        options.Add(uiPanel.transform.Find("Button1").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button2").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button3").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button4").GetComponent<Button>());
+        uiPanel.SetActive(false);
         PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
         InteractShipConsole = playerInput.actions["Interact"];
         InteractShipConsole.Enable();
@@ -24,7 +29,7 @@ public class ShipAI : MonoBehaviour
 
     public void displayConsoleOptions(InputAction.CallbackContext context){
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f)){
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
             if (hit.collider.gameObject.name == "shipConsole"){
                 Debug.Log("Ship console detected");
                 isActive = true;
@@ -70,6 +75,7 @@ public class ShipAI : MonoBehaviour
         List<string> dialogue = new List<string>();
         dialogue.Add("Current Time is: " + tickManager.Hours + ":" + tickManager.Minutes);
         dialogue.Add("It has been " + tickManager.Days + " days since the crash");
+        Dialogue.instance.InitDialogue(dialogue.ToArray());
         Debug.Log("Current Time: " + tickManager.Hours + ":" + tickManager.Minutes);
         CloseUI();
     }
@@ -78,15 +84,15 @@ public class ShipAI : MonoBehaviour
     {
         WeatherManager weatherManager = WeatherManager.Instance;
         List<string> dialogue = new List<string>();
-        dialogue.Add("Current Weather is " + weatherManager.CurrentWeather);
-        dialogue.Add("I detect " + weatherManager.forecast + " in the forecast");
+        dialogue.Add("Current Weather is " + weatherManager.GetWeather(weatherManager.CurrentWeather));
+        dialogue.Add("I detect " + weatherManager.GetWeather(weatherManager.forecast) + " in the forecast");
+        Dialogue.instance.InitDialogue(dialogue.ToArray());
         Debug.Log("Weather: Clear skies");
         CloseUI();
     }
 
     private void DisplayHints()
     {
-        List<string> dialogue = new List<string>();
         Debug.Log("Hint: Follow the beacon!");
         CloseUI();
     }
