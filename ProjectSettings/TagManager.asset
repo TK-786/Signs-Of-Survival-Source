@@ -11,6 +11,8 @@ TagManager:
   - Monster
   - SniperBullet
   - SMGBullet
+  - Tree
+  - Interactable
   layers:
   - Default
   - TransparentFX

@@ -12,7 +12,7 @@ public class BunkerInteraction : MonoBehaviour
 
     void Awake()
     {
-        var playerInput = GetComponent<PlayerInput>();
+        var playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
         interactAction = playerInput.actions["Interact"];
     }
 
