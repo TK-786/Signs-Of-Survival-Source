@@ -128,7 +128,8 @@ public class PickUpScript : MonoBehaviour
             if (item != null){
                 item.isHeld = false;
             }
-
+            
+            SetLayerRecursive(heldObj, defaultLayer);
             heldObj = null;
             isEquipped = false;
         }

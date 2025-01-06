@@ -24,6 +24,7 @@ public class EngineReader : MonoBehaviour
                         Camera.main.gameObject.GetComponent<PickUpScript>().dropHeldObj();
                         obj.transform.position = EnginePosition.position;
                         obj.transform.rotation = EnginePosition.rotation;
+                        obj.transform.parent = EnginePosition;
                         obj.tag = "Untagged";
                         Engine = true;
                         GameManager.submitEngine();
