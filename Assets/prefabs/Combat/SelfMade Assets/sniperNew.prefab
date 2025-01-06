@@ -108,13 +108,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sniperBulletPrefab: {fileID: 6593034258790301712, guid: 8f6ff58104c884e4c8cf89c454923a08, type: 3}
-  firePoint: {fileID: 170118933692264885}
   bulletSpeed: 150
   fireRate: 1.5
   maxAmmo: 5
   zoomFOV: 20
   zoomSpeed: 5
   defaultFOV: 60
+  player: {fileID: 0}
+  mainCamera: {fileID: 0}
+  ammoText: {fileID: 297202399868216113, guid: 84b55c0dd31d60741b093e6137327621, type: 3}
 --- !u!54 &976237408311618867
 Rigidbody:
   m_ObjectHideFlags: 0

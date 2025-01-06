@@ -32,7 +32,8 @@ public class SMGMechanics : MonoBehaviour, IUsable
         }
     }
 
-    public void OnUse() {
+    public void OnUse()
+    {
         if (item != null && item.isHeld && Time.time >= nextFireTime)
         {
             if (currentAmmo > 0)
