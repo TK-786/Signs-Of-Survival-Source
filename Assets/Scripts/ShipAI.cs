@@ -21,6 +21,7 @@ public class ShipAI : MonoBehaviour
         options.Add(uiPanel.transform.Find("Button2").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button3").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button4").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button5").GetComponent<Button>());
         uiPanel.SetActive(false);
 
         hints.Add("I detected another crashed ship in the area as we came down, it could be worth investigating");
@@ -69,7 +70,8 @@ public class ShipAI : MonoBehaviour
         options[0].onClick.AddListener(() => DisplayTime());
         options[1].onClick.AddListener(() => DisplayWeather());
         options[2].onClick.AddListener(() => DisplayHints());
-        options[3].onClick.AddListener(() => CloseUI()); // Assuming a close button
+        options[3].onClick.AddListener(() => DisplayRepair()); 
+        options[4].onClick.AddListener(() => CloseUI()); // Assuming a close button
     }
 
     private void DisplayTime()
@@ -100,6 +102,19 @@ public class ShipAI : MonoBehaviour
         Dialogue.instance.InitDialogue(new string[]{hints[random]});
         CloseUI();
     
+    }
+
+    private void DisplayRepair()
+    {
+        List<string> dialogue = new List<string>();
+        dialogue.Add("The ship is currently at " + GameManager.getFuel() + "/10 Fuel Rods");
+        if (GameManager.getEngine()){
+            dialogue.Add("The engine has been inserted");
+        } else {
+            dialogue.Add("The ship is missing an engine");
+        }
+        Dialogue.instance.InitDialogue(dialogue.ToArray());
+        CloseUI();
     }
 
     private void CloseUI()

@@ -67,6 +67,10 @@ public class GameManager : MonoBehaviour
         return fuel;
     }
 
+    public static bool getEngine(){
+        return Engine;
+    }
+
     public void LoadNextScene(string nextSceneName, string spawnPointName = "SpawnPosition")
     {
         lastSceneName = SceneManager.GetActiveScene().name;
