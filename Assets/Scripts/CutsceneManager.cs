@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -65,6 +66,7 @@ public class CutsceneManager : MonoBehaviour
         mainShip.SetActive(false);         // Hide the main ship during the cutscene
         mainCamera.SetActive(false);
         finalCutsceneCanvas.gameObject.SetActive(true);
+        crashCutsceneShip.SetActive(true);
 
         finalDirector.Play();
     }
@@ -93,5 +95,21 @@ public class CutsceneManager : MonoBehaviour
 
         Debug.Log("Final cutscene finished. Game ends!");
         // Trigger end-game sequence, credits, etc.
+        GameManager.instance.LoadNextScene("credits");
+        StartCoroutine(LoadMenuScene());
+    }
+
+    private IEnumerator LoadMenuScene()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("credits");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // After the scene is loaded, set the appropriate UI elements
+        EndMenu endMenu = GameObject.Find("endMenu").GetComponent<EndMenu>();
+        endMenu.playCredits();
     }
 }

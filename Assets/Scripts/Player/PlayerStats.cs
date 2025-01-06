@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -33,7 +34,11 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player has died!");
+        GameManager.instance.lastSceneName = SceneManager.GetActiveScene().name;
+        GameManager.instance.LoadNextScene(GameManager.instance.lastSceneName);
+        healthBar.SetHealth(maxHealth);
     }
+    
     public float getHealth(){
         Debug.Log("current player health: " + currentHealth);
         return currentHealth;

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     // Method to increment the fuel level, up to a maximum of 3
     public static void IncrementFuel()
     {
-        if (fuel < 3f) { fuel++; }
+        if (fuel < 10f) { fuel++; }
     }
 
     // Method to decrement the fuel level
