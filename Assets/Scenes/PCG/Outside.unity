@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.019067949, g: 0.022443982, b: 0.028755207, a: 1}
+  m_IndirectSpecularColor: {r: 0.019067988, g: 0.022444023, b: 0.028755244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -30161,6 +30161,8 @@ MonoBehaviour:
   finalDirector: {fileID: 138862083}
   crashCutsceneCanvas: {fileID: 1268441164}
   finalCutsceneCanvas: {fileID: 860641801}
+  crashCutsceneShip: {fileID: 1740029793}
+  finalCutsceneShip: {fileID: 1740029793}
 --- !u!1 &853665054
 GameObject:
   m_ObjectHideFlags: 0
