@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour
     void checkActive()
     {
         int active = PlayerPrefs.GetInt("VisualSoundEffects", 1);
-        Debug.Log(active);
         if (active == 1)
         {
             canvas.SetActive(true);
