@@ -63,9 +63,9 @@ public class WeatherManager : MonoBehaviour
 
     private void Update(){
         Vector3 playerPos = Player.transform.position;
-        rainPS.transform.position = new Vector3(playerPos.x, 30, playerPos.z - 10);
-        snowPS.transform.position = new Vector3(playerPos.x, 30, playerPos.z - 10);
-        lightningPS.transform.position = new Vector3(playerPos.x, lightningPS.transform.position.y, playerPos.z);
+        rainPS.transform.position = new Vector3(playerPos.x, 30 + playerPos.y, playerPos.z - 10);
+        snowPS.transform.position = new Vector3(playerPos.x, 30 + playerPos.y, playerPos.z - 10);
+        lightningPS.transform.position = new Vector3(playerPos.x, lightningPS.transform.position.y + playerPos.y, playerPos.z);
     }
 
     private void OnEnable(){
