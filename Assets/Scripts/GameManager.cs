@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public string lastSceneName;
+    private string spawn;
 
     void Awake()
     {
@@ -66,9 +67,10 @@ public class GameManager : MonoBehaviour
         return fuel;
     }
 
-    public void LoadNextScene(string nextSceneName)
+    public void LoadNextScene(string nextSceneName, string spawnPointName = "SpawnPosition")
     {
         lastSceneName = SceneManager.GetActiveScene().name;
+        spawn = spawnPointName;
         SceneManager.LoadSceneAsync(nextSceneName).completed += OnSceneLoaded;
     }
 
@@ -87,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         while (spawnPoint == null && retries > 0)
         {
-            spawnPoint = GameObject.Find("SpawnPosition");
+            spawnPoint = GameObject.Find(spawn);
             if (spawnPoint == null)
             {
                 retries--;
