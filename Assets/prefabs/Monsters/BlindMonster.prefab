@@ -363,7 +363,7 @@ MonoBehaviour:
   arriveThreshold: 1
   spotPlayerSound: {fileID: 8300000, guid: ea0611ffc996776409af38dcf542b637, type: 3}
   chaseSound: {fileID: 8300000, guid: df591cd7436babc49a1424f7349dacae, type: 3}
-  idleDefaultSound: {fileID: 8300000, guid: d8a42664fa34cb147a176d8316a21e2f, type: 3}
+  idleDefaultSound: {fileID: 8300000, guid: 87601492209247a4b9b26a50a527f521, type: 3}
   idleHearingRadius: 30
   playerController: {fileID: 0}
 --- !u!114 &2255948450285484165
