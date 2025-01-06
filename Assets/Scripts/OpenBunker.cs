@@ -46,7 +46,7 @@ public class BunkerInteraction : MonoBehaviour
         {
             Debug.Log($"Hit object: {hit.collider.gameObject.name} with tag: {hit.collider.tag}");
 
-            if (hit.collider.CompareTag("BunkerDoor"))
+            if (hit.collider.gameObject.name == "DoorEntrance" || hit.collider.gameObject.name == "DoorExit")
             {
                 string currentScene = SceneManager.GetActiveScene().name;
 

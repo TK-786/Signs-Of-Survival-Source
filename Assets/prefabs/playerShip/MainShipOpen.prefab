@@ -550,6 +550,92 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
   m_PrefabInstance: {fileID: 6115961332781479791}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6425832147860657164
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7739727474454813628}
+    m_Modifications:
+    - target: {fileID: 884511400534914618, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: noteText.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 884511400534914618, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: 'noteText.Array.data[0]'
+      value: A crafting bench...
+      objectReference: {fileID: 0}
+    - target: {fileID: 884511400534914618, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: 'noteText.Array.data[1]'
+      value: Seems like I need to gather resources
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 19.180002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 19.180002
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 19.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.7570008
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0440003
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.9309998
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.3392937
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.41263857
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.60947347
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5857912
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -96.248
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 39.932007
+      objectReference: {fileID: 0}
+    - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 75.721
+      objectReference: {fileID: 0}
+    - target: {fileID: 4272073460729873550, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+      propertyPath: m_Name
+      value: notes (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+--- !u!4 &7579418311484033592 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
+  m_PrefabInstance: {fileID: 6425832147860657164}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7846308888944622679
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -670,6 +756,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e61d09432b0d7d947b87ed00e83e0ef7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7119824754245319522}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e61d09432b0d7d947b87ed00e83e0ef7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7579418311484033592}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e61d09432b0d7d947b87ed00e83e0ef7, type: 3}
       insertIndex: -1
@@ -729,8 +818,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a8957efee9e43b041a99daf409883fbf, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -739,7 +828,7 @@ AudioSource:
   Priority: 20
   DopplerLevel: 1
   MinDistance: 14.09166
-  MaxDistance: 500
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

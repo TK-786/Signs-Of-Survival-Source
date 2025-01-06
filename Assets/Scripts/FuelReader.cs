@@ -6,7 +6,7 @@ public class FuelReader : MonoBehaviour
 {
     private int fuelAmount = 0; // Number of fuel objects detected
     void Start(){
-    
+        
     }
     
     public void DepositFuel(){
@@ -19,6 +19,7 @@ public class FuelReader : MonoBehaviour
                 } else {
                     GameObject obj = Camera.main.gameObject.GetComponent<PickUpScript>().getHeldObj;
                     if(obj.GetComponent<Item>().ItemName == "Fuel Rod"){
+                        Camera.main.gameObject.GetComponent<PickUpScript>().dropHeldObj();
                         Destroy(obj);
                         fuelAmount++;
                         GameManager.IncrementFuel();

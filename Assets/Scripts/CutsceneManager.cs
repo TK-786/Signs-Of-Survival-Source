@@ -52,6 +52,9 @@ public class CutsceneManager : MonoBehaviour
         mainCamera.SetActive(false);
         crashCutsceneCanvas.gameObject.SetActive(true);
 
+        AudioSource audioSource = mainShip.GetComponent<AudioSource>();
+        audioSource.Pause();
+
         crashDirector.Play();
     }
 
@@ -77,28 +80,9 @@ public class CutsceneManager : MonoBehaviour
 
         Debug.Log("Crash cutscene finished. Gameplay begins!");
         AudioSource audioSource = mainShip.GetComponent<AudioSource>();
-
-        if (audioSource != null)
-        {
-            if (!audioSource.gameObject.activeInHierarchy)
-            {
-                audioSource.gameObject.SetActive(true);
-            }
-
-            if (!audioSource.enabled)
-            {
-                audioSource.enabled = true;
-            }
-
-            StartCoroutine(PlayAudioWithDelay(audioSource, 0.2f));
-        }
+        audioSource.UnPause();
     }
     
-    private IEnumerator PlayAudioWithDelay(AudioSource audioSource, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        audioSource.Play();
-    }
 
     private void OnFinalCutsceneEnd(PlayableDirector dir)
     {

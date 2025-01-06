@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3216151986227916436}
   - component: {fileID: 2041126369301191293}
   m_Layer: 0
-  m_Name: DoorTransform
-  m_TagString: BunkerDoor
+  m_Name: DoorEntrance
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bunkerDoor: {fileID: 6304465780636482103}
   interactionDistance: 3
-  nextSceneName: Ship
+  nextSceneName: Outside
 --- !u!1 &5871799249948086397
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,27 +404,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.37
+      value: 0.96542835
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.37
+      value: 0.96542835
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.37
+      value: 0.96542835
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.02377
+      value: -0.024
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0668
+      value: -0.067
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.01658
+      value: 0.0105
       objectReference: {fileID: 0}
     - target: {fileID: 3459508337792376372, guid: 64796404fbb91ec4d9f6a8ad1984960f, type: 3}
       propertyPath: m_LocalRotation.w

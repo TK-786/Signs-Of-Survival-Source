@@ -21987,7 +21987,7 @@ MonoBehaviour:
   stumpCount: 70
   gravestoneCount: 50
   flowerPatchCount: 15
-  fuelCount: 10
+  fuelCount: 14
   monsterCount: 10
   minObjectDistance: 5
   seed: 0
@@ -22011,7 +22011,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
