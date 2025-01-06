@@ -12,7 +12,9 @@ public class CutsceneManager : MonoBehaviour
     public Canvas crashCutsceneCanvas;     // Canvas for the crash cutscene subtitles
     public Canvas finalCutsceneCanvas;     // Canvas for the final cutscene subtitles
     public GameObject crashCutsceneShip;   // Ship object for the crash cutscene
-    public GameObject finalCutsceneShip;   // Ship object for the final cutscene (can be the same as crashCutsceneShip)
+    public GameObject mainShip;            // MainShipOpen prefab (used during gameplay)
+
+    private static bool hasCrashCutscenePlayed = false; // Tracks if the crash cutscene has already played
 
     void Start()
     {
@@ -23,33 +25,29 @@ public class CutsceneManager : MonoBehaviour
         // Set the initial states of the cameras and ships
         crashCutsceneCamera.SetActive(false);
         finalCutsceneCamera.SetActive(false);
-        crashCutsceneShip.SetActive(false); // Ship is initially hidden
-        finalCutsceneShip.SetActive(false); // Final ship is initially hidden
+        crashCutsceneShip.SetActive(false);
+        mainShip.SetActive(true);
         mainCamera.SetActive(true);
 
         // Subscribe to cutscene end events
         crashDirector.stopped += OnCrashCutsceneEnd;
         finalDirector.stopped += OnFinalCutsceneEnd;
 
-        // Start the first cutscene
-        PlayCrashCutscene();
-    }
-
-    void Update()
-    {
-        // Temporary input for testing the final cutscene
-        if (Keyboard.current.bKey.wasPressedThisFrame) // Press 'B' to play the final cutscene
+        // Play the crash cutscene only if it hasn't already been played
+        if (!hasCrashCutscenePlayed)
         {
-            Debug.Log("Playing final cutscene...");
-            PlayFinalCutscene();
+            PlayCrashCutscene();
         }
     }
 
     public void PlayCrashCutscene()
     {
+        hasCrashCutscenePlayed = true; // Mark the crash cutscene as played
+
         // Activate crash cutscene components
         crashCutsceneCamera.SetActive(true);
         crashCutsceneShip.SetActive(true); // Show the crash cutscene ship
+        mainShip.SetActive(false);         // Hide the main ship during the cutscene
         mainCamera.SetActive(false);
         crashCutsceneCanvas.gameObject.SetActive(true);
 
@@ -60,7 +58,7 @@ public class CutsceneManager : MonoBehaviour
     {
         // Activate final cutscene components
         finalCutsceneCamera.SetActive(true);
-        finalCutsceneShip.SetActive(true); // Show the final cutscene ship
+        mainShip.SetActive(false);         // Hide the main ship during the cutscene
         mainCamera.SetActive(false);
         finalCutsceneCanvas.gameObject.SetActive(true);
 
@@ -72,6 +70,7 @@ public class CutsceneManager : MonoBehaviour
         // Deactivate crash cutscene components
         crashCutsceneCamera.SetActive(false);
         crashCutsceneShip.SetActive(false); // Hide the crash cutscene ship
+        mainShip.SetActive(true);           // Show the main ship after the cutscene
         mainCamera.SetActive(true);
         crashCutsceneCanvas.gameObject.SetActive(false);
 
@@ -82,8 +81,8 @@ public class CutsceneManager : MonoBehaviour
     {
         // Deactivate final cutscene components
         finalCutsceneCamera.SetActive(false);
-        finalCutsceneShip.SetActive(false); // Hide the final cutscene ship
         finalCutsceneCanvas.gameObject.SetActive(false);
+        mainShip.SetActive(true); // Show the main ship after the final cutscene
 
         Debug.Log("Final cutscene finished. Game ends!");
         // Trigger end-game sequence, credits, etc.
