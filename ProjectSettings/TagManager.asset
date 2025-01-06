@@ -7,9 +7,13 @@ TagManager:
   - canPickUp
   - engine
   - Bullet
+  - BunkerDoor
   - Monster
   - SniperBullet
   - SMGBullet
+  - Tree
+  - Interactable
+  - Weapon
   layers:
   - Default
   - TransparentFX

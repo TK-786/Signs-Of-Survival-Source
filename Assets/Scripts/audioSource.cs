@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class audioSource : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
+    private GameObject player;
     private AudioSource source;
     private float distance;
     private bool isAudible = false;
@@ -16,7 +16,7 @@ public class audioSource : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.Find("Player");
+        player = GameObject.Find("Player");
         source = GetComponent<AudioSource>();
         manager = AudioCueManager.audioCueManager;
         isAudible = false;

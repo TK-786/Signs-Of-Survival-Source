@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController instance;
+
+    public static PlayerController Instance { get { return instance; } }
     public Camera playerCamera;
     public float walkSpeed = 5f;
     public float sprintSpeed = 10f;
@@ -44,6 +47,24 @@ public class PlayerController : MonoBehaviour
     public bool isPaused = false;
 
     public Animator animator;
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        GameObject spawnPoint = GameObject.Find("PlayerSpawnPoint");
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.transform.position;
+        }
+    }
 
     void Start()
     {
@@ -234,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
         // Adjusts the camera position based on the new player position
         Vector3 cameraOffset = transform.forward;
-        playerCamera.transform.position = newPosition + camaraLocation.position;
+        //playerCamera.transform.position = newPosition + camaraLocation.position;
     }
 
     public IEnumerator BoostPlayerStats()

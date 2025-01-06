@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4001481239186946527
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 95.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 95.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 95.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.367
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.517
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.623147
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.65568954
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.3343646
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.26449838
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -96.248
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 39.932007
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90.11798
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_Name
+      value: notes
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451118302482216456, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 884511400534914618}
+  m_SourcePrefab: {fileID: 100100000, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+--- !u!1 &4272073460729873550 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b7dbbf49ff3173e4ba10b0645f1a5fac, type: 3}
+  m_PrefabInstance: {fileID: 4001481239186946527}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &884511400534914618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4272073460729873550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bde9550dd29e404c9815927a7f55ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noteText:
+  - If you're reading this, then you're probably as lost as I am.
+  - 'My name is Commander Elias Vance, pilot of the ISS Harbinger. '
+  - "I crashed here\u2014how long ago? Days? Weeks? "
+  - I can't tell anymore. The sun barely moves, and the nights are endless.
+  - 'The ship is gone. Twisted metal and fire. No signal. No help. '
+  - 'I thought I was alone at first... but I was wrong. '
+  - "They're here. Watching. Waiting. I don't know what they are, but they\u2019re
+    not human. Stay quiet. Stay hidden."

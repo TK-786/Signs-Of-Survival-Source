@@ -8,9 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/menu.unity
     guid: 4c0a2dd25571b60418d48798ccfa0288
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ship/ship.unity
     guid: 05e00ee0ee7577f45b8df0f255225281
+  - enabled: 1
+    path: Assets/Scenes/PCG/Outside.unity
+    guid: 02e92cd918b16bc42a535a30a1ba2050
+  - enabled: 1
+    path: Assets/Scenes/PCG/Bunker.unity
+    guid: 182a05e4d9493784fa5cd63721171599
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5b7479fcf5bfe0841a84346b34530acd, type: 2}
   m_UseUCBPForAssetBundles: 0

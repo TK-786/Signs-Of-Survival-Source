@@ -13,7 +13,8 @@ public class MonsterCombatHandler : MonoBehaviour
     public float lowHealthThreshold;
 
     public GameObject player;                      
-    private PlayerController playerController;  
+    private PlayerController playerController;
+    private PlayerStats playerStats;
 
     public PromptUser promptManager;            
     public Transform teleportDestination;         
@@ -46,6 +47,16 @@ public class MonsterCombatHandler : MonoBehaviour
         {
             player = GameObject.FindWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+
+            Transform childTransform = player.transform.Find("Player");
+
+            if (childTransform != null)
+            {
+                playerStats = childTransform.GetComponent<PlayerStats>();
+            }
+
         }
 
         initialPosition = transform.position;
@@ -55,24 +66,38 @@ public class MonsterCombatHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update() {
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player");
+            playerController = player.GetComponent<PlayerController>();
+
+            mainCamera = player.GetComponentInChildren<Camera>();
+        }
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Colided with player");
             ApplyDamageAndKnockback(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Bullet"))
         {
-            TakeDamage(25);  
+            TakeDamage(25);
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("SniperBullet"))
         {
             TakeDamage(100);
+            Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("SMGBullet"))
         {
             TakeDamage(15);
+            Destroy(collision.gameObject);
         }
     }
 
@@ -134,11 +159,11 @@ public class MonsterCombatHandler : MonoBehaviour
 
     private void ApplyDamageAndKnockback(GameObject playerObj)
     {
-        PlayerStats playerStats = playerObj.GetComponent<PlayerStats>();
         if (playerStats != null)
         {
+            Debug.Log("Player stats found");
             playerStats.TakeDamage(damageAmount);
-
+            Debug.Log("Demage found");
             if (playerStats.getHealth() <= 0)
             {
                 playerStats.Heal();
@@ -162,43 +187,68 @@ public class MonsterCombatHandler : MonoBehaviour
     {
         float elapsedTime = 0f;
         float initialYPosition = playerObj.transform.position.y;
-
         direction.Normalize();
 
         while (elapsedTime < duration)
         {
             float knockbackStep = force * (1 - (elapsedTime / duration));
             Vector3 movement = direction * knockbackStep * Time.deltaTime;
-
             Vector3 intendedPosition = playerObj.transform.position + movement;
 
-            if (Physics.Raycast(
-                playerObj.transform.position,
-                movement.normalized,
-                out RaycastHit hit,
-                movement.magnitude,
-                ~0,
-                QueryTriggerInteraction.Ignore))
+            // Check if the new position is valid
+            if (!IsPositionBlocked(playerObj.transform.position, intendedPosition, direction, movement.magnitude))
             {
-                intendedPosition = hit.point - movement.normalized * 0.1f;
-            }
+                // Only update position if it is valid
+                playerController.UpdatePosition(intendedPosition);
 
-            intendedPosition.y = initialYPosition;
-
-
-            playerController.UpdatePosition(intendedPosition);
-           
-
-            mainCamera.transform.position = Vector3.Lerp(
+                // Optionally, update the camera position
+                mainCamera.transform.position = Vector3.Lerp(
                     mainCamera.transform.position,
                     intendedPosition + cameraOffset,
                     elapsedTime / duration
                 );
+            }
+            else
+            {
+                // Stop knockback if a collision is detected
+                Debug.Log("Collision detected during knockback, stopping.");
+                break;
+            }
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
     }
+
+    private bool IsPositionBlocked(Vector3 currentPosition, Vector3 intendedPosition, Vector3 direction, float distance)
+    {
+        // Use CapsuleCast for better collision detection
+        float capsuleHeight = 2.0f; // Adjust based on player height
+        float capsuleRadius = 0.5f; // Adjust based on player size
+
+        Vector3 capsuleBottom = currentPosition + Vector3.up * 0.5f;
+        Vector3 capsuleTop = currentPosition + Vector3.up * (capsuleHeight - 0.5f);
+
+        if (Physics.CapsuleCast(
+                capsuleBottom,
+                capsuleTop,
+                capsuleRadius,
+                direction,
+                out RaycastHit hit,
+                distance,
+                ~0, // Check against all layers
+                QueryTriggerInteraction.Ignore))
+        {
+            // Log collision details for debugging
+            Debug.Log($"Knockback blocked by {hit.collider.name} at distance {hit.distance}");
+            return true;
+        }
+
+        return false;
+    }
+
+
+
 
 
     private void ResetMonsterPosition()

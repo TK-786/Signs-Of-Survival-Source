@@ -37,6 +37,9 @@ public class BlindMonsterBehaviourTree : MonoBehaviour
             player = GameObject.FindWithTag("Player");
             playerController = player.GetComponent<PlayerController>();
         }
+
+        float difficultyMode = PlayerPrefs.GetFloat("DifficultyMode", 1f);
+        agent.speed = 7.0f * difficultyMode;
     }
 
     public void SetCurrentState(BlindMonsterFSM.MonsterState newState)

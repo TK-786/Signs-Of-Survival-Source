@@ -5,17 +5,13 @@ public class EngineReader : MonoBehaviour
 {
     private bool Engine; // Number of fuel objects detected
     private InputAction InteractEngineContainer;
-    private GameObject mainShip;
+    [SerializeField] private GameObject mainShip;
     private Transform EnginePosition;
     void Start(){
-        mainShip = GameObject.Find("MainShipOpen");
         EnginePosition = mainShip.transform.Find("enginePos").GetComponent<Transform>();
-        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        InteractEngineContainer = playerInput.actions["CraftingMode"];
-        InteractEngineContainer.Enable();
-        InteractEngineContainer.performed += depositFuel;
     }
-    public void depositFuel(InputAction.CallbackContext context){
+
+    public void InsertEngine(){
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 6f)){
             if (hit.collider.gameObject == gameObject){
@@ -28,6 +24,7 @@ public class EngineReader : MonoBehaviour
                         Camera.main.gameObject.GetComponent<PickUpScript>().dropHeldObj();
                         obj.transform.position = EnginePosition.position;
                         obj.transform.rotation = EnginePosition.rotation;
+                        obj.transform.parent = EnginePosition;
                         obj.tag = "Untagged";
                         Engine = true;
                         GameManager.submitEngine();

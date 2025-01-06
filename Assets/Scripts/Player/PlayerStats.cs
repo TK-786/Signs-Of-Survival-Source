@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("player demage takedn");
+        Debug.Log("player damage taken");
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -33,7 +34,11 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player has died!");
+        GameManager.instance.lastSceneName = SceneManager.GetActiveScene().name;
+        GameManager.instance.LoadNextScene(GameManager.instance.lastSceneName);
+        healthBar.SetHealth(maxHealth);
     }
+    
     public float getHealth(){
         Debug.Log("current player health: " + currentHealth);
         return currentHealth;
@@ -43,6 +48,6 @@ public class PlayerStats : MonoBehaviour
     {
         currentHealth = maxHealth;
         Debug.Log("player is reset to full health");
-        healthBar.SetHealth(currentHealth);
+        //healthBar.SetHealth(currentHealth);
     }
 }

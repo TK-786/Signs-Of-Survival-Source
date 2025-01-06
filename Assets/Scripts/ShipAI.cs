@@ -12,7 +12,9 @@ public class ShipAI : MonoBehaviour
     List<Button> options = new();
     private bool isActive = false;
     private bool isUIOpen = false;
-    private InputAction InteractShipConsole;
+    List<string> hints = new List<string>();
+    CutsceneManager cutsceneManager;
+        
     void Start()
     {
         uiPanel = GameObject.Find("ButtonBox");
@@ -20,14 +22,21 @@ public class ShipAI : MonoBehaviour
         options.Add(uiPanel.transform.Find("Button2").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button3").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button4").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button5").GetComponent<Button>());
+        options.Add(uiPanel.transform.Find("Button6").GetComponent<Button>());
+
         uiPanel.SetActive(false);
-        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        InteractShipConsole = playerInput.actions["CraftingMode"];
-        InteractShipConsole.Enable();
-        InteractShipConsole.performed += displayConsoleOptions;
+
+        hints.Add("I detected another crashed ship in the area as we came down, it could be worth investigating");
+        hints.Add("There seem to be hostile life forms in the area, might serve you well to arm yourself");
+        hints.Add("My radars are picking up useful plants and items around, you could try to craft something with them");
+        hints.Add("The bunker should have an engine as a backup generator, perhaps it could be repurposed");
+        hints.Add("The scientists who used to inhabit the bunker must have had some useful documents, they could be worth a look");
+
+        cutsceneManager = GameObject.Find("CrashCutscene").GetComponent<CutsceneManager>();
     }
 
-    public void displayConsoleOptions(InputAction.CallbackContext context){
+    public void DisplayConsoleOptions(){
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
             if (hit.collider.gameObject.name == "shipConsole"){
@@ -66,7 +75,9 @@ public class ShipAI : MonoBehaviour
         options[0].onClick.AddListener(() => DisplayTime());
         options[1].onClick.AddListener(() => DisplayWeather());
         options[2].onClick.AddListener(() => DisplayHints());
-        options[3].onClick.AddListener(() => CloseUI()); // Assuming a close button
+        options[3].onClick.AddListener(() => DisplayRepair()); 
+        options[4].onClick.AddListener(() => CloseUI());
+        options[5].onClick.AddListener(() => TakeOff());
     }
 
     private void DisplayTime()
@@ -93,7 +104,22 @@ public class ShipAI : MonoBehaviour
 
     private void DisplayHints()
     {
-        Debug.Log("Hint: Follow the beacon!");
+        int random = UnityEngine.Random.Range(0, hints.Count);
+        Dialogue.instance.InitDialogue(new string[]{hints[random]});
+        CloseUI();
+    
+    }
+
+    private void DisplayRepair()
+    {
+        List<string> dialogue = new List<string>();
+        dialogue.Add("The ship is currently at " + GameManager.getFuel() + "/10 Fuel Rods");
+        if (GameManager.getEngine()){
+            dialogue.Add("The engine has been inserted");
+        } else {
+            dialogue.Add("The ship is missing an engine");
+        }
+        Dialogue.instance.InitDialogue(dialogue.ToArray());
         CloseUI();
     }
 
@@ -106,6 +132,24 @@ public class ShipAI : MonoBehaviour
         Cursor.visible = false;
         foreach(Button button in options){
             button.gameObject.SetActive(false);
+        }
+    }
+
+    private void TakeOff()
+    {
+        if (GameManager.getEngine() && GameManager.getFuel() >= 10){
+            CloseUI();
+            cutsceneManager.PlayFinalCutscene();
+        } else {
+            List<string> dialogue = new List<string>();
+            dialogue.Add("The ship is not ready for takeoff");
+            if (!GameManager.getEngine()){
+                dialogue.Add("The ship is missing an engine");
+            }
+            if (GameManager.getFuel() < 10){
+                dialogue.Add("The ship is missing fuel");
+            }
+            Dialogue.instance.InitDialogue(dialogue.ToArray());
         }
     }
 

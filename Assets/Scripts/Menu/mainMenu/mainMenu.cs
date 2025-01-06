@@ -73,7 +73,8 @@ public class mainMenu : MonoBehaviour
         {
             mainMenuMusic.Stop();
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.instance.LoadNextScene("Outside", "PlayerSpawnPoint");
     }
 
     public void loadEasy()

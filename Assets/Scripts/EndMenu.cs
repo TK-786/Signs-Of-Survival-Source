@@ -11,16 +11,7 @@ public class EndMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (creditsAnimation != null)
-        {
-            creditsAnimation.Play("Credits Animation");
-        }
-        if (endMenuMusic != null && !endMenuMusic.isPlaying)
-        {
-            endMenuMusic.Play();
-        }
-
-    }
+     }
     void Update()
     {
         if (!animationPlayed && creditsAnimation != null)
@@ -46,5 +37,19 @@ public class EndMenu : MonoBehaviour
         }
 
         gameObject.SetActive(false); 
+    }
+
+    public void playCredits()
+    {
+        MainMenu.SetActive(false);
+        gameObject.SetActive(true);
+        if (creditsAnimation != null)
+        {
+            creditsAnimation.Play("Credits Animation");
+        }
+        if (endMenuMusic != null && !endMenuMusic.isPlaying)
+        {
+            endMenuMusic.Play();
+        }
     }
 }

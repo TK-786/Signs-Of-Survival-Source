@@ -5,14 +5,11 @@ using UnityEngine.InputSystem;
 public class FuelReader : MonoBehaviour
 {
     private int fuelAmount = 0; // Number of fuel objects detected
-    private InputAction InteractFuelContainer;
     void Start(){
-        PlayerInput playerInput = GameObject.Find("Player").GetComponent<PlayerInput>();
-        InteractFuelContainer = playerInput.actions["CraftingMode"];
-        InteractFuelContainer.Enable();
-        InteractFuelContainer.performed += depositFuel;
+        
     }
-    public void depositFuel(InputAction.CallbackContext context){
+    
+    public void DepositFuel(){
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
             if (hit.collider.gameObject == gameObject){
@@ -22,6 +19,7 @@ public class FuelReader : MonoBehaviour
                 } else {
                     GameObject obj = Camera.main.gameObject.GetComponent<PickUpScript>().getHeldObj;
                     if(obj.GetComponent<Item>().ItemName == "Fuel Rod"){
+                        Camera.main.gameObject.GetComponent<PickUpScript>().dropHeldObj();
                         Destroy(obj);
                         fuelAmount++;
                         GameManager.IncrementFuel();

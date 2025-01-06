@@ -96,7 +96,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CraftingMode",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "77b50797-6a92-4a03-afef-8a3c7a9fdb50",
                     "expectedControlType": "Button",
@@ -108,6 +108,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "a9f75c25-5dbe-4ff4-b83f-371f21f89a3c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Drop",
+                    "type": "Button",
+                    "id": "8a6bf7d0-b37d-4ca2-b6fe-37221912ceb1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -276,7 +285,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CraftingMode",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -288,6 +297,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "64e7cc65-a532-44d3-a8ce-ce665ed5c9c7",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

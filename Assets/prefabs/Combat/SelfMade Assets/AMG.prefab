@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7061140137552193462}
   m_Layer: 0
   m_Name: AMG
-  m_TagString: canPickUp
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,10 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smgBulletPrefab: {fileID: 6593034258790301712, guid: 1a553d2d4a5382043a631f072db242a0, type: 3}
-  firePoint: {fileID: 5095430122136614212}
   bulletSpeed: 100
   fireRate: 0.1
   maxAmmo: 30
+  player: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!114 &687802194738517158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: SMG
   quantity: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d650cd215c97162459c6a805f9bf6153, type: 3}
   itemDescription: "BLITZ\t"
   stackLimit: 1
   inventoryManager: {fileID: 0}

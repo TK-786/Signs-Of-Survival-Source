@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 4005387232061896656}
   - component: {fileID: 6061405540740013277}
   - component: {fileID: 8516706398668616841}
+  - component: {fileID: -8244260023401889832}
   m_Layer: 0
   m_Name: BlindMonster
   m_TagString: Monster
@@ -264,9 +265,9 @@ Transform:
   m_GameObject: {fileID: 3777768234514407831}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -29.3, y: 1.76, z: -38.2}
-  m_LocalScale: {x: 2.8964794, y: 1.96, z: 3.611768}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 166.5, y: 3.36, z: 72.9}
+  m_LocalScale: {x: 1.6, y: 1.0826937, z: 1.9951217}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8246810952590452390}
   - {fileID: 992450845344617679}
@@ -358,12 +359,12 @@ MonoBehaviour:
   agent: {fileID: 8516706398668616841}
   player: {fileID: 0}
   audioSource: {fileID: 6061405540740013277}
-  hearingRadius: 19.5
+  hearingRadius: 12.5
   arriveThreshold: 1
   spotPlayerSound: {fileID: 8300000, guid: ea0611ffc996776409af38dcf542b637, type: 3}
   chaseSound: {fileID: 8300000, guid: df591cd7436babc49a1424f7349dacae, type: 3}
-  idleDefaultSound: {fileID: 8300000, guid: d8a42664fa34cb147a176d8316a21e2f, type: 3}
-  idleHearingRadius: 50
+  idleDefaultSound: {fileID: 8300000, guid: 87601492209247a4b9b26a50a527f521, type: 3}
+  idleHearingRadius: 30
   playerController: {fileID: 0}
 --- !u!114 &2255948450285484165
 MonoBehaviour:
@@ -389,7 +390,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3777768234514407831}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -423,7 +424,7 @@ MonoBehaviour:
   Health: 500
   maxHealth: 500
   damageAmount: 20
-  knockbackForce: 70
+  knockbackForce: 30
   lowHealthThreshold: 30
   player: {fileID: 0}
   promptManager: {fileID: 0}
@@ -444,19 +445,19 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -489,7 +490,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -551,6 +552,19 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-8244260023401889832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777768234514407831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acb01a3ede59624b8483bf56db6d8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cueType: {fileID: 0}
 --- !u!1 &5714772507998304653
 GameObject:
   m_ObjectHideFlags: 0
@@ -2487,9 +2501,9 @@ Transform:
   m_GameObject: {fileID: 8246810952590424902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.496, z: 0.367}
-  m_LocalScale: {x: 0.08545991, y: 0.15748031, z: -0.106564336}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0, y: -0.496, z: 0.09}
+  m_LocalScale: {x: 0.16, y: 0.29483825, z: -0.19951218}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8246810952590452428}
   - {fileID: 8246810952590452388}

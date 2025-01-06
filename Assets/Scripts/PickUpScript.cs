@@ -12,20 +12,16 @@ public class PickUpScript : MonoBehaviour
 
     public float throwForce = 500f;
     public float pickUpRange = 5f;
-    private GameObject heldObj;
+    public GameObject heldObj;
     private Rigidbody heldObjRb;
     private int defaultLayer;
     private int holdLayer;
     private bool isEquipped = false;
 
-    public GameObject interactionCanvas;
-    public TMP_Text interactionText;
-
     void Start()
     {
         holdLayer = LayerMask.NameToLayer("holdLayer");
         defaultLayer = LayerMask.NameToLayer("Default");
-        interactionCanvas.SetActive(false);
     }
 
     public void PickUp(InputAction.CallbackContext context)
@@ -37,16 +33,11 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    if (hit.transform.CompareTag("canPickUp"))
+                    if (hit.transform.CompareTag("canPickUp") ||  hit.transform.CompareTag("Weapon"))
                     {
                         PickUpObject(hit.transform.gameObject);
                     }
                 }
-            }
-            else
-            {
-                StopClipping();
-                DropObject();
             }
         }
     }
@@ -65,8 +56,7 @@ public class PickUpScript : MonoBehaviour
 
     public void Use(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
+
             Debug.Log("Use");
             if (heldObj != null)
             {
@@ -77,7 +67,7 @@ public class PickUpScript : MonoBehaviour
                     usable.OnUse();
                 }
             }
-        }
+        
     }
 
 
@@ -134,11 +124,18 @@ public class PickUpScript : MonoBehaviour
     public void dropHeldObj(){
         if (heldObj != null){
             StopClipping();
-            DropObject();
+            Item item = heldObj.GetComponent<Item>();
+            if (item != null){
+                item.isHeld = false;
+            }
+            
+            SetLayerRecursive(heldObj, defaultLayer);
+            heldObj = null;
+            isEquipped = false;
         }
     }
 
-    void DropObject()
+    public void DropObject(InputAction.CallbackContext context)
     {
         Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), false);
         heldObj.layer = defaultLayer;
@@ -207,7 +204,6 @@ public class PickUpScript : MonoBehaviour
 
     void EquipObject()
     {
-        interactionCanvas.SetActive(false);
         if (heldObj != null)
         {
             heldObj.transform.SetParent(rightHandPos);
@@ -241,7 +237,6 @@ public class PickUpScript : MonoBehaviour
     {
         heldObj = null;
         heldObjRb = null;
-        interactionCanvas.SetActive(false);
         isEquipped = false;
     }
 
