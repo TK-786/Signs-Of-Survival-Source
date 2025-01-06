@@ -45,6 +45,7 @@ public class SniperMechanics : MonoBehaviour, IUsable, IWeapon
 
             firePoint = mainCamera.transform;
         }
+
         // Handle zoom with the Z key
         if (Keyboard.current.zKey.wasPressedThisFrame)
         {
@@ -64,6 +65,7 @@ public class SniperMechanics : MonoBehaviour, IUsable, IWeapon
             OnUse(); // Call the OnUse() method to handle shooting
         }
     }
+
     public void OnUse()
     {
         // Handle shooting
@@ -77,18 +79,6 @@ public class SniperMechanics : MonoBehaviour, IUsable, IWeapon
             {
                 Debug.Log("Out of ammo! Sniper cannot be used anymore.");
             }
-        }
-
-        // Handle zoom with the Z key
-        if (item != null && item.isHeld) // Press Z to toggle zoom
-        {
-            isZoomed = !isZoomed; // Toggle zoom state
-        }
-
-        if (playerCamera != null)
-        {
-            float targetFOV = isZoomed ? zoomFOV : defaultFOV;
-            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
         }
     }
 
@@ -110,5 +100,4 @@ public class SniperMechanics : MonoBehaviour, IUsable, IWeapon
 
         Destroy(bullet, 15f); // Destroy the bullet after 15 seconds
     }
-
 }
