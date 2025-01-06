@@ -49,6 +49,9 @@ public class PromptUser : MonoBehaviour
                     case "DoorExit":
                         InitPrompt("Exit bunker");
                         break;
+                    case "Vent":
+                        InitPrompt("???");
+                        break;
                     default:
                         InitPrompt("Read note");
                         break;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -75,6 +76,28 @@ public class CutsceneManager : MonoBehaviour
         crashCutsceneCanvas.gameObject.SetActive(false);
 
         Debug.Log("Crash cutscene finished. Gameplay begins!");
+        AudioSource audioSource = mainShip.GetComponent<AudioSource>();
+
+        if (audioSource != null)
+        {
+            if (!audioSource.gameObject.activeInHierarchy)
+            {
+                audioSource.gameObject.SetActive(true);
+            }
+
+            if (!audioSource.enabled)
+            {
+                audioSource.enabled = true;
+            }
+
+            StartCoroutine(PlayAudioWithDelay(audioSource, 0.2f));
+        }
+    }
+    
+    private IEnumerator PlayAudioWithDelay(AudioSource audioSource, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        audioSource.Play();
     }
 
     private void OnFinalCutsceneEnd(PlayableDirector dir)

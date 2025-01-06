@@ -58,7 +58,9 @@ public class TerrainPopulator : MonoBehaviour
         }
 
         random = new System.Random(seed);
+        BakeNavMesh();
         PopulateWorld();
+        Invoke(nameof(BakeNavMesh), 3f);
     }
 
     void PopulateWorld()
@@ -83,10 +85,6 @@ public class TerrainPopulator : MonoBehaviour
         PlaceForest();
         Debug.Log("Placed Forest");
 
-        Debug.Log("Placing Monsters");
-        PlaceMonsters();
-        Debug.Log("Placed Monsters");
-
         Debug.Log("Placing Scattered Objects");
         PlaceScatteredObjects(stumpPrefabs, stumpCount);
         PlaceScatteredObjects(gravestonePrefabs, gravestoneCount);
@@ -99,7 +97,12 @@ public class TerrainPopulator : MonoBehaviour
         Debug.Log("Populating world completed!");
         Debug.Log("Baking NavMesh...");
         BakeNavMesh();
+        BakeNavMesh();
         Debug.Log("NavMesh baked successfully!");
+
+        Debug.Log("Placing Monsters");
+        PlaceMonsters();
+        Debug.Log("Placed Monsters");
     }
 
     void PlaceBunker()
@@ -559,6 +562,7 @@ public class TerrainPopulator : MonoBehaviour
     {
         if (navMeshSurface != null)
         {
+            navMeshSurface.RemoveData();  // This will remove the existing NavMesh data
             navMeshSurface.BuildNavMesh();  // This will rebuild the NavMesh based on the surface
             Debug.Log("NavMesh baked successfully!");
         }
