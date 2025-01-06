@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3685849718863450792}
   m_Layer: 0
   m_Name: sniperNew
-  m_TagString: canPickUp
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +116,6 @@ MonoBehaviour:
   defaultFOV: 60
   player: {fileID: 0}
   mainCamera: {fileID: 0}
-  ammoText: {fileID: 297202399868216113, guid: 84b55c0dd31d60741b093e6137327621, type: 3}
 --- !u!54 &976237408311618867
 Rigidbody:
   m_ObjectHideFlags: 0

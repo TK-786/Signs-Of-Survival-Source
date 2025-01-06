@@ -35,7 +35,8 @@ public class ForestKidBehaviourTree : MonoBehaviour
             player = GameObject.FindWithTag("Player");
         }
 
-        agent.speed = 7.0f;
+        float difficultyMode = PlayerPrefs.GetFloat("DifficultyMode", 1f);
+        agent.speed = 7.0f * difficultyMode;
 
         _fsm = GetComponent<ForestKidFSM>();
         spawnPosition = transform.position;

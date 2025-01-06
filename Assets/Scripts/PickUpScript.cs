@@ -12,7 +12,7 @@ public class PickUpScript : MonoBehaviour
 
     public float throwForce = 500f;
     public float pickUpRange = 5f;
-    private GameObject heldObj;
+    public GameObject heldObj;
     private Rigidbody heldObjRb;
     private int defaultLayer;
     private int holdLayer;
@@ -33,7 +33,7 @@ public class PickUpScript : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-                    if (hit.transform.CompareTag("canPickUp"))
+                    if (hit.transform.CompareTag("canPickUp") ||  hit.transform.CompareTag("Weapon"))
                     {
                         PickUpObject(hit.transform.gameObject);
                     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GunMechanics : MonoBehaviour, IUsable
+public class GunMechanics : MonoBehaviour, IUsable, IWeapon
 {
     public GameObject bulletPrefab;
     public Transform firePoint;
@@ -10,6 +10,7 @@ public class GunMechanics : MonoBehaviour, IUsable
 
     private float nextFireTime = 0f;
     private Item item;
+    private int currentAmmo;
 
     void Start()
     {
@@ -22,6 +23,11 @@ public class GunMechanics : MonoBehaviour, IUsable
         {
             Shoot();
         }
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
     }
 
     private void Shoot()

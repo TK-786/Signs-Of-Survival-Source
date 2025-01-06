@@ -13,6 +13,7 @@ TagManager:
   - SMGBullet
   - Tree
   - Interactable
+  - Weapon
   layers:
   - Default
   - TransparentFX

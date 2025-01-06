@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class SniperMechanics : MonoBehaviour, IUsable
+public class SniperMechanics : MonoBehaviour, IUsable, IWeapon
 {
     public GameObject sniperBulletPrefab;
     private Transform firePoint;
@@ -90,6 +90,11 @@ public class SniperMechanics : MonoBehaviour, IUsable
             float targetFOV = isZoomed ? zoomFOV : defaultFOV;
             playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
         }
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return currentAmmo;
     }
 
     void Shoot()

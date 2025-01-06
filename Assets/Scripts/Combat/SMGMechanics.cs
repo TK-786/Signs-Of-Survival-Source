@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SMGMechanics : MonoBehaviour, IUsable
+public class SMGMechanics : MonoBehaviour, IUsable, IWeapon
 {
     public GameObject smgBulletPrefab;
     private Transform firePoint;
@@ -45,6 +45,10 @@ public class SMGMechanics : MonoBehaviour, IUsable
                 Debug.Log("Out of ammo! SMG cannot be used anymore.");
             }
         }
+    }
+
+    public int GetCurrentAmmo() {
+        return currentAmmo;
     }
 
     void Shoot()
