@@ -110,6 +110,7 @@ MonoBehaviour:
   bulletSpeed: 100
   fireRate: 0.1
   maxAmmo: 30
+  ammoText: {fileID: 1638397186596435845, guid: 578dcfc76cf0dda4e9dfeafa92e71b44, type: 3}
 --- !u!114 &687802194738517158
 MonoBehaviour:
   m_ObjectHideFlags: 0
