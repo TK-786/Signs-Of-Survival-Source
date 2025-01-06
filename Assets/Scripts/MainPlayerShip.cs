@@ -37,7 +37,7 @@ public class MainPlayerShip : MonoBehaviour
     }
 
     public void DepositFuel(InputAction.CallbackContext context){
-        fuelReader.depositFuel();
+        fuelReader.DepositFuel();
     }
 
     public void DisplayConsoleOptions(InputAction.CallbackContext context){

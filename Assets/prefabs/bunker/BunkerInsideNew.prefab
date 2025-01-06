@@ -19259,7 +19259,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7184366214105512088
 Transform:
   m_ObjectHideFlags: 0
@@ -19967,7 +19967,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1928
+  m_VersionIndex: 1931
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -33746,7 +33746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7537891327269018088, guid: d2b29600340f8784681ed3a6736432b3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 33.44
+      value: 48.42
       objectReference: {fileID: 0}
     - target: {fileID: 7537891327269018088, guid: d2b29600340f8784681ed3a6736432b3, type: 3}
       propertyPath: m_LocalRotation.w

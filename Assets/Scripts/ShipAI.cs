@@ -12,7 +12,8 @@ public class ShipAI : MonoBehaviour
     List<Button> options = new();
     private bool isActive = false;
     private bool isUIOpen = false;
-    
+    List<string> hints = new List<string>();
+        
     void Start()
     {
         uiPanel = GameObject.Find("ButtonBox");
@@ -21,6 +22,12 @@ public class ShipAI : MonoBehaviour
         options.Add(uiPanel.transform.Find("Button3").GetComponent<Button>());
         options.Add(uiPanel.transform.Find("Button4").GetComponent<Button>());
         uiPanel.SetActive(false);
+
+        hints.Add("I detected another crashed ship in the area as we came down, it could be worth investigating");
+        hints.Add("There seem to be hostile life forms in the area, might serve you well to arm yourself");
+        hints.Add("My radars are picking up useful plants and items around, you could try to craft something with them");
+        hints.Add("The bunker should have an engine as a backup generator, perhaps it could be repurposed");
+        hints.Add("The scientists who used to inhabit the bunker must have had some useful documents, they could be worth a look");
     }
 
     public void DisplayConsoleOptions(){
@@ -89,8 +96,10 @@ public class ShipAI : MonoBehaviour
 
     private void DisplayHints()
     {
-        Debug.Log("Hint: Follow the beacon!");
+        int random = UnityEngine.Random.Range(0, hints.Count);
+        Dialogue.instance.InitDialogue(new string[]{hints[random]});
         CloseUI();
+    
     }
 
     private void CloseUI()

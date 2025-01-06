@@ -9,7 +9,7 @@ public class FuelReader : MonoBehaviour
     
     }
     
-    public void depositFuel(){
+    public void DepositFuel(){
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 3f)){
             if (hit.collider.gameObject == gameObject){

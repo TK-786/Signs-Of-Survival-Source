@@ -50,7 +50,7 @@ public class PromptUser : MonoBehaviour
                         InitPrompt("Exit bunker");
                         break;
                     default:
-                        Reset();
+                        InitPrompt("Read note");
                         break;
                 }
             } else {
